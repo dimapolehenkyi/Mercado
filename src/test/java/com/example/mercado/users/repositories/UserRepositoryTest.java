@@ -1,16 +1,19 @@
 package com.example.mercado.users.repositories;
 
+import com.example.mercado.configs.JpaAuditingConfig;
 import com.example.mercado.users.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 
 import java.util.Optional;
 
 @DataJpaTest
+@Import(JpaAuditingConfig.class)
 public class UserRepositoryTest {
 
     @Autowired

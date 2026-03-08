@@ -4,6 +4,8 @@ public record LoginRequest(
 
         String login,
 
-        String password
+        String password,
+
+        String authType
 ) {
 }

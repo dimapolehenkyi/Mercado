@@ -1,9 +1,8 @@
 package com.example.mercado.mail;
 
-import com.example.mercado.exception.exceptions.mailException.EmailSendFailedException;
+import com.example.mercado.mail.exceptions.mailException.EmailSendFailedException;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

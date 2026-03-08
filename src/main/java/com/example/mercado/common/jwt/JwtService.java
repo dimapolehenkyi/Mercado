@@ -27,21 +27,21 @@ public class JwtService {
 
 
     /* ================= GENERATE ================= */
-    public String generateToken(String email, long expiryTime) {
+    public String generateToken(String username, long expiryTime) {
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiryTime))
                 .signWith(getSignKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    public String generateAccessToken(String email) {
-        return generateToken(email, jwtProperties.getAccessTokenExpiration());
+    public String generateAccessToken(String username) {
+        return generateToken(username, jwtProperties.getAccessTokenExpiration());
     }
 
-    public String generateRefreshToken(String email) {
-        return generateToken(email, jwtProperties.getRefreshTokenExpiration());
+    public String generateRefreshToken(String username) {
+        return generateToken(username, jwtProperties.getRefreshTokenExpiration());
     }
 
 
