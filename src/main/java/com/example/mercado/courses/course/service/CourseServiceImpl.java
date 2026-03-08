@@ -106,7 +106,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     @Transactional(readOnly = true)
     public Page<CourseShortResponse> getAllCourses(Pageable pageable) {
         return courseRepository
@@ -123,7 +122,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     @Transactional(readOnly = true)
     public Page<CourseShortResponse> searchCourse(
             CourseSearchFilter filter, Pageable pageable
@@ -139,7 +137,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     @Transactional(readOnly = true)
     public Page<CourseShortResponse> getPublishedCourse(Pageable pageable) {
         return courseRepository
