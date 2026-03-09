@@ -1,6 +1,5 @@
 package com.example.mercado.courses.testutils;
 
-import com.example.mercado.courses.course.dto.CourseResponse;
 import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
@@ -47,17 +46,21 @@ public class CourseTestFactory {
                 "Test",
                 "Test description",
                 CourseAccessType.PAID,
-                BigDecimal.TEN
+                BigDecimal.TEN,
+                60,
+                CourseStatus.PUBLISHED
         );
     }
 
-    public static CreateCourseRequest createTestCreateCourseRequestFree() {
+        public static CreateCourseRequest createTestCreateCourseRequestFree() {
         return new CreateCourseRequest(
                 1L,
                 "Test",
                 "Test description",
                 CourseAccessType.FREE,
-                BigDecimal.ZERO
+                BigDecimal.ZERO,
+                60,
+                CourseStatus.PUBLISHED
         );
     }
 

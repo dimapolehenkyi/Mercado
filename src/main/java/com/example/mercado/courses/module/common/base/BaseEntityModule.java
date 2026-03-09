@@ -26,9 +26,4 @@ public abstract class BaseEntityModule {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    @Setter
-    private ModuleStatus status;
-
 }

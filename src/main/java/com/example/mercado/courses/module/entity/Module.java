@@ -2,6 +2,7 @@ package com.example.mercado.courses.module.entity;
 
 import com.example.mercado.courses.module.common.base.BaseEntityModule;
 import com.example.mercado.courses.module.enums.ModuleStatus;
+import com.example.mercado.courses.module.enums.ModuleType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,7 @@ public class Module extends BaseEntityModule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "courseId",  nullable = false)
+    @Column(name = "course_id",  nullable = false)
     @Setter
     private Long courseId;
 
@@ -29,4 +30,18 @@ public class Module extends BaseEntityModule {
     @Column(name = "description", length = 1000)
     @Setter
     private String description;
+
+    @Column(name = "position")
+    @Setter
+    private Integer position;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @Setter
+    private ModuleStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    @Setter
+    private ModuleType moduleType;
 }

@@ -30,7 +30,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public CourseResponse createCourse(CreateCourseRequest request) {
         if (courseRepository.existsByName(request.name())) {
             throw new CourseAlreadyExistsException(request.name());
@@ -48,7 +48,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public CourseResponse updateCourse(Long courseId, UpdateCourseRequest request) {
          Course course = courseRepository.findById(courseId)
                  .orElseThrow(() -> new CourseNotFound(courseId));
@@ -73,7 +73,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void publishCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFound(courseId));
@@ -85,7 +85,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void archiveCourse(Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new CourseNotFound(courseId));
@@ -97,7 +97,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteCourse(Long courseId) {
         if (!courseRepository.existsById(courseId)) {
             throw new CourseNotFound(courseId);
@@ -145,7 +145,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional(readOnly = true)
     public Page<CourseShortResponse> getArchivedCourse(Pageable pageable) {
         return courseRepository
@@ -154,7 +154,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('TEACHER', 'STUDENT')")
+    @PreAuthorize("hasAnyAuthority('TEACHER', 'STUDENT')")
     @Transactional(readOnly = true)
     public Page<CourseShortResponse> getMyCourse(Long userId, Pageable pageable) {
         return courseRepository
@@ -163,7 +163,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @PreAuthorize("permitAll()")
     @Transactional(readOnly = true)
     public List<CourseShortResponse> getPopularCourses() {
         return courseRepository

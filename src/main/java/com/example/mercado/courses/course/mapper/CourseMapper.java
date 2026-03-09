@@ -17,6 +17,9 @@ public class CourseMapper {
                 .name(request.name())
                 .description(request.description())
                 .price(request.price())
+                .durationInMinutes(request.durationInMinutes())
+                .status(request.status())
+                .type(request.type())
                 .build();
     }
 

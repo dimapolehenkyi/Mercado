@@ -27,15 +27,4 @@ public abstract class BaseEntityCourse {
     @Setter(AccessLevel.NONE)
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status",  nullable = false)
-    @Setter
-    private CourseStatus status;
-
-    @Enumerated(EnumType.STRING)
-    @Setter
-    @Column(name = "type", nullable = false)
-    private CourseAccessType type;
-
 }

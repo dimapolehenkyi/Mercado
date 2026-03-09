@@ -1,6 +1,8 @@
 package com.example.mercado.courses.course.entity;
 
 import com.example.mercado.courses.course.common.base.BaseEntityCourse;
+import com.example.mercado.courses.course.enums.CourseAccessType;
+import com.example.mercado.courses.course.enums.CourseStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -52,4 +54,14 @@ public class Course extends BaseEntityCourse {
     @Builder.Default
     @Column(name = "deleted",  nullable = false)
     private Boolean deleted = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",  nullable = false)
+    @Setter
+    private CourseStatus status;
+
+    @Enumerated(EnumType.STRING)
+    @Setter
+    @Column(name = "type", nullable = false)
+    private CourseAccessType type;
 }
