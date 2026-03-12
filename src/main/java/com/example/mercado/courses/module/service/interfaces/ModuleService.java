@@ -13,25 +13,24 @@ import java.util.List;
 public interface ModuleService {
 
     ModuleResponse createModule(Long courseId, CreateModuleRequest request);
-    ModuleResponse updateModule(Long moduleId, UpdateModuleRequest request);
-    ModuleResponse getModule(Long moduleId);
+    ModuleResponse updateModule(Long courseId, Long moduleId, UpdateModuleRequest request);
+    ModuleResponse getModuleById(Long courseId, Long moduleId);
 
-    void deleteModule(Long moduleId);
+    void deleteModule(Long courseId, Long moduleId);
 
-    ModuleResponse publishModule(Long moduleId);
-    ModuleResponse archiveModule(Long moduleId);
-    ModuleResponse changeStatus(Long moduleId, ModuleStatus moduleStatus);
+    ModuleResponse publishModule(Long courseId, Long moduleId);
+    ModuleResponse archiveModule(Long courseId, Long moduleId);
 
-    void moveModuleUp(Long moduleId);
-    void moveModuleDown(Long moduleId);
+    void moveModuleUp(Long courseId, Long moduleId);
+    void moveModuleDown(Long courseId, Long moduleId);
 
     boolean existsById(Long moduleId);
-    boolean existsByNameInCourse(Long moduleId, String names);
+    boolean existsByNameInCourse(Long courseId, String name);
 
     long countModulesByCourse(Long courseId);
 
     void deleteModulesByCourse(Long courseId);
-    void publishAllModules(Long courseId);
+    void updateStatusAllModules(Long courseId, ModuleStatus status);
 
     Page<ModuleShortResponse> getCourseModules(Long courseId, Pageable pageable);
     List<ModuleShortResponse> getAllCourseModules(Long courseId);

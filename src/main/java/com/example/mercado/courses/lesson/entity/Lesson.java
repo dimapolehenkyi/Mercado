@@ -6,12 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "lessons_table")
 @Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "lessons")
 public class Lesson extends BaseEntityLesson {
 
     @Id

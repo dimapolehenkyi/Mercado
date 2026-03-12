@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@Table(name = "courses_table")
+@Table(
+        name = "courses"
+)
 public class Course extends BaseEntityCourse {
 
     @Id
