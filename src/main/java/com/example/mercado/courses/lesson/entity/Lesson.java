@@ -3,6 +3,7 @@ package com.example.mercado.courses.lesson.entity;
 import com.example.mercado.courses.lesson.common.base.BaseEntityLesson;
 import com.example.mercado.courses.lesson.enums.LessonStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Entity
@@ -22,15 +23,30 @@ public class Lesson extends BaseEntityLesson {
     @Setter
     private Long moduleId;
 
-    @Column(name = "name")
+    @Column(
+            name = "name",
+            length = 150
+    )
     @Setter
     private String name;
 
-    @Column(name = "description", length = 1000)
+    @Column(
+            name = "description",
+            length = 1000
+    )
     @Setter
     private String description;
+
+    @Column(name = "position")
+    @Setter
+    private Integer position;
 
     @Column(name = "duration")
     @Setter
     private Integer duration;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @Setter
+    private LessonStatus status;
 }

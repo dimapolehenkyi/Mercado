@@ -1,7 +1,8 @@
-package com.example.mercado.courses.lesson.common.base;
+package com.example.mercado.courses.moduleResource.base;
 
-import com.example.mercado.courses.lesson.enums.LessonStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Getter
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntityLesson {
+@Getter
+public abstract class BaseEntityModuleResource {
 
     @CreatedDate
     @Setter(AccessLevel.NONE)
@@ -25,4 +26,5 @@ public abstract class BaseEntityLesson {
     @Setter(AccessLevel.NONE)
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
 }
