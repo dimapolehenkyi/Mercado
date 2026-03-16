@@ -9,7 +9,9 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(
+        exclude = {"url"}
+)
 @Builder
 @Table(
         name = "module_resource",
@@ -22,11 +24,11 @@ import lombok.*;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_name_moduleid",
-                        columnNames = {"name", "moduleId"}
+                        columnNames = {"name", "module_id"}
                 ),
                 @UniqueConstraint(
                         name = "uk_position_moduleid",
-                        columnNames = {"position", "moduleId"}
+                        columnNames = {"position", "module_id"}
                 )
         }
 )
@@ -36,7 +38,7 @@ public class ModuleResource extends BaseEntityModuleResource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "module_id")
+    @Column(name = "module_id", nullable = false)
     @Setter
     private Long moduleId;
 
@@ -63,7 +65,6 @@ public class ModuleResource extends BaseEntityModuleResource {
 
     @Column(
             name = "thumbnail_url",
-            nullable = false,
             length = 500
     )
     @Setter

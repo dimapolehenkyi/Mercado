@@ -5,7 +5,7 @@ import com.example.mercado.courses.module.dto.ModuleResponse;
 import com.example.mercado.courses.module.dto.ModuleShortResponse;
 import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import com.example.mercado.courses.module.entity.Module;
-import org.jspecify.annotations.NonNull;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -41,7 +41,7 @@ public class ModuleMapper {
         );
     }
 
-    public ModuleShortResponse  toShortResponse(@NonNull Module module) {
+    public ModuleShortResponse toShortResponse(@NonNull Module module) {
         return new ModuleShortResponse(
                 module.getId(),
                 module.getName(),

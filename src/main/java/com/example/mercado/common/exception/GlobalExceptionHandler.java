@@ -6,6 +6,8 @@ import com.example.mercado.courses.course.exception.CourseAlreadyExistsException
 import com.example.mercado.courses.course.exception.CourseAlreadyPublishedException;
 import com.example.mercado.courses.course.exception.CourseNotFound;
 import com.example.mercado.courses.module.exception.*;
+import com.example.mercado.courses.moduleResource.exception.ModuleResourceAlreadyExistsException;
+import com.example.mercado.courses.moduleResource.exception.ModuleResourceNotFound;
 import com.example.mercado.mail.exceptions.mailException.EmailSendFailedException;
 import com.example.mercado.users.exception.userException.InvalidUserRoleException;
 import com.example.mercado.users.exception.userException.UserAlreadyExistsException;
@@ -246,6 +248,34 @@ public class GlobalExceptionHandler {
 
         return  ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(ModuleResourceAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleModuleResourceAlreadyExists(@NonNull ModuleResourceAlreadyExistsException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(ModuleResourceNotFound.class)
+    public ResponseEntity<ErrorResponse> handleModuleResourceNotFound(@NonNull ModuleResourceNotFound ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return   ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 
