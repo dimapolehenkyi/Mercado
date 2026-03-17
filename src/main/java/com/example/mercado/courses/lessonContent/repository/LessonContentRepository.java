@@ -1,13 +1,14 @@
 package com.example.mercado.courses.lessonContent.repository;
 
 import com.example.mercado.courses.lessonContent.entity.LessonContent;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface LessonContentRepository {
+public interface LessonContentRepository extends JpaRepository<LessonContent, Long> {
 
     List<LessonContent> findAllByLessonIdOrderByPositionAsc(Long lessonId);
 
@@ -18,5 +19,7 @@ public interface LessonContentRepository {
     boolean existsByLessonIdAndPosition(Long lessonId, Integer position);
 
     void deleteByLessonIdAndId(Long lessonId, Long id);
+
+    Integer countByLessonId(Long lessonId);
 
 }
