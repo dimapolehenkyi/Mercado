@@ -3,6 +3,9 @@ package com.example.mercado.courses.moduleResource.repository;
 import com.example.mercado.courses.moduleResource.entity.ModuleResource;
 import com.example.mercado.courses.moduleResource.enums.ModuleResourceType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.swing.text.html.Option;
@@ -21,8 +24,6 @@ public interface ModuleResourceRepository extends JpaRepository<ModuleResource, 
     boolean existsByModuleIdAndName(Long moduleId, String name);
     boolean existsByModuleIdAndNameAndType(Long moduleId, String name, ModuleResourceType type);
     boolean existsByModuleIdAndPosition(Long moduleId, Integer position);
-
-    void safeDeleteByModuleId(Long moduleId);
 
     Integer countByModuleId(Long moduleId);
 

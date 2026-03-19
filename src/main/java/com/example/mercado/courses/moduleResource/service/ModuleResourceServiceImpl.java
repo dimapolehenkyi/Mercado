@@ -63,7 +63,7 @@ public class ModuleResourceServiceImpl implements ModuleResourceService {
     @Override
     public void deleteModuleResource(Long moduleId, Long moduleResourceId) {
         ModuleResource moduleResource = findOrThrow(moduleId, moduleResourceId);
-        moduleResourceRepository.deleteById(moduleResource.getId());
+        moduleResourceRepository.delete(moduleResource);
     }
 
     @Override

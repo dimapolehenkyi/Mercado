@@ -1,4 +1,4 @@
-package com.example.mercado.courses.testutils;
+package com.example.mercado.courses.testutils.course;
 
 import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.course.dto.UpdateCourseRequest;

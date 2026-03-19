@@ -89,6 +89,7 @@ public class LessonContentServiceImpl implements LessonContentService {
 
 
     /*####################             HELPERS METHODS              ######################*/
+
     private LessonContent getLessonContentOrThrow(
             @NonNull Long lessonContentId,
             @NonNull Long lessonId
@@ -102,4 +103,6 @@ public class LessonContentServiceImpl implements LessonContentService {
             setter.accept(newValue);
         }
     }
+
+    /*####################################################################################*/
 }
