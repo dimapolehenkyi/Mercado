@@ -1,1 +1,1 @@
-# Mercado - learn fast and have fun! ❤️😜
+# Mercado - knowledge cart! ❤️😜
