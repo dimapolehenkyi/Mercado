@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +20,14 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CourseResponse createCourse(
             @RequestBody CreateCourseRequest dto
     ) {
         return courseService.createCourse(dto);
     }
 
-    @PutMapping("/{courseId}")
+    @PatchMapping("/{courseId}")
     public CourseResponse updateCourse(
             @PathVariable Long courseId,
             @RequestBody UpdateCourseRequest request
@@ -33,6 +35,7 @@ public class CourseController {
         return courseService.updateCourse(courseId, request);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{courseId}")
     public void deleteCourse(
             @PathVariable Long courseId
