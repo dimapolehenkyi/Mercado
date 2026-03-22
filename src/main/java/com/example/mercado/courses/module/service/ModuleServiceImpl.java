@@ -173,6 +173,11 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
 
+
+
+
+    /*#######################            HELPERS METHODS              #######################*/
+
     private <T> void updateIfChanged(T newValue, T currentValue, Consumer<T> setter) {
         if (newValue != null && !Objects.equals(newValue, currentValue)) {
             setter.accept(newValue);

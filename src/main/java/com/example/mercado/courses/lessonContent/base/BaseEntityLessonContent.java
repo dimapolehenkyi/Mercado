@@ -1,4 +1,4 @@
-package com.example.mercado.courses.moduleResource.base;
+package com.example.mercado.courses.lessonContent.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public abstract class BaseEntityModuleResource {
+public abstract class BaseEntityLessonContent {
 
     @CreatedDate
     @Setter(AccessLevel.NONE)

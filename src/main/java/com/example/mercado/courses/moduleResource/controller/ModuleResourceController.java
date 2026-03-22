@@ -5,13 +5,15 @@ import com.example.mercado.courses.moduleResource.dto.ModuleResourceResponse;
 import com.example.mercado.courses.moduleResource.dto.UpdateModuleResourceRequest;
 import com.example.mercado.courses.moduleResource.service.interfaces.ModuleResourceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("modules/{moduleId}/resources")
+@PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping("/modules/{moduleId}/resources")
 public class ModuleResourceController {
 
     private final ModuleResourceService moduleResourceService;

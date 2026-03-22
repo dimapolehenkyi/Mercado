@@ -5,7 +5,7 @@ import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.repository.CourseRepository;
 import com.example.mercado.courses.course.service.interfaces.CourseService;
-import com.example.mercado.courses.testutils.CourseTestFactory;
+import com.example.mercado.courses.testutils.course.CourseTestFactory;
 import com.example.mercado.mail.MailService;
 import com.example.mercado.mail.test.MailConfigTest;
 import org.junit.jupiter.api.Assertions;

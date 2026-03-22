@@ -10,7 +10,7 @@ import com.example.mercado.courses.course.exception.CourseAlreadyPublishedExcept
 import com.example.mercado.courses.course.exception.CourseNotFound;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.testutils.CourseTestFactory;
+import com.example.mercado.courses.testutils.course.CourseTestFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("CourseServiceImpl Test")
 public class CourseServiceImplTest {
 
     @Mock
@@ -47,7 +48,7 @@ public class CourseServiceImplTest {
 
 
     @Test
-    @DisplayName("create course should return CourseResponse")
+    @DisplayName("Func createCourse should return CourseResponse")
     void createCourse_shouldReturnCourseResponse() {
         CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
 
@@ -77,7 +78,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("create course should throw exception when course exists")
+    @DisplayName("Func createCourse should throw exception when course exists")
     void createCourse_shouldThrowException_whenCourseExists() {
         CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
 
@@ -92,7 +93,7 @@ public class CourseServiceImplTest {
 
 
     @Test
-    @DisplayName("create course should set price ZERO when status FREE")
+    @DisplayName("Func createCourse should set price ZERO when status FREE")
     void createCourse_shouldSetPriceZero_whenStatusFree() {
         CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequestFree();
 
@@ -124,7 +125,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("update course should return course response with updated data")
+    @DisplayName("Func updateCourse should return course response with updated data")
     void updateCourse_shouldReturnCourseResponse() {
         UpdateCourseRequest request = CourseTestFactory.updateCourseRequest();
         Course course = CourseTestFactory.createTestCourse(1L, 2L, "Test");
@@ -164,7 +165,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("update course should throw exception when course exists")
+    @DisplayName("Func updateCourse should throw exception when course exists")
     void updateCourse_shouldThrowException_whenCourseExists() {
         UpdateCourseRequest request = CourseTestFactory.updateCourseRequest();
 
@@ -178,7 +179,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("update course should set price zero when status is free")
+    @DisplayName("Func updateCourse should set price zero when status is free")
     void updateCourse_shouldSetPriceZero_whenStatusFree() {
         UpdateCourseRequest request = CourseTestFactory.updateCourseRequest();
 
@@ -201,7 +202,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("publish course should set type PUBLISHED if course exists")
+    @DisplayName("Func publishCourse should set type PUBLISHED if course exists")
     void publishCourse_shouldSetTypePublished() {
         Course course = CourseTestFactory
                 .createTestCourseDraft(
@@ -225,7 +226,7 @@ public class CourseServiceImplTest {
     }
 
     @Test
-    @DisplayName("publish course should throw exception when course doesn't exists")
+    @DisplayName("Func publishCourse should throw exception when course doesn't exists")
     void publishCourse_shouldThrowException_whenCourseDoesntExists() {
         Mockito.when(courseRepository.findById(1L)).thenReturn(Optional.empty());
 

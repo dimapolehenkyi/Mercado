@@ -4,7 +4,7 @@ import com.example.mercado.configs.JpaAuditingConfig;
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseStatus;
-import com.example.mercado.courses.testutils.CourseTestFactory;
+import com.example.mercado.courses.testutils.course.CourseTestFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
