@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +42,7 @@ public class LessonContentServiceImplTest {
     @BeforeEach
     void setUp() {
         lessonContent = LessonContentFactory.createLessonContent();
-        createLessonContentRequest = LessonContentFactory.createCreateLessonContentRequest();
+        createLessonContentRequest = LessonContentFactory.createLessonContentRequest();
         lessonContentResponse = LessonContentFactory.createLessonContentResponse();
         updateLessonContentRequest = LessonContentFactory.updateLessonContentResponse();
     }
@@ -72,7 +73,7 @@ public class LessonContentServiceImplTest {
         Long lessonId = 1L;
 
         CreateLessonContentRequest request1 = createLessonContentRequest;
-        CreateLessonContentRequest request2 = LessonContentFactory.createCreateLessonContentRequest("Test 2");
+        CreateLessonContentRequest request2 = LessonContentFactory.createLessonContentRequest("Test 2");
 
         Mockito.when(mapper.toEntity(Mockito.eq(lessonId), Mockito.any(CreateLessonContentRequest.class)))
                 .thenReturn(lessonContent);
@@ -112,7 +113,6 @@ public class LessonContentServiceImplTest {
         Long lessonContentId = 1L;
 
         CreateLessonContentRequest request = createLessonContentRequest;
-
         LessonContent existing = lessonContent;
 
         Mockito.when(repository.findByLessonIdAndId(lessonId, lessonContentId))
@@ -156,13 +156,40 @@ public class LessonContentServiceImplTest {
     @Test
     @DisplayName("Func getLessonContentById should return response")
     void getLessonContentById_shouldReturnResponse() {
+        Long lessonId = 1L;
+        Long lessonContentId = 1L;
+        LessonContent existing = lessonContent;
 
+        Mockito.when(repository.findByLessonIdAndId(lessonId, lessonContentId))
+                .thenReturn(Optional.of(existing));
+        Mockito.when(mapper.toResponse(existing))
+                .thenReturn(lessonContentResponse);
+
+        LessonContentResponse response = service.getLessonContentById(lessonId, lessonContentId);
+
+        Assertions.assertNotNull(response);
+
+        Mockito.verify(repository).findByLessonIdAndId(lessonId, lessonContentId);
+        Mockito.verify(mapper).toResponse(existing);
     }
 
     @Test
     @DisplayName("Func getLessonContentById should throw exception if LessonContent doesn't exist")
     void getLessonContentById_shouldThrowException_ifLessonContentDoesntExist() {
+        Long lessonId = 1L;
+        Long lessonContentId = 1L;
+        LessonContent existing = lessonContent;
 
+        Mockito.when(repository.findByLessonIdAndId(lessonId, lessonContentId))
+                .thenThrow(new LessonContentNotFoundException(lessonContentId, lessonId));
+
+        Assertions.assertThrows(
+                LessonContentNotFoundException.class,
+                () -> service.getLessonContentById(lessonId, lessonContentId)
+        );
+
+        Mockito.verify(repository).findByLessonIdAndId(lessonId, lessonContentId);
+        Mockito.verify(mapper, Mockito.never()).toResponse(existing);
     }
 
     /*#########################################################################################*/
@@ -174,13 +201,36 @@ public class LessonContentServiceImplTest {
     @Test
     @DisplayName("Func deleteLessonContent should delete LessonContent")
     void deleteLessonContent_shouldDeleteLessonContent() {
+        Long lessonId = 1L;
+        Long lessonContentId = 1L;
+        LessonContent existing = lessonContent;
 
+        Mockito.when(repository.findByLessonIdAndId(lessonId, lessonContentId))
+                .thenReturn(Optional.of(existing));
+
+        service.deleteLessonContent(lessonId, lessonContentId);
+
+        Mockito.verify(repository).findByLessonIdAndId(lessonId, lessonContentId);
+        Mockito.verify(repository).delete(existing);
     }
 
     @Test
     @DisplayName("Func deleteLessonContent should throw exception if LessonContent doesn't exist")
     void deleteLessonContent_shouldThrowException_ifLessonContentDoesntExist() {
+        Long lessonId = 1L;
+        Long lessonContentId = 1L;
+        LessonContent existing = lessonContent;
 
+        Mockito.when(repository.findByLessonIdAndId(lessonId, lessonContentId))
+                .thenThrow(new LessonContentNotFoundException(lessonContentId, lessonId));
+
+        Assertions.assertThrows(
+                LessonContentNotFoundException.class,
+                () -> service.deleteLessonContent(lessonId, lessonContentId)
+        );
+
+        Mockito.verify(repository).findByLessonIdAndId(lessonId, lessonContentId);
+        Mockito.verify(repository, Mockito.never()).delete(existing);
     }
 
     /*######################################################################################*/
@@ -192,10 +242,32 @@ public class LessonContentServiceImplTest {
     @Test
     @DisplayName("Func getAllLessonContents should return list of LessonContents")
     void getAllLessonContent_shouldReturnListOfLessonContent() {
+        Long lessonId = 1L;
 
+        LessonContent existing1 = lessonContent;
+        LessonContent existing2 = LessonContentFactory.createLessonContent("Test 2");
+
+        LessonContentResponse response1 = lessonContentResponse;
+        LessonContentResponse response2 = LessonContentFactory.createLessonContentResponse(existing2.getName());
+
+        List<LessonContent> contents = List.of(existing1, existing2);
+
+        Mockito.when(repository.findAllByLessonIdOrderByPositionAsc(lessonId))
+                .thenReturn(contents);
+
+        Mockito.when(mapper.toResponse(existing1)).thenReturn(lessonContentResponse);
+        Mockito.when(mapper.toResponse(existing2)).thenReturn(lessonContentResponse);
+
+        List<LessonContentResponse> result = service.getAllLessonContents(lessonId);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(2, result.size());
+
+        Mockito.verify(repository).findAllByLessonIdOrderByPositionAsc(lessonId);
+        Mockito.verify(mapper).toResponse(existing1);
+        Mockito.verify(mapper).toResponse(existing2);
     }
 
     /*#######################################################################################*/
-
 
 }

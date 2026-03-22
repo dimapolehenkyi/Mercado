@@ -37,7 +37,6 @@ public class LessonContentController {
         return service.updateLessonContent(lessonId, contentId, request);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/{contentId}")
     public LessonContentResponse getLessonContentById(
             @PathVariable Long lessonId,
@@ -46,6 +45,7 @@ public class LessonContentController {
         return service.getLessonContentById(lessonId, contentId);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{contentId}")
     public void deleteLessonContent(
             @PathVariable Long lessonId,

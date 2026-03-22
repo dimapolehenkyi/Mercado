@@ -1,6 +1,5 @@
 package com.example.mercado.courses.testutils.lessonContent;
 
-import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.lessonContent.dto.CreateLessonContentRequest;
 import com.example.mercado.courses.lessonContent.dto.LessonContentResponse;
 import com.example.mercado.courses.lessonContent.dto.UpdateLessonContentRequest;
@@ -21,7 +20,19 @@ public class LessonContentFactory {
         return lessonContent;
     }
 
-    public static CreateLessonContentRequest createCreateLessonContentRequest() {
+    public static LessonContent createLessonContent(String name) {
+        LessonContent lessonContent = new LessonContent();
+        lessonContent.setName(name);
+        lessonContent.setDescription("Test description");
+        lessonContent.setUrl("url");
+        lessonContent.setThumbnailUrl("thumbnailUrl");
+        lessonContent.setLessonId(1L);
+        lessonContent.setPosition(1);
+
+        return lessonContent;
+    }
+
+    public static CreateLessonContentRequest createLessonContentRequest() {
         return new CreateLessonContentRequest(
                 "Test",
                 "Test description",
@@ -31,7 +42,7 @@ public class LessonContentFactory {
         );
     }
 
-    public static CreateLessonContentRequest createCreateLessonContentRequest(String name) {
+    public static CreateLessonContentRequest createLessonContentRequest(String name) {
         return new CreateLessonContentRequest(
                 name,
                 "Test description",
@@ -46,6 +57,19 @@ public class LessonContentFactory {
                 1L,
                 1L,
                 "Test",
+                "Test description",
+                1,
+                "Test url",
+                "Test thumbnailUrl",
+                LessonContentType.MP4
+        );
+    }
+
+    public static LessonContentResponse createLessonContentResponse(String name) {
+        return new LessonContentResponse(
+                1L,
+                1L,
+                name,
                 "Test description",
                 1,
                 "Test url",
