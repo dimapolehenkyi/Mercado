@@ -50,7 +50,7 @@ public class CourseServiceImplTest {
     @Test
     @DisplayName("Func createCourse should return CourseResponse")
     void createCourse_shouldReturnCourseResponse() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
 
         Course course = new Course();
         course.setName(request.name());
@@ -80,7 +80,7 @@ public class CourseServiceImplTest {
     @Test
     @DisplayName("Func createCourse should throw exception when course exists")
     void createCourse_shouldThrowException_whenCourseExists() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
 
         Course course = new Course();
         course.setName(request.name());
@@ -95,7 +95,7 @@ public class CourseServiceImplTest {
     @Test
     @DisplayName("Func createCourse should set price ZERO when status FREE")
     void createCourse_shouldSetPriceZero_whenStatusFree() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequestFree();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequestFree();
 
         Course course = new Course();
         course.setType(CourseAccessType.FREE);

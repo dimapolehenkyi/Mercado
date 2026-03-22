@@ -41,7 +41,7 @@ public class CourseServiceSecurityTest {
     @DisplayName("create course as ADMIN allows access")
     @WithMockUser(authorities = "ADMIN")
     void createCourse_asAdmin_allowsAccess() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
         Assertions.assertDoesNotThrow(() -> courseService.createCourse(request));
     }
 
@@ -49,7 +49,7 @@ public class CourseServiceSecurityTest {
     @DisplayName("create course as STUDENT denies access")
     @WithMockUser(authorities = "STUDENT")
     void createCourse_asStudent_deniesAccess() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
         Assertions.assertThrows(
                 AuthorizationDeniedException.class,
                 () -> courseService.createCourse(request)
@@ -60,7 +60,7 @@ public class CourseServiceSecurityTest {
     @DisplayName("create course as COMMON_USER denies access")
     @WithMockUser(authorities = "COMMON_USER")
     void createCourse_asCommonUser_deniesAccess() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
         Assertions.assertThrows(
                 AuthorizationDeniedException.class,
                 () -> courseService.createCourse(request)
@@ -71,7 +71,7 @@ public class CourseServiceSecurityTest {
     @DisplayName("create course as TEACHER denies access")
     @WithMockUser(authorities = "TEACHER")
     void createCourse_asTeacher_deniesAccess() {
-        CreateCourseRequest request = CourseTestFactory.createTestCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
         Assertions.assertThrows(
                 AuthorizationDeniedException.class,
                 () -> courseService.createCourse(request)

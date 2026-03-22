@@ -40,7 +40,7 @@ public class CourseTestFactory {
         return course;
     }
 
-    public static CreateCourseRequest createTestCreateCourseRequest() {
+    public static CreateCourseRequest createTestCourseRequest() {
         return new CreateCourseRequest(
                 1L,
                 "Test",
@@ -52,7 +52,7 @@ public class CourseTestFactory {
         );
     }
 
-        public static CreateCourseRequest createTestCreateCourseRequestFree() {
+        public static CreateCourseRequest createTestCourseRequestFree() {
         return new CreateCourseRequest(
                 1L,
                 "Test",
