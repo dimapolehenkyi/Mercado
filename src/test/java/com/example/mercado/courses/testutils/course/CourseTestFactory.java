@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 public class CourseTestFactory {
 
     public static Course createTestCourse(
-            Long userId, Long teacherId, String name
+            Long userId,
+            Long teacherId,
+            String name
     ) {
         Course course = new Course();
         course.setUserId(userId);
@@ -26,7 +28,9 @@ public class CourseTestFactory {
     }
 
     public static Course createTestCourseDraft(
-            Long userId, Long teacherId, String name
+            Long userId,
+            Long teacherId,
+            String name
     ) {
         Course course = new Course();
         course.setUserId(userId);
