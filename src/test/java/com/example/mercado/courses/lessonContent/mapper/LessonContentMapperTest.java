@@ -6,8 +6,10 @@ import com.example.mercado.courses.lessonContent.entity.LessonContent;
 import com.example.mercado.courses.lessonContent.enums.LessonContentType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Lesson Content Mapper Test")
 public class LessonContentMapperTest {
 
     private LessonContentMapper mapper;
@@ -26,7 +28,6 @@ public class LessonContentMapperTest {
                 LessonContentType.MP4,
                 "http://example.com/video.mp4",
                 "http://example.com/thumb.jpg"
-
         );
 
         LessonContent entity = mapper.toEntity(lessonId, request);
