@@ -17,7 +17,7 @@ public record ModuleResponse(
 
         ModuleStatus status,
 
-        ModuleType moduleType,
+        ModuleType type,
 
         LocalDateTime createdAt,
 
