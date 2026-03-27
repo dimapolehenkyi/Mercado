@@ -74,6 +74,7 @@ public class ModuleResourceServiceImpl implements ModuleResourceService {
                 .toList();
     }
 
+    /*#############################   HELPER METHODS   #############################*/
 
     private @NonNull ModuleResource findOrThrow(Long moduleId, Long id) {
         return moduleResourceRepository.findByModuleIdAndId(moduleId, id)
