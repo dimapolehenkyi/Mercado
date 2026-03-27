@@ -30,7 +30,7 @@ public class ModuleResourceServiceImpl implements ModuleResourceService {
 
 
     @Override
-    public ModuleResourceResponse createModuleResource(Long moduleId, @org.jspecify.annotations.NonNull CreateModuleResourceRequest request) {
+    public ModuleResourceResponse createModuleResource(Long moduleId, @NonNull CreateModuleResourceRequest request) {
         if (moduleResourceRepository.existsByModuleIdAndNameAndType(moduleId, request.name(), request.type())) {
             throw new ModuleResourceAlreadyExistsException();
         }
