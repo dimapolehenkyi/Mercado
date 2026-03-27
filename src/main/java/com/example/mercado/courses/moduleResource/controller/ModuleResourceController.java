@@ -5,6 +5,7 @@ import com.example.mercado.courses.moduleResource.dto.ModuleResourceResponse;
 import com.example.mercado.courses.moduleResource.dto.UpdateModuleResourceRequest;
 import com.example.mercado.courses.moduleResource.service.interfaces.ModuleResourceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class ModuleResourceController {
 
     private final ModuleResourceService moduleResourceService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ModuleResourceResponse createModuleResource(
             @PathVariable Long moduleId,
@@ -43,6 +45,7 @@ public class ModuleResourceController {
         return moduleResourceService.getModuleResourceById(moduleId, resourceId);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{resourceId}")
     public void deleteModuleResource(
             @PathVariable Long moduleId,

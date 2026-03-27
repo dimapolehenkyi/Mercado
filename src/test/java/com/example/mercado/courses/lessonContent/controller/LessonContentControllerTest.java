@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(LessonContentController.class)
 @ActiveProfiles("test")
 @Import(GlobalExceptionHandler.class)
+@DisplayName("LessonContentController Test")
 public class LessonContentControllerTest {
 
     @Autowired
