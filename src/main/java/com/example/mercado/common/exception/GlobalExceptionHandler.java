@@ -5,6 +5,8 @@ import com.example.mercado.courses.course.exception.CourseAlreadyArchivedExcepti
 import com.example.mercado.courses.course.exception.CourseAlreadyExistsException;
 import com.example.mercado.courses.course.exception.CourseAlreadyPublishedException;
 import com.example.mercado.courses.course.exception.CourseNotFound;
+import com.example.mercado.courses.lesson.exception.LessonNotFoundException;
+import com.example.mercado.courses.lesson.exception.LessonStatusAreSameException;
 import com.example.mercado.courses.lessonContent.exception.LessonContentAlreadyExistsException;
 import com.example.mercado.courses.lessonContent.exception.LessonContentNotFoundException;
 import com.example.mercado.courses.module.exception.*;
@@ -304,8 +306,36 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
 
-        return   ResponseEntity
+        return  ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
+    @ExceptionHandler(LessonNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleLessonNotFound(@NonNull LessonNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(response);
+    }
+
+    @ExceptionHandler(LessonStatusAreSameException.class)
+    public ResponseEntity<ErrorResponse> handleLessonStatusAreSame(@NonNull LessonStatusAreSameException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(response);
     }
 
