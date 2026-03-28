@@ -19,9 +19,9 @@ public class Assignment extends BaseEntityAssignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "module_id")
+    @Column(name = "lesson_id")
     @Setter
-    private Long module_id;
+    private Long lessonId;
 
     @Column(name = "name")
     @Setter
@@ -31,7 +31,22 @@ public class Assignment extends BaseEntityAssignment {
     @Setter
     private String description;
 
-    @Column(name = "maxScore")
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    @Setter
+    private AssignmentType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    @Setter
+    private AssignmentStatus status;
+
+    @Column(name = "max_score")
     @Setter
     private Integer maxScore;
+
+
+    @Column(name = "position")
+    @Setter
+    private Integer position;
 }

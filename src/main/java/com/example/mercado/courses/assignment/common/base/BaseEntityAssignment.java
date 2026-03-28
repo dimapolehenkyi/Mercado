@@ -27,14 +27,4 @@ public abstract class BaseEntityAssignment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    @Setter
-    private AssignmentType type;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    @Setter
-    private AssignmentStatus status;
-
 }
