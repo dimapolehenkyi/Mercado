@@ -6,14 +6,12 @@ import com.example.mercado.courses.lessonContent.dto.UpdateLessonContentRequest;
 import com.example.mercado.courses.lessonContent.service.interfaces.LessonContentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/lessons/{lessonId}/contents")
 public class LessonContentController {
 
