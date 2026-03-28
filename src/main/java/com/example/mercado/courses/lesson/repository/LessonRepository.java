@@ -16,7 +16,9 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     boolean existsByIdAndModuleId(Long lessonId, Long moduleId);
 
-    long countByModuleId(Long moduleId);
+    boolean existsByNameAndModuleId(String name, Long moduleId);
+
+    Integer countByModuleId(Long moduleId);
 
     Optional<Lesson> findTopByModuleIdOrderByPositionDesc(Long moduleId);
 

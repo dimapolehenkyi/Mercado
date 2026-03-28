@@ -5,6 +5,7 @@ import com.example.mercado.courses.course.exception.CourseAlreadyArchivedExcepti
 import com.example.mercado.courses.course.exception.CourseAlreadyExistsException;
 import com.example.mercado.courses.course.exception.CourseAlreadyPublishedException;
 import com.example.mercado.courses.course.exception.CourseNotFound;
+import com.example.mercado.courses.lesson.exception.LessonAlreadyExistException;
 import com.example.mercado.courses.lesson.exception.LessonNotFoundException;
 import com.example.mercado.courses.lesson.exception.LessonStatusAreSameException;
 import com.example.mercado.courses.lessonContent.exception.LessonContentAlreadyExistsException;
@@ -327,6 +328,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(LessonStatusAreSameException.class)
     public ResponseEntity<ErrorResponse> handleLessonStatusAreSame(@NonNull LessonStatusAreSameException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(LessonAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleLessonAlreadyExist(@NonNull LessonAlreadyExistException ex) {
         ErrorResponse response = new ErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 ex.getCode(),
