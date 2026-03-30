@@ -1,6 +1,8 @@
 package com.example.mercado.common.exception;
 
 
+import com.example.mercado.courses.assignment.exception.AssignmentAlreadyExistException;
+import com.example.mercado.courses.assignment.exception.AssignmentNotFoundException;
 import com.example.mercado.courses.course.exception.CourseAlreadyArchivedException;
 import com.example.mercado.courses.course.exception.CourseAlreadyExistsException;
 import com.example.mercado.courses.course.exception.CourseAlreadyPublishedException;
@@ -351,6 +353,34 @@ public class GlobalExceptionHandler {
 
         return  ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(AssignmentAlreadyExistException.class)
+    public ResponseEntity<ErrorResponse> handleAssignmentAlreadyExist(@NonNull AssignmentAlreadyExistException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
+    }
+
+    @ExceptionHandler(AssignmentNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleAssignmentNotFound(@NonNull AssignmentNotFoundException ex) {
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getCode(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return  ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(response);
     }
 
