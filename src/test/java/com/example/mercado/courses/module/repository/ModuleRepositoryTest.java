@@ -139,9 +139,6 @@ public class ModuleRepositoryTest {
         Assertions.assertNotNull(modules);
         Assertions.assertEquals(3, modules.size());
 
-        Assertions.assertNotNull(modules);
-        Assertions.assertEquals(3, modules.size());
-
         Assertions.assertEquals(1, modules.get(0).getPosition());
         Assertions.assertEquals(2, modules.get(1).getPosition());
         Assertions.assertEquals(3, modules.get(2).getPosition());

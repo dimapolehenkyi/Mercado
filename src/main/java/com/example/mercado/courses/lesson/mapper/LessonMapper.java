@@ -16,6 +16,7 @@ public class LessonMapper {
                 .moduleId(moduleId)
                 .name(request.name())
                 .description(request.description())
+                .duration(request.duration())
                 .status(request.status())
                 .build();
     }
