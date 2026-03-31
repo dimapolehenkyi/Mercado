@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ModuleServiceImpl Test")
+@DisplayName("ModuleService Test")
 public class ModuleServiceTest {
 
     @Mock
