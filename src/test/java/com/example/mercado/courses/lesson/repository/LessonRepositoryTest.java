@@ -1,7 +1,6 @@
 package com.example.mercado.courses.lesson.repository;
 
 import com.example.mercado.configs.JpaAuditingConfig;
-import com.example.mercado.courses.lesson.dto.LessonShortResponse;
 import com.example.mercado.courses.lesson.entity.Lesson;
 import com.example.mercado.courses.lesson.enums.LessonStatus;
 import org.junit.jupiter.api.Assertions;
