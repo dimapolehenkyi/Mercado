@@ -1,15 +1,18 @@
 package com.example.mercado.courses.course.courseRequirement.entity;
 
 import com.example.mercado.courses.course.common.base.BaseEntity;
+import com.example.mercado.courses.course.courseRequirement.exception.PositionBelowZeroException;
+import com.example.mercado.courses.course.courseRequirement.exception.TextAreTheSameException;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.Objects;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(
         name = "course_requirements",
         uniqueConstraints = {
@@ -34,4 +37,27 @@ public class CourseRequirement extends BaseEntity {
     @Column(name = "position", nullable = false)
     private Integer position;
 
+
+
+    public void setPosition(Integer position) {
+
+        if (position < 0) {
+            throw new PositionBelowZeroException();
+        }
+
+        this.position = position;
+
+    }
+
+    public void setText(String text) {
+
+        text = text.trim();
+
+        if (Objects.equals(this.text, text)) {
+            throw new TextAreTheSameException();
+        }
+
+        this.text = text;
+
+    }
 }
