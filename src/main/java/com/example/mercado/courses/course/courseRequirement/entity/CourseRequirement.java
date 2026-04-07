@@ -1,8 +1,8 @@
 package com.example.mercado.courses.course.courseRequirement.entity;
 
 import com.example.mercado.courses.course.common.base.BaseEntity;
-import com.example.mercado.courses.course.courseRequirement.exception.PositionBelowZeroException;
-import com.example.mercado.courses.course.courseRequirement.exception.TextAreTheSameException;
+import com.example.mercado.courses.course.courseRequirement.exception.CourseRequirementPositionBelowZeroException;
+import com.example.mercado.courses.course.courseRequirement.exception.CourseRequirementTextAreTheSameException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,7 +42,7 @@ public class CourseRequirement extends BaseEntity {
     public void setPosition(Integer position) {
 
         if (position < 0) {
-            throw new PositionBelowZeroException();
+            throw new CourseRequirementPositionBelowZeroException();
         }
 
         this.position = position;
@@ -54,7 +54,7 @@ public class CourseRequirement extends BaseEntity {
         text = text.trim();
 
         if (Objects.equals(this.text, text)) {
-            throw new TextAreTheSameException();
+            throw new CourseRequirementTextAreTheSameException();
         }
 
         this.text = text;

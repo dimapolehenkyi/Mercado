@@ -12,4 +12,8 @@ public class CourseRequirementNotFoundException extends RuntimeException {
     public CourseRequirementNotFoundException(Long courseId, Long courseRequirementId) {
         super(MessageFormat.format("Requirement: [{0}] in course: [{1}] not found", courseRequirementId, courseId));
     }
+
+    public CourseRequirementNotFoundException(Long courseId) {
+        super(MessageFormat.format("Requirement in course: [{0}] not found", courseId));
+    }
 }
