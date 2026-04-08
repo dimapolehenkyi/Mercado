@@ -13,9 +13,6 @@ public record ErrorResponse(
         @NotBlank
         String error,
 
-        @NotBlank
-        String message,
-
         @NotNull
         LocalDateTime timestamp
 
