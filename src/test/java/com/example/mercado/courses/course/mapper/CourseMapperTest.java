@@ -1,105 +1,110 @@
 package com.example.mercado.courses.course.mapper;
 
-import com.example.mercado.courses.course.dto.CourseResponse;
+import com.example.mercado.courses.course.dto.CourseDetailsResponse;
 import com.example.mercado.courses.course.dto.CourseShortResponse;
-import com.example.mercado.courses.course.dto.CreateCourseRequest;
-import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.testutils.course.CourseTestFactory;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
+import org.mockito.Mock;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 
+
 @DisplayName("CourseMapper Test")
+@ExtendWith(SpringExtension.class)
+@Import(CourseMapperImpl.class)
 public class CourseMapperTest {
 
-    private CourseMapper mapper;
+    @Mock
+    private final CourseMapper mapper = Mappers.getMapper(CourseMapper.class);
 
-    @BeforeEach
-    void setUp() {
-        mapper = new CourseMapper();
+
+    @Test
+    @DisplayName("toResponse should apply default values for null numeric fields")
+    void toResponse_shouldApplyDefaults_whenNullValues() {
+        Course course = new Course();
+
+        CourseDetailsResponse response = mapper.toResponse(course);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(0L, response.studentCount()),
+                () -> Assertions.assertEquals(0.0, response.rating()),
+                () -> Assertions.assertEquals(0L, response.reviewsCount()),
+                () -> Assertions.assertEquals(0, response.durationInMinutes())
+        );
     }
 
     @Test
-    @DisplayName("Func toEntity should map all fields to entity type")
-    void toEntity_shouldMapAllFields() {
-        Long teacherId = 1L;
+    @DisplayName("toResponse should map real values correctly")
+    void toResponse_shouldMapRealValues() {
+        Course course = CourseTestFactory.createDefaultCourse()
+                .studentCount(10L)
+                .rating(4.5)
+                .reviewsCount(3L)
+                .durationInMinutes(120)
+                .build();
 
-        CreateCourseRequest request = CourseTestFactory.createTestCourseRequest();
+        CourseDetailsResponse response = mapper.toResponse(course);
 
-        Course mapped = mapper.toEntity(request);
-
-        Assertions.assertNotNull(mapped);
-        Assertions.assertEquals(teacherId, mapped.getTeacherId());
-        Assertions.assertEquals("Test", mapped.getName());
-        Assertions.assertEquals("Test description", mapped.getDescription());
-        Assertions.assertEquals(CourseAccessType.PAID, mapped.getType());
-        Assertions.assertEquals(CourseStatus.PUBLISHED, mapped.getStatus());
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(10L, response.studentCount()),
+                () -> Assertions.assertEquals(4.5, response.rating()),
+                () -> Assertions.assertEquals(3L, response.reviewsCount()),
+                () -> Assertions.assertEquals(120, response.durationInMinutes())
+        );
     }
 
     @Test
-    @DisplayName("Func updateEntity should map fields to new value")
-    void updateEntity_shouldMapFields_toNewValue() {
-        Long userId = 1L;
-        Long teacherId = 1L;
-        String name = "Java Core Course";
+    @DisplayName("toShortResponse should default rating to 0.0 when null")
+    void toShortResponse_shouldDefaultRating() {
+        Course course = CourseTestFactory.createDefaultCourse()
+                .name("Java")
+                .rating(null)
+                .build();
 
-        Course course = CourseTestFactory.createTestCourse(userId, teacherId, name);
+        CourseShortResponse response = mapper.toShortResponse(course);
 
-        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest();
-
-        mapper.updateEntity(course, request);
-
-
-        Assertions.assertEquals("New name", course.getName());
-        Assertions.assertEquals("New description", course.getDescription());
-        Assertions.assertEquals(CourseStatus.PUBLISHED, course.getStatus());
-        Assertions.assertEquals(BigDecimal.valueOf(100), course.getPrice());
-        Assertions.assertEquals(CourseAccessType.PAID, course.getType());
+        Assertions.assertEquals(0.0, response.rating());
     }
 
     @Test
-    @DisplayName("Func toResponse should map all fields to response type")
-    void toResponse_shouldMapAllFields() {
-        Long userId = 1L;
-        Long teacherId = 1L;
-        String name = "Java Core Course";
+    @DisplayName("toShortResponse should map fields correctly")
+    void toShortResponse_shouldMapCorrectly() {
+        Course course = CourseTestFactory.createDefaultCourse()
+                .name("Java")
+                .price(BigDecimal.valueOf(100L))
+                .type(CourseAccessType.PAID)
+                .status(CourseStatus.PUBLISHED)
+                .rating(4.2)
+                .build();
 
-        Course course = CourseTestFactory.createTestCourse(userId, teacherId, name);
+        CourseShortResponse response = mapper.toShortResponse(course);
 
-        CourseResponse mapped = mapper.toResponse(course);
-
-        Assertions.assertNotNull(mapped);
-        Assertions.assertEquals(teacherId, mapped.teacherId());
-        Assertions.assertEquals(name, mapped.name());
-        Assertions.assertEquals("description", mapped.description());
-        Assertions.assertEquals(BigDecimal.ZERO, mapped.price());
-        Assertions.assertEquals(CourseStatus.PUBLISHED, mapped.status());
-        Assertions.assertEquals(CourseAccessType.FREE, mapped.type());
-        Assertions.assertEquals(0, mapped.durationInMinutes());
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Java", response.name()),
+                () -> Assertions.assertEquals(BigDecimal.valueOf(100L), response.price()),
+                () -> Assertions.assertEquals(CourseAccessType.PAID, response.type()),
+                () -> Assertions.assertEquals(CourseStatus.PUBLISHED, response.status()),
+                () -> Assertions.assertEquals(4.2, response.rating())
+        );
     }
 
     @Test
-    @DisplayName("Func toShortResponse should map all fields to short response type")
-    void toShortResponse_shouldMapAllFields() {
-        Long userId = 1L;
-        Long teacherId = 1L;
-        String name = "Java Core Course";
+    @DisplayName("mapper should not crash on completely empty entity")
+    void shouldNotCrash_onEmptyEntity() {
+        Course course = new Course();
 
-        Course course = CourseTestFactory.createTestCourse(userId, teacherId, name);
-
-        CourseShortResponse mapped = mapper.toShortResponse(course);
-
-        Assertions.assertNotNull(mapped);
-        Assertions.assertEquals(name, mapped.name());
-        Assertions.assertEquals(BigDecimal.ZERO, mapped.price());
-        Assertions.assertEquals(CourseStatus.PUBLISHED, mapped.status());
-        Assertions.assertEquals(CourseAccessType.FREE, mapped.type());
-        Assertions.assertEquals(0, mapped.durationInMinutes());
+        Assertions.assertDoesNotThrow(() -> {
+            mapper.toResponse(course);
+            mapper.toShortResponse(course);
+        });
     }
 }

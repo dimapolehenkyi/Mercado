@@ -1,6 +1,7 @@
 package com.example.mercado.users.services;
 
-import com.example.mercado.users.exception.userException.UserNotFoundException;
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.users.entity.User;
 import com.example.mercado.users.repositories.UserRepository;
 import com.example.mercado.users.services.interfaces.UserService;
@@ -21,7 +22,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException(username));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.USER_NOT_FOUND,
+                        username
+                ));
     }
 
     @Override

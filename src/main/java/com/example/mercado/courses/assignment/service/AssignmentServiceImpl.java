@@ -1,17 +1,15 @@
 package com.example.mercado.courses.assignment.service;
 
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.assignment.dto.AssignmentResponse;
 import com.example.mercado.courses.assignment.dto.AssignmentShortResponse;
 import com.example.mercado.courses.assignment.dto.CreateAssignmentRequest;
 import com.example.mercado.courses.assignment.dto.UpdateAssignmentRequest;
 import com.example.mercado.courses.assignment.entity.Assignment;
-import com.example.mercado.courses.assignment.exception.AssignmentAlreadyExistException;
-import com.example.mercado.courses.assignment.exception.AssignmentNotFoundException;
 import com.example.mercado.courses.assignment.mapper.AssignmentMapper;
 import com.example.mercado.courses.assignment.repository.AssignmentRepository;
 import com.example.mercado.courses.assignment.service.interfaces.AssignmentService;
-import com.example.mercado.courses.lesson.entity.Lesson;
-import com.example.mercado.courses.lesson.exception.LessonNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +31,10 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public AssignmentResponse createAssignment(Long lessonId, CreateAssignmentRequest request) {
         if (repository.existsByNameAndLessonId(request.name(), lessonId)) {
-            throw new AssignmentAlreadyExistException(lessonId, request.name());
+            throw new AppException(
+                    ErrorCode.ASSIGNMENT_ALREADY_EXISTS,
+                    request.name()
+            );
         }
 
         Assignment assignment = mapper.toEntity(lessonId, request);
@@ -96,7 +97,10 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     private @NonNull Assignment getAssignmentOrThrow(@NonNull Long lessonId, @NonNull Long id) {
         return repository.findByIdAndLessonId(id, lessonId)
-                .orElseThrow(() -> new AssignmentNotFoundException(lessonId, id));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.ASSIGNMENT_NOT_FOUND,
+                        id
+                ));
     }
 
 }

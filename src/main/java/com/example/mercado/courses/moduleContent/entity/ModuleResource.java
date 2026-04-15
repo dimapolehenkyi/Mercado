@@ -1,0 +1,77 @@
+package com.example.mercado.courses.moduleContent.entity;
+
+import com.example.mercado.common.entity.BaseEntity;
+import com.example.mercado.courses.moduleContent.enums.ModuleResourceType;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString(
+        exclude = {"url"}
+)
+@Builder
+@Table(
+        name = "module_resource",
+        indexes = {
+                @Index(
+                        name = "idx_module_id",
+                        columnList = "module_id"
+                )
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_name_moduleid",
+                        columnNames = {"name", "module_id"}
+                ),
+                @UniqueConstraint(
+                        name = "uk_position_moduleid",
+                        columnNames = {"position", "module_id"}
+                )
+        }
+)
+public class ModuleResource extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "module_id", nullable = false)
+    @Setter
+    private Long moduleId;
+
+    @Column(
+            name = "name",
+            length = 150,
+            nullable = false
+    )
+    @Setter
+    private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    @Setter
+    private ModuleResourceType type;
+
+    @Column(
+            name = "url",
+            nullable = false,
+            length = 500
+    )
+    @Setter
+    private String url;
+
+    @Column(
+            name = "thumbnail_url",
+            length = 500
+    )
+    @Setter
+    private String thumbnailUrl;
+
+    @Column(name = "position", nullable = false)
+    @Setter
+    private Integer position;
+
+}

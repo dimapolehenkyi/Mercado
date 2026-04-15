@@ -1,12 +1,13 @@
 package com.example.mercado.courses.module.service;
 
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.module.dto.CreateModuleRequest;
 import com.example.mercado.courses.module.dto.ModuleResponse;
 import com.example.mercado.courses.module.dto.ModuleShortResponse;
 import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import com.example.mercado.courses.module.entity.Module;
 import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.exception.*;
 import com.example.mercado.courses.module.mapper.ModuleMapper;
 import com.example.mercado.courses.module.repository.ModuleRepository;
 import com.example.mercado.courses.module.service.interfaces.ModuleService;
@@ -36,7 +37,10 @@ public class ModuleServiceImpl implements ModuleService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModuleResponse createModule(@NonNull Long courseId, @NonNull CreateModuleRequest request) {
         if (moduleRepository.existsByNameAndCourseId(request.name(), courseId)) {
-            throw new ModuleAlreadyExistsException(request.name());
+            throw new AppException(
+                    ErrorCode.MODULE_ALREADY_EXISTS,
+                    request.name()
+            );
         }
 
         Module module = moduleMapper.toEntity(request, courseId);
@@ -71,7 +75,10 @@ public class ModuleServiceImpl implements ModuleService {
     public void deleteModule(Long courseId, Long moduleId) {
         Module module = getModuleOrThrow(moduleId, courseId);
         if (module.isDeleted()) {
-            throw new ModuleAlreadyDeletedException(moduleId);
+            throw new AppException(
+                    ErrorCode.MODULE_ALREADY_DELETED,
+                    moduleId
+            );
         }
         module.setDeleted(true);
     }
@@ -80,7 +87,7 @@ public class ModuleServiceImpl implements ModuleService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModuleResponse publishModule(Long courseId, Long moduleId) {
         Module module = getModuleOrThrow(moduleId, courseId);
-        ensureStatusNot(module, ModuleStatus.PUBLISHED, new ModuleAlreadyPublishedException(moduleId));
+        ensureStatusNot(module, ModuleStatus.PUBLISHED, new AppException(ErrorCode.MODULE_ALREADY_PUBLISHED, moduleId));
         module.setStatus(ModuleStatus.PUBLISHED);
         return moduleMapper.toResponse(module);
     }
@@ -89,7 +96,7 @@ public class ModuleServiceImpl implements ModuleService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public ModuleResponse archiveModule(Long courseId, Long moduleId) {
         Module module = getModuleOrThrow(moduleId, courseId);
-        ensureStatusNot(module, ModuleStatus.ARCHIVED, new ModuleAlreadyArchivedException(moduleId));
+        ensureStatusNot(module, ModuleStatus.ARCHIVED, new AppException(ErrorCode.MODULE_ALREADY_ARCHIVED, moduleId));
         module.setStatus(ModuleStatus.ARCHIVED);
         return moduleMapper.toResponse(module);
     }
@@ -100,13 +107,16 @@ public class ModuleServiceImpl implements ModuleService {
         Module module = getModuleOrThrow(moduleId, courseId);
 
         if (module.getPosition() == 0) {
-            throw new ModuleAlreadyHaveFirstPosition(module.getId());
+            throw new AppException(ErrorCode.MODULE_POSITION_INVALID);
         }
 
         int currentPosition = module.getPosition();
 
         Module previous = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() - 1)
-                .orElseThrow(() -> new ModuleNotFoundException(module.getCourseId(), module.getPosition() - 1));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.MODULE_NOT_FOUND,
+                        moduleId
+                ));
 
         previous.setPosition(currentPosition);
         module.setPosition(currentPosition - 1);
@@ -120,7 +130,7 @@ public class ModuleServiceImpl implements ModuleService {
         int currentPosition = module.getPosition();
 
         Module next = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() + 1)
-                .orElseThrow(() -> new ModuleAlreadyHaveLastPositionException(moduleId));
+                .orElseThrow(() -> new AppException(ErrorCode.MODULE_POSITION_INVALID));
 
         next.setPosition(currentPosition);
         module.setPosition(currentPosition + 1);
@@ -186,7 +196,10 @@ public class ModuleServiceImpl implements ModuleService {
 
     private Module getModuleOrThrow(Long moduleId, Long courseId) {
         return  moduleRepository.findByIdAndCourseId(moduleId, courseId)
-                .orElseThrow(() -> new ModuleNotFoundException(moduleId));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.MODULE_NOT_FOUND,
+                        moduleId
+                ));
     }
 
     private void ensureStatusNot(Module module, ModuleStatus status, RuntimeException ex) {

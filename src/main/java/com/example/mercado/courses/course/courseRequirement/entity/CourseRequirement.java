@@ -1,8 +1,8 @@
 package com.example.mercado.courses.course.courseRequirement.entity;
 
-import com.example.mercado.courses.course.common.base.BaseEntity;
-import com.example.mercado.courses.course.courseRequirement.exception.CourseRequirementPositionBelowZeroException;
-import com.example.mercado.courses.course.courseRequirement.exception.CourseRequirementTextAreTheSameException;
+import com.example.mercado.common.entity.BaseEntity;
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +19,10 @@ import java.util.Objects;
                 @UniqueConstraint(
                         name = "uk_position_course_id",
                         columnNames = {"course_id", "position"}
+                ),
+                @UniqueConstraint(
+                        name = "uk_text_course_id",
+                        columnNames = {"course_id", "text"}
                 )
         }
 )
@@ -27,6 +31,10 @@ public class CourseRequirement extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 
     @Column(name = "course_id", nullable = false)
     private Long courseId;
@@ -42,7 +50,9 @@ public class CourseRequirement extends BaseEntity {
     public void setPosition(Integer position) {
 
         if (position < 0) {
-            throw new CourseRequirementPositionBelowZeroException();
+            throw new AppException(
+                    ErrorCode.REQUIREMENT_POSITION_INVALID
+            );
         }
 
         this.position = position;
@@ -54,7 +64,9 @@ public class CourseRequirement extends BaseEntity {
         text = text.trim();
 
         if (Objects.equals(this.text, text)) {
-            throw new CourseRequirementTextAreTheSameException();
+            throw new AppException(
+                    ErrorCode.REQUIREMENT_SAME_TEXT
+            );
         }
 
         this.text = text;

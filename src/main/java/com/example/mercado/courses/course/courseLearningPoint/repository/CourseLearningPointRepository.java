@@ -29,45 +29,37 @@ public interface CourseLearningPointRepository extends JpaRepository<CourseLearn
 
     @Modifying
     @Query("""
-    update CourseLearningPoint r
-    set r.position = :position
-    where r.id = :id
+    UPDATE CourseLearningPoint r
+    SET r.position = :position
+    WHERE r.id = :id
 """)
     void updatePosition(Long id, Integer position);
 
     @Query("""
-    select coalesce(max(r.position), -1)
-    from CourseLearningPoint r
-    where r.courseId = :courseId
+        SELECT coalesce(max(r.position), -1)
+        FROM CourseLearningPoint r
+        WHERE r.courseId = :courseId
 """)
     Integer findMaxPositionByCourseId(Long courseId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
-    update CourseLearningPoint r
-    set r.position = r.position + 1
-    where r.courseId = :courseId
-      and r.position >= :start
-      and r.position <= :end
+        UPDATE CourseLearningPoint r
+        SET r.position = r.position + 1
+        WHERE r.courseId = :courseId
+        AND r.position >= :start
+        AND r.position <= :end
 """)
     void incrementPositionRange(Long courseId, int start, int end);
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
-    update CourseLearningPoint r
-    set r.position = r.position - 1
-    where r.courseId = :courseId
-      and r.position >= :start
-      and r.position <= :end
+        UPDATE CourseLearningPoint r
+        SET r.position = r.position - 1
+        WHERE r.courseId = :courseId
+        AND r.position >= :start
+        AND r.position <= :end
 """)
     void decrementPositionRange(Long courseId, int start, int end);
-
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("""
-    select r
-    from CourseLearningPoint r
-    where r.courseId = :courseId
-""")
-    void lockByCourseId(Long courseId);
 
 }

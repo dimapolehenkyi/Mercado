@@ -1,10 +1,11 @@
 package com.example.mercado.courses.lessonContent.service;
 
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.lessonContent.dto.CreateLessonContentRequest;
 import com.example.mercado.courses.lessonContent.dto.LessonContentResponse;
 import com.example.mercado.courses.lessonContent.dto.UpdateLessonContentRequest;
 import com.example.mercado.courses.lessonContent.entity.LessonContent;
-import com.example.mercado.courses.lessonContent.exception.LessonContentNotFoundException;
 import com.example.mercado.courses.lessonContent.mapper.LessonContentMapper;
 import com.example.mercado.courses.lessonContent.repository.LessonContentRepository;
 import com.example.mercado.courses.lessonContent.service.interfaces.LessonContentService;
@@ -95,7 +96,10 @@ public class LessonContentServiceImpl implements LessonContentService {
             @NonNull Long lessonId
     ) {
         return  repository.findByLessonIdAndId(lessonId, lessonContentId)
-                .orElseThrow(() -> new LessonContentNotFoundException(lessonContentId, lessonId));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.LESSON_CONTENT_NOT_FOUND,
+                        lessonContentId
+                ));
     }
 
     private <T> void updateIfChanged(T newValue, T currentValue, Consumer<T> setter) {

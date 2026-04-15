@@ -1,6 +1,6 @@
 package com.example.mercado.courses.lessonContent.entity;
 
-import com.example.mercado.courses.lessonContent.base.BaseEntityLessonContent;
+import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.courses.lessonContent.enums.LessonContentType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,7 +30,7 @@ import lombok.*;
                 )
         }
 )
-public class LessonContent extends BaseEntityLessonContent {
+public class LessonContent extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

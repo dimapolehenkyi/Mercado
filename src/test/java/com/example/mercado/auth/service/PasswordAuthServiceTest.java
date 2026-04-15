@@ -4,9 +4,9 @@ package com.example.mercado.auth.service;
 import com.example.mercado.auth.dto.AuthResponse;
 import com.example.mercado.auth.dto.LoginRequest;
 import com.example.mercado.auth.services.PasswordAuthService;
+import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.jwt.JwtProperties;
 import com.example.mercado.common.jwt.JwtService;
-import com.example.mercado.users.exception.userException.UserAlreadyExistsException;
 import com.example.mercado.users.dto.RegisterRequest;
 import com.example.mercado.users.entity.User;
 import com.example.mercado.users.repositories.UserRepository;
@@ -113,7 +113,10 @@ public class PasswordAuthServiceTest {
         when(userRepository.existsByUsername(request.username())).thenReturn(false);
         when(userRepository.existsByEmail(request.email())).thenReturn(true);
 
-        Assertions.assertThrows(UserAlreadyExistsException.class, () -> authService.register(request));
+        Assertions.assertThrows(
+                AppException.class,
+                () -> authService.register(request)
+        );
     }
 
     @Test
@@ -127,6 +130,9 @@ public class PasswordAuthServiceTest {
 
         when(userRepository.existsByUsername(request.username())).thenReturn(true);
 
-        Assertions.assertThrows(UserAlreadyExistsException.class, () -> authService.register(request));
+        Assertions.assertThrows(
+                AppException.class,
+                () -> authService.register(request)
+        );
     }
 }
