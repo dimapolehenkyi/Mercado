@@ -2,7 +2,9 @@ package com.example.mercado.courses.course.repository;
 
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
+import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
+import com.example.mercado.courses.course.enums.SortType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -44,6 +46,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             AND (:teacherId IS NULL OR c.teacherId = :teacherId)
             AND (:priceFrom IS NULL OR c.price >= :priceFrom)
             AND (:priceTo IS NULL OR c.price <= :priceTo)
+            AND (:level IS NULL OR c.level = :level)
             AND c.status = 'PUBLISHED'
             """)
     Page<Course> searchCourses(
@@ -52,6 +55,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             Long teacherId,
             BigDecimal priceFrom,
             BigDecimal priceTo,
+            CourseLevel level,
             Pageable pageable
     );
 

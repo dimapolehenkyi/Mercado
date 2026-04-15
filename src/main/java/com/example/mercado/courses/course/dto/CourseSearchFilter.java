@@ -36,8 +36,6 @@ public record CourseSearchFilter(
 
         CourseLevel level,
 
-        SortType sortType,
-
-        Boolean isFree
+        SortType sortType
 ) {
 }

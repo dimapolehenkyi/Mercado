@@ -4,13 +4,16 @@ import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.course.dto.*;
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseStatus;
+import com.example.mercado.courses.course.enums.SortType;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
 import com.example.mercado.courses.course.service.interfaces.CourseQueryService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,15 +77,19 @@ public class CourseQueryServiceImpl implements CourseQueryService {
 
     @Override
     public Page<CourseShortResponse> searchCourse(
-            CourseSearchFilter filter, Pageable pageable
+            CourseSearchFilter filter,
+            Pageable pageable
     ) {
+        Pageable sortedPageable = applySorting(filter.sortType(), pageable);
+
         return repository.searchCourses(
                 filter.keyword(),
                 filter.type(),
                 filter.teacherId(),
                 filter.priceFrom(),
                 filter.priceTo(),
-                pageable
+                filter.level(),
+                sortedPageable
         ).map(mapper::toShortResponse);
     }
 
@@ -94,6 +101,43 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     @Override
     public long countTeacherCoursesById(Long teacherId) {
         return repository.countByTeacherId(teacherId);
+    }
+
+    private Pageable applySorting(
+            SortType sortType,
+            Pageable pageable
+    ) {
+        if (sortType == null) {
+            return pageable;
+        }
+
+        return switch (sortType) {
+            case PRICE_ASC -> PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("price").ascending()
+            );
+            case PRICE_DESC -> PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("price").descending()
+            );
+            case NEWEST -> PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("createdAt").descending()
+            );
+            case RATING_ASC -> PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("rating").ascending()
+            );
+            case RATING_DESC -> PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.by("rating").descending()
+            );
+        };
     }
 
 }
