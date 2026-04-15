@@ -1,59 +1,81 @@
 package com.example.mercado.courses.course.mapper;
 
-import com.example.mercado.courses.course.dto.CourseResponse;
+import com.example.mercado.configs.CentralMapperConfig;
+import com.example.mercado.courses.course.dto.CourseDetailsResponse;
 import com.example.mercado.courses.course.dto.CourseShortResponse;
 import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
-import org.jspecify.annotations.NonNull;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
-@Component
-public class CourseMapper {
+@Mapper(
+        componentModel = "spring",
+        config = CentralMapperConfig.class
+)
+public interface CourseMapper {
 
-    public Course toEntity(@NonNull CreateCourseRequest request) {
-        return Course.builder()
-                .teacherId(request.teacherId())
-                .name(request.name())
-                .description(request.description())
-                .price(request.price())
-                .durationInMinutes(request.durationInMinutes())
-                .status(request.status())
-                .type(request.type())
-                .build();
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "shortDescription", source = "shortDescription")
+    @Mapping(target = "previewVideoUrl", source = "previewVideoUrl")
+    @Mapping(target = "thumbnailUrl", source = "thumbnailUrl")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "level", source = "level")
+    Course toEntity(CreateCourseRequest request);
+
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "shortDescription", source = "shortDescription")
+    @Mapping(target = "previewVideoUrl", source = "previewVideoUrl")
+    @Mapping(target = "thumbnailUrl", source = "thumbnailUrl")
+    @Mapping(target = "type", source = "type")
+    @Mapping(target = "level", source = "level")
+    void updateEntity(@MappingTarget Course course, UpdateCourseRequest request);
+
+    @Mapping(
+            target = "studentCount",
+            source = "studentCount",
+            qualifiedByName = "defaultLong"
+    )
+    @Mapping(
+            target = "rating",
+            source = "rating",
+            qualifiedByName = "defaultDouble"
+    )
+    @Mapping(
+            target = "reviewsCount",
+            source = "reviewsCount",
+            qualifiedByName = "defaultLong"
+    )
+    @Mapping(
+            target = "durationInMinutes",
+            source = "durationInMinutes",
+            qualifiedByName = "defaultInteger"
+    )
+    CourseDetailsResponse toResponse(Course course);
+
+    @Mapping(
+            target = "rating",
+            source = "rating",
+            qualifiedByName = "defaultDouble"
+    )
+    CourseShortResponse toShortResponse(Course course);
+
+
+
+    @Named("defaultLong")
+    default Long defaultLong(Long value) {
+        return value != null ? value : 0L;
     }
 
-    public void updateEntity(Course course, @NonNull UpdateCourseRequest request) {
-        course.setName(request.name());
-        course.setDescription(request.description());
-        course.setStatus(request.status());
-        course.setPrice(request.price());
-        course.setType(request.type());
+    @Named("defaultDouble")
+    default Double defaultDouble(Double value) {
+        return value != null ? value : 0.0;
     }
 
-    public CourseResponse toResponse(@NonNull Course course) {
-        return new CourseResponse(
-                course.getId(),
-                course.getTeacherId(),
-                course.getName(),
-                course.getDescription(),
-                course.getPrice(),
-                course.getStatus(),
-                course.getType(),
-                course.getDurationInMinutes(),
-                course.getCreatedAt(),
-                course.getUpdatedAt()
-        );
+    @Named("defaultInteger")
+    default Integer defaultInteger(Integer value) {
+        return value != null ? value : 0;
     }
 
-    public CourseShortResponse toShortResponse(@NonNull Course course) {
-        return new CourseShortResponse(
-                course.getId(),
-                course.getName(),
-                course.getPrice(),
-                course.getType(),
-                course.getDurationInMinutes(),
-                course.getStatus()
-        );
-    }
 }
