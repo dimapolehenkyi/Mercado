@@ -17,8 +17,6 @@ public record CourseShortResponse(
 
         CourseAccessType type,
 
-        Boolean deleted,
-
         CourseStatus status,
 
         Double rating,

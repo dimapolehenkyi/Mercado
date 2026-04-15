@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 public record ChangeLevelRequest(
 
-        @NotNull
+        @NotNull(
+                message = "Course level is required"
+        )
         CourseLevel level
 
 ) {

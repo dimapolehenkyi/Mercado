@@ -1,6 +1,7 @@
 package com.example.mercado.courses.course.customValidators.price.validPriceRange;
 
 import com.example.mercado.courses.course.dto.CourseSearchFilter;
+import com.example.mercado.courses.course.enums.CourseAccessType;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -8,7 +9,7 @@ public class PriceRangeValidator implements ConstraintValidator<ValidPriceRange,
 
     @Override
     public boolean isValid(CourseSearchFilter filter, ConstraintValidatorContext context) {
-        if (Boolean.TRUE.equals(filter.isFree())) {
+        if (CourseAccessType.FREE.equals(filter.type())) {
             return filter.priceFrom() == null && filter.priceTo() == null;
         }
 

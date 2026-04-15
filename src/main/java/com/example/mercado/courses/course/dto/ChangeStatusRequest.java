@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 public record ChangeStatusRequest(
 
-        @NotNull
+        @NotNull(
+                message = "Course status is required"
+        )
         CourseStatus status
 
 ) {

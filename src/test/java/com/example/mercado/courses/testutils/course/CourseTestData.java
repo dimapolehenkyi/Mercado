@@ -22,7 +22,6 @@ public class CourseTestData {
                 c.getShortDescription(),
                 c.getPrice(),
                 c.getType(),
-                c.getDeleted(),
                 c.getStatus(),
                 c.getRating(),
                 c.getThumbnailUrl()
@@ -86,7 +85,6 @@ public class CourseTestData {
                 "short description",
                 BigDecimal.valueOf(100),
                 CourseAccessType.PAID,
-                false,
                 CourseStatus.PUBLISHED,
                 0.0,
                 "https://thumbnailUrl"
