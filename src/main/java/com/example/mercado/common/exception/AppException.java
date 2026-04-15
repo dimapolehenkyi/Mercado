@@ -6,10 +6,11 @@ import lombok.Getter;
 public class AppException extends RuntimeException {
 
     private final ErrorCode code;
+    private final Object[] args;
 
-    public AppException(ErrorCode code) {
-        super(code.name());
+    public AppException(ErrorCode code, Object... args) {
         this.code = code;
+        this.args = args;
     }
 
 }
