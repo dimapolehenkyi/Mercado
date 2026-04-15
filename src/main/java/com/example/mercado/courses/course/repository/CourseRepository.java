@@ -10,13 +10,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Optional<Course> findByName(String name);
+
+    @Query("""
+            SELECT c
+            FROM Course c
+            WHERE c.id = :id
+            AND c.deleted = false
+            AND c.status <> 'ARCHIVED'
+            """)
+    Optional<Course> findActiveById(Long id);
 
     boolean existsByName(String name);
     boolean existsByIdAndStatus(Long id, CourseStatus status);
@@ -25,10 +33,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Page<Course> findAllByUserId(Long userId, Pageable pageable);
     Page<Course> findByStatus(CourseStatus status, Pageable pageable);
-    Page<Course> findByTeacherId(Long teacherId, Pageable pageable);
-    Page<Course> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Course> findAllByTeacherId(Long teacherId, Pageable pageable);
 
-    List<Course> findTop10ByStatusOrderByStudentCountDesc(CourseStatus status);
+    Page<Course> findAllByOrderByStudentCountDesc(Pageable pageable);
 
     @Query("""
             SELECT c FROM Course c
