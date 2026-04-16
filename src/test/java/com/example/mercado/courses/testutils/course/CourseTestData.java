@@ -78,6 +78,62 @@ public class CourseTestData {
         );
     }
 
+    public static CourseDetailsResponse courseUpdatedDetailsResponse(Long id, String name) {
+        return new CourseDetailsResponse(
+                id,
+                1L,
+                1L,
+                name,
+                "New description",
+                "New short description",
+                "https://NewPreviewVideoUrl",
+                "https://NewThumbnailUrl",
+                10L,
+                4.5,
+                5L,
+                BigDecimal.valueOf(200L),
+                CourseStatus.PUBLISHED,
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                120,
+                false,
+                false,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
+
+    public static CourseDetailsResponse courseUpdatedDetailsResponseWithNull(
+            Long id,
+            String name,
+            CourseAccessType type,
+            CourseLevel level,
+            BigDecimal price
+    ) {
+        return new CourseDetailsResponse(
+                id,
+                1L,
+                1L,
+                name,
+                "New description",
+                "New short description",
+                "https://NewPreviewVideoUrl",
+                "https://NewThumbnailUrl",
+                10L,
+                4.5,
+                5L,
+                price,
+                CourseStatus.PUBLISHED,
+                type,
+                level,
+                120,
+                false,
+                false,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
+
     public static CourseShortResponse courseShortResponse(Long id, String name) {
         return new CourseShortResponse(
                 id,

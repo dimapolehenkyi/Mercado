@@ -59,7 +59,10 @@ public enum ErrorCode {
     USER_INACTIVATE("user.inactivate", HttpStatus.FORBIDDEN),
 
     //MAIL
-    MAIL_SEND_FAILED("mail.send.failed", HttpStatus.CONFLICT);
+    MAIL_SEND_FAILED("mail.send.failed", HttpStatus.CONFLICT),
+
+    //VALIDATION
+    VALIDATION_ERROR("validation.error", HttpStatus.BAD_REQUEST);
 
     private final String key;
     private final HttpStatus status;

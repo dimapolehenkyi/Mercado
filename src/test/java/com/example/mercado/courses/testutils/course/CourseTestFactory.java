@@ -1,6 +1,8 @@
 package com.example.mercado.courses.testutils.course;
 
 
+import com.example.mercado.courses.course.dto.ChangeLevelRequest;
+import com.example.mercado.courses.course.dto.ChangeStatusRequest;
 import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
@@ -41,6 +43,58 @@ public class CourseTestFactory {
         );
     }
 
+    public static CreateCourseRequest createCourseRequestWithBlankName() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
+    public static CreateCourseRequest createCourseRequestWithNullType() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                null,
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
+    public static CreateCourseRequest createCourseRequestWithNullLevel() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                CourseAccessType.PAID,
+                null,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
+    public static CreateCourseRequest createCourseRequestWithNullPrice() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                null,
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
     public static UpdateCourseRequest defaultUpdateCourseRequest() {
         return new UpdateCourseRequest(
                 "New name",
@@ -51,6 +105,36 @@ public class CourseTestFactory {
                 BigDecimal.valueOf(200L),
                 "https://NewPreviewVideoUrl",
                 "https://NewThumbnailUrl"
+        );
+    }
+
+    public static UpdateCourseRequest customUpdateCourseRequestWithNull(
+            String name,
+            CourseAccessType type,
+            CourseLevel level,
+            BigDecimal price
+    ) {
+        return new UpdateCourseRequest(
+                name,
+                null,
+                null,
+                type,
+                level,
+                price,
+                null,
+                null
+        );
+    }
+
+    public static ChangeStatusRequest customChangeStatusRequest(CourseStatus status) {
+        return new ChangeStatusRequest(
+                status
+        );
+    }
+
+    public static ChangeLevelRequest customChangeLevelRequest(CourseLevel level) {
+        return new ChangeLevelRequest(
+                level
         );
     }
 
