@@ -58,6 +58,9 @@ public class CourseLearningPoint extends BaseEntity {
     }
 
     public void setPosition(Integer position) {
+        if (Objects.equals(position, this.position)) {
+            return;
+        }
         if (position < 0) {
             throw new AppException(
                     ErrorCode.LEARNING_POINT_POSITION_INVALID

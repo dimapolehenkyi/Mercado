@@ -15,21 +15,15 @@ import org.mapstruct.*;
 public interface CourseMapper {
 
     @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "description", source = "description")
-    @Mapping(target = "shortDescription", source = "shortDescription")
-    @Mapping(target = "previewVideoUrl", source = "previewVideoUrl")
-    @Mapping(target = "thumbnailUrl", source = "thumbnailUrl")
-    @Mapping(target = "type", source = "type")
-    @Mapping(target = "level", source = "level")
+    @Mapping(target = "description", source = "request.description")
+    @Mapping(target = "shortDescription", source = "request.shortDescription")
+    @Mapping(target = "previewVideoUrl", source = "request.previewVideoUrl")
+    @Mapping(target = "thumbnailUrl", source = "request.thumbnailUrl")
+    @Mapping(target = "type", source = "request.type")
+    @Mapping(target = "level", source = "request.level")
     Course toEntity(CreateCourseRequest request);
 
     @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    @Mapping(target = "description", source = "description")
-    @Mapping(target = "shortDescription", source = "shortDescription")
-    @Mapping(target = "previewVideoUrl", source = "previewVideoUrl")
-    @Mapping(target = "thumbnailUrl", source = "thumbnailUrl")
-    @Mapping(target = "type", source = "type")
-    @Mapping(target = "level", source = "level")
     void updateEntity(@MappingTarget Course course, UpdateCourseRequest request);
 
     @Mapping(

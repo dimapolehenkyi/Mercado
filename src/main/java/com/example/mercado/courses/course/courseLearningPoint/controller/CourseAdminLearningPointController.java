@@ -1,25 +1,22 @@
 package com.example.mercado.courses.course.courseLearningPoint.controller;
 
-
 import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseAdminLearningPointService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/courses/{courseId}/learning-points")
+@RequestMapping("courses/{courseId}/learning-points")
 @RequiredArgsConstructor
-public class CourseLearningPointController {
+public class CourseAdminLearningPointController {
 
 
-    private final CourseLearningPointService service;
+    private final CourseAdminLearningPointService service;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -40,14 +37,6 @@ public class CourseLearningPointController {
         return service.updateCourseLearningPoint(courseId, pointId, request);
     }
 
-    @GetMapping("/{pointId}")
-    public LearningPointResponse getCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long pointId
-    ) {
-        return service.getCourseLearningPoint(courseId, pointId);
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{pointId}")
     public void deleteCourseRequirement(
@@ -55,13 +44,6 @@ public class CourseLearningPointController {
             @PathVariable Long pointId
     ) {
         service.deleteCourseLearningPoint(courseId, pointId);
-    }
-
-    @GetMapping
-    public List<LearningPointResponse> getAllByCourseId(
-            @PathVariable Long courseId
-    ) {
-        return service.getAllLearningPointsByCourseId(courseId);
     }
 
     @PatchMapping("/{pointId}/position")
