@@ -1,11 +1,11 @@
 package com.example.mercado.courses.lesson.service;
 
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.lesson.dto.CreateLessonRequest;
 import com.example.mercado.courses.lesson.dto.LessonResponse;
 import com.example.mercado.courses.lesson.dto.UpdateLessonRequest;
 import com.example.mercado.courses.lesson.entity.Lesson;
-import com.example.mercado.courses.lesson.exception.LessonAlreadyExistException;
-import com.example.mercado.courses.lesson.exception.LessonNotFoundException;
 import com.example.mercado.courses.lesson.mapper.LessonMapper;
 import com.example.mercado.courses.lesson.repository.LessonRepository;
 import com.example.mercado.courses.lesson.service.interfaces.LessonService;
@@ -35,7 +35,10 @@ public class LessonServiceImpl implements LessonService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public LessonResponse createLesson(Long moduleId, CreateLessonRequest request) {
         if (repository.existsByNameAndModuleId(request.name(), moduleId)) {
-            throw new LessonAlreadyExistException(moduleId, request.name());
+            throw new AppException(
+                    ErrorCode.LESSON_ALREADY_EXISTS,
+                    request.name()
+            );
         }
 
         Lesson lesson = mapper.toEntity(request, moduleId);
@@ -103,7 +106,10 @@ public class LessonServiceImpl implements LessonService {
 
     private @NonNull Lesson getLessonOrThrow(@NonNull Long moduleId, @NonNull Long lessonId) {
         return  repository.findByIdAndModuleId(lessonId, moduleId)
-                .orElseThrow(() -> new LessonNotFoundException(lessonId, moduleId));
+                .orElseThrow(() -> new AppException(
+                        ErrorCode.LESSON_NOT_FOUND,
+                        lessonId
+                ));
     }
 
 }

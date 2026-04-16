@@ -1,6 +1,6 @@
 package com.example.mercado.courses.module.entity;
 
-import com.example.mercado.courses.module.common.base.BaseEntityModule;
+import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.courses.module.enums.ModuleStatus;
 import com.example.mercado.courses.module.enums.ModuleType;
 import jakarta.persistence.*;
@@ -25,7 +25,7 @@ import lombok.*;
                 )
         }
 )
-public class Module extends BaseEntityModule {
+public class Module extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

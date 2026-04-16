@@ -8,11 +8,20 @@ import java.math.BigDecimal;
 public record CourseShortResponse(
 
         Long id,
+
         String name,
+
+        String shortDescription,
+
         BigDecimal price,
+
         CourseAccessType type,
-        Integer durationInMinutes,
-        CourseStatus status
+
+        CourseStatus status,
+
+        Double rating,
+
+        String thumbnailUrl
 
 ) {
 }

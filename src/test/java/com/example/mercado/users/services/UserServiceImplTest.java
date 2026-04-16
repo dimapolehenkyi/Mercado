@@ -1,6 +1,6 @@
 package com.example.mercado.users.services;
 
-import com.example.mercado.users.exception.userException.UserNotFoundException;
+import com.example.mercado.common.exception.AppException;
 import com.example.mercado.users.entity.User;
 import com.example.mercado.users.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -23,9 +22,6 @@ public class UserServiceImplTest {
 
     @Mock
     private UserRepository userRepository;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -47,7 +43,10 @@ public class UserServiceImplTest {
         String username = "not_found";
         var user = mock(User.class);
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
-        Assertions.assertThrows(UserNotFoundException.class, () -> userService.loadUserByUsername(username));
+        Assertions.assertThrows(
+                AppException.class,
+                () -> userService.loadUserByUsername(username)
+        );
 
     }
 

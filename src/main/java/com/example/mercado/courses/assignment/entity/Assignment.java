@@ -1,6 +1,6 @@
 package com.example.mercado.courses.assignment.entity;
 
-import com.example.mercado.courses.assignment.common.base.BaseEntityAssignment;
+import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.courses.assignment.enums.AssignmentStatus;
 import com.example.mercado.courses.assignment.enums.AssignmentType;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "assignments_table")
-public class Assignment extends BaseEntityAssignment {
+public class Assignment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

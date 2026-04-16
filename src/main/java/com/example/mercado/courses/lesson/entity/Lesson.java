@@ -1,9 +1,8 @@
 package com.example.mercado.courses.lesson.entity;
 
-import com.example.mercado.courses.lesson.common.base.BaseEntityLesson;
+import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.courses.lesson.enums.LessonStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Entity
@@ -13,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "lessons")
-public class Lesson extends BaseEntityLesson {
+public class Lesson extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

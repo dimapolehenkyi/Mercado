@@ -2,7 +2,9 @@ package com.example.mercado.courses.course.repository;
 
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
+import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
+import com.example.mercado.courses.course.enums.SortType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,13 +12,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Optional<Course> findByName(String name);
+
+    @Query("""
+            SELECT c
+            FROM Course c
+            WHERE c.id = :id
+            AND c.deleted = false
+            AND c.status <> 'ARCHIVED'
+            """)
+    Optional<Course> findActiveById(Long id);
 
     boolean existsByName(String name);
     boolean existsByIdAndStatus(Long id, CourseStatus status);
@@ -25,10 +35,9 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Page<Course> findAllByUserId(Long userId, Pageable pageable);
     Page<Course> findByStatus(CourseStatus status, Pageable pageable);
-    Page<Course> findByTeacherId(Long teacherId, Pageable pageable);
-    Page<Course> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
+    Page<Course> findAllByTeacherId(Long teacherId, Pageable pageable);
 
-    List<Course> findTop10ByStatusOrderByStudentCountDesc(CourseStatus status);
+    Page<Course> findAllByOrderByStudentCountDesc(Pageable pageable);
 
     @Query("""
             SELECT c FROM Course c
@@ -37,6 +46,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             AND (:teacherId IS NULL OR c.teacherId = :teacherId)
             AND (:priceFrom IS NULL OR c.price >= :priceFrom)
             AND (:priceTo IS NULL OR c.price <= :priceTo)
+            AND (:level IS NULL OR c.level = :level)
             AND c.status = 'PUBLISHED'
             """)
     Page<Course> searchCourses(
@@ -45,6 +55,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             Long teacherId,
             BigDecimal priceFrom,
             BigDecimal priceTo,
+            CourseLevel level,
             Pageable pageable
     );
 

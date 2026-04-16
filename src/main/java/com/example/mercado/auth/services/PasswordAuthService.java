@@ -3,9 +3,10 @@ package com.example.mercado.auth.services;
 import com.example.mercado.auth.dto.AuthResponse;
 import com.example.mercado.auth.dto.LoginRequest;
 import com.example.mercado.auth.services.interfaces.AuthServiceImpl;
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.common.jwt.JwtProperties;
 import com.example.mercado.common.jwt.JwtService;
-import com.example.mercado.users.exception.userException.UserAlreadyExistsException;
 import com.example.mercado.users.dto.RegisterRequest;
 import com.example.mercado.users.mappers.UserMapper;
 import com.example.mercado.users.repositories.UserRepository;
@@ -47,11 +48,17 @@ public class PasswordAuthService implements AuthServiceImpl {
         var user = UserMapper.toEntity(registerRequest, passwordEncoder);
 
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new UserAlreadyExistsException(user.getUsername(),  user.getEmail());
+            throw new AppException(
+                    ErrorCode.USER_ALREADY_EXISTS,
+                    user.getId()
+            );
         }
 
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistsException(user.getUsername(),  user.getEmail());
+            throw new AppException(
+                    ErrorCode.USER_ALREADY_EXISTS,
+                    user.getId()
+            );
         }
 
         userRepository.save(user);

@@ -1,81 +1,140 @@
 package com.example.mercado.courses.testutils.course;
 
+
+import com.example.mercado.courses.course.dto.ChangeLevelRequest;
+import com.example.mercado.courses.course.dto.ChangeStatusRequest;
 import com.example.mercado.courses.course.dto.CreateCourseRequest;
 import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
+import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
 
 import java.math.BigDecimal;
 
 public class CourseTestFactory {
 
-    public static Course createTestCourse(
-            Long userId,
-            Long teacherId,
-            String name
-    ) {
-        Course course = new Course();
-        course.setUserId(userId);
-        course.setName(name);
-        course.setTeacherId(teacherId);
-        course.setStatus(CourseStatus.PUBLISHED);
-        course.setDescription("description");
-        course.setPrice(BigDecimal.ZERO);
-        course.setType(CourseAccessType.FREE);
-        course.setDurationInMinutes(0);
-        return course;
+    public static Course.CourseBuilder createDefaultCourse() {
+        return Course.builder()
+                .name("Test course")
+                .description("Test description")
+                .shortDescription("Test short description")
+                .status(CourseStatus.PUBLISHED)
+                .type(CourseAccessType.PAID)
+                .isFree(false)
+                .price(BigDecimal.valueOf(100L))
+                .level(CourseLevel.ADVANCED)
+                .rating(0.0)
+                .previewVideoUrl("https://previewVideoUrl")
+                .thumbnailUrl("https://thumbnailUrl")
+                .deleted(false);
     }
 
-    public static Course createTestCourseDraft(
-            Long userId,
-            Long teacherId,
-            String name
-    ) {
-        Course course = new Course();
-        course.setUserId(userId);
-        course.setName(name);
-        course.setTeacherId(teacherId);
-        course.setStatus(CourseStatus.DRAFT);
-        course.setDescription("description");
-        course.setPrice(BigDecimal.ZERO);
-        course.setType(CourseAccessType.FREE);
-        course.setDurationInMinutes(0);
-        return course;
-    }
-
-    public static CreateCourseRequest createTestCourseRequest() {
+    public static CreateCourseRequest defaultCreateCourseRequest() {
         return new CreateCourseRequest(
-                1L,
-                "Test",
+                "Java",
                 "Test description",
+                "Test short description",
                 CourseAccessType.PAID,
-                BigDecimal.TEN,
-                60,
-                CourseStatus.PUBLISHED
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
         );
     }
 
-        public static CreateCourseRequest createTestCourseRequestFree() {
+    public static CreateCourseRequest createCourseRequestWithBlankName() {
         return new CreateCourseRequest(
-                1L,
-                "Test",
+                "",
                 "Test description",
-                CourseAccessType.FREE,
-                BigDecimal.ZERO,
-                60,
-                CourseStatus.PUBLISHED
+                "Test short description",
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
         );
     }
 
+    public static CreateCourseRequest createCourseRequestWithNullType() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                null,
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
 
-    public static UpdateCourseRequest updateCourseRequest() {
+    public static CreateCourseRequest createCourseRequestWithNullLevel() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                CourseAccessType.PAID,
+                null,
+                BigDecimal.valueOf(100L),
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
+    public static CreateCourseRequest createCourseRequestWithNullPrice() {
+        return new CreateCourseRequest(
+                "",
+                "Test description",
+                "Test short description",
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                null,
+                "https://previewVideoUrl",
+                "https://thumbnailUrl"
+        );
+    }
+
+    public static UpdateCourseRequest defaultUpdateCourseRequest() {
         return new UpdateCourseRequest(
                 "New name",
                 "New description",
-                BigDecimal.valueOf(100),
-                CourseStatus.PUBLISHED,
-                CourseAccessType.PAID
+                "New short description",
+                CourseAccessType.PAID,
+                CourseLevel.ADVANCED,
+                BigDecimal.valueOf(200L),
+                "https://NewPreviewVideoUrl",
+                "https://NewThumbnailUrl"
+        );
+    }
+
+    public static UpdateCourseRequest customUpdateCourseRequestWithNull(
+            String name,
+            CourseAccessType type,
+            CourseLevel level,
+            BigDecimal price
+    ) {
+        return new UpdateCourseRequest(
+                name,
+                null,
+                null,
+                type,
+                level,
+                price,
+                null,
+                null
+        );
+    }
+
+    public static ChangeStatusRequest customChangeStatusRequest(CourseStatus status) {
+        return new ChangeStatusRequest(
+                status
+        );
+    }
+
+    public static ChangeLevelRequest customChangeLevelRequest(CourseLevel level) {
+        return new ChangeLevelRequest(
+                level
         );
     }
 

@@ -1,6 +1,7 @@
 package com.example.mercado.enrollment.entity;
 
-import com.example.mercado.enrollment.common.base.BaseEntityEnrollment;
+import com.example.mercado.common.entity.BaseEntity;
+import com.example.mercado.enrollment.enums.EnrollmentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Table(name = "enrollment_table")
-public class Enrollment extends BaseEntityEnrollment {
+public class Enrollment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +25,9 @@ public class Enrollment extends BaseEntityEnrollment {
     @Column(name = "course_id")
     @Setter
     private Long courseId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private EnrollmentStatus status;
+
 }

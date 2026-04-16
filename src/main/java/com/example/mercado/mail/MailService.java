@@ -1,6 +1,7 @@
 package com.example.mercado.mail;
 
-import com.example.mercado.mail.exceptions.mailException.EmailSendFailedException;
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,7 +23,7 @@ public class MailService {
         try {
             mailSender.send(message);
         } catch (Exception ex) {
-            throw new EmailSendFailedException(email, ex);
+            throw new AppException(ErrorCode.MAIL_SEND_FAILED);
         }
     }
 
