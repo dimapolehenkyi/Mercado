@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -246,7 +245,7 @@ public class CourseQueryServiceImplTest {
         Mockito.when(mapper.toShortResponse(Mockito.any()))
                 .thenAnswer(i -> CourseTestData.mapToShortResponse(i.getArgument(0)));
 
-        Page<CourseShortResponse> result = service.getCoursesByTeacher(1L, pageable);
+        Page<CourseShortResponse> result = service.getCoursesByTeacherId(1L, pageable);
 
         Assertions.assertEquals(2, result.getContent().size());
         Assertions.assertEquals("Java", result.getContent().get(0).name());
@@ -259,7 +258,7 @@ public class CourseQueryServiceImplTest {
         Mockito.when(repository.findAllByTeacherId(1L, pageable))
                 .thenReturn(Page.empty());
 
-        Page<CourseShortResponse> result = service.getCoursesByTeacher(1L, pageable);
+        Page<CourseShortResponse> result = service.getCoursesByTeacherId(1L, pageable);
 
         Assertions.assertTrue(result.isEmpty());
     }

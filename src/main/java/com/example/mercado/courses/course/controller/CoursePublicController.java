@@ -3,16 +3,20 @@ package com.example.mercado.courses.course.controller;
 import com.example.mercado.courses.course.dto.*;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.service.interfaces.CourseQueryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor
+@Validated
 public class CoursePublicController {
 
     private final CourseQueryService service;
@@ -20,7 +24,7 @@ public class CoursePublicController {
 
     @GetMapping("/{courseId}")
     public CourseDetailsResponse getCourse(
-            @PathVariable Long courseId
+            @PathVariable @Positive Long courseId
     ){
         return service.getActiveCourseById(courseId);
     }
@@ -38,7 +42,7 @@ public class CoursePublicController {
 
     @GetMapping("/users/{userId}/courses")
     public Page<CourseShortResponse> getMyCourse(
-            @PathVariable Long userId,
+            @PathVariable @Positive Long userId,
             @PageableDefault(
                     sort = "createdAt",
                     direction = Sort.Direction.DESC
@@ -62,21 +66,21 @@ public class CoursePublicController {
 
     @GetMapping("/search")
     public Page<CourseShortResponse> searchCourse (
-            CourseSearchFilter filter,
+            @Valid CourseSearchFilter filter,
             @PageableDefault(sort = "createdAt") Pageable pageable
     ) {
         return service.searchCourse(filter, pageable);
     }
 
     @GetMapping("/teachers/{teacherId}/courses")
-    public Page<CourseShortResponse> getCoursesByTeacher(
-            @PathVariable Long teacherId,
+    public Page<CourseShortResponse> getCoursesByTeacherId(
+            @PathVariable @Positive Long teacherId,
             @PageableDefault(
                     sort = "createdAt",
                     direction = Sort.Direction.DESC
             ) Pageable pageable
     ) {
-        return service.getCoursesByTeacher(teacherId, pageable);
+        return service.getCoursesByTeacherId(teacherId, pageable);
     }
 
     @GetMapping("/count")
@@ -86,7 +90,7 @@ public class CoursePublicController {
 
     @GetMapping("/teachers/{teacherId}/count")
     public long countTeacherCoursesById(
-            @PathVariable Long teacherId
+            @PathVariable @Positive Long teacherId
     ) {
         return service.countTeacherCoursesById(teacherId);
     }

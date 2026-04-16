@@ -69,7 +69,7 @@ public class CourseQueryServiceImpl implements CourseQueryService {
     }
 
     @Override
-    public Page<CourseShortResponse> getCoursesByTeacher(Long teacherId, Pageable pageable) {
+    public Page<CourseShortResponse> getCoursesByTeacherId(Long teacherId, Pageable pageable) {
         return repository
                 .findAllByTeacherId(teacherId, pageable)
                 .map(mapper::toShortResponse);
