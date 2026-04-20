@@ -128,13 +128,15 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
             return mapper.toResponse(point);
         }
 
+        repository.updatePosition(pointId, -1000);
+
         if (newPos < oldPos) {
             repository.incrementPositionRange(courseId, newPos, oldPos - 1);
         } else {
             repository.decrementPositionRange(courseId, oldPos + 1, newPos);
         }
 
-        point.setPosition(newPos);
+        repository.updatePosition(pointId, newPos);
 
         return mapper.toResponse(point);
     }

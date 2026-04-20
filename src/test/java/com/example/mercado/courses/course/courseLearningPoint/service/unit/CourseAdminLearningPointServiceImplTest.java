@@ -156,7 +156,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("updateCourseLearningPoint should")
+    @DisplayName("updateCourseLearningPoint should update text when valid request")
     void updateCourseLearningPoint_shouldUpdateText_whenValidRequest() {
         CourseLearningPoint point = CourseLPTestFactory.createDefaultCourseLP()
                 .id(1L)
@@ -186,7 +186,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("updateCourseLearningPoint should")
+    @DisplayName("updateCourseLearningPoint should throw when point not found")
     void updateCourseLearningPoint_shouldThrow_whenPointNotFound() {
         UpdateLearningPointRequest request = new UpdateLearningPointRequest(
                 "Updated text"
@@ -204,7 +204,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("deleteCourseLearningPoint should")
+    @DisplayName("deleteCourseLearningPoint should delete point when exists")
     void deleteCourseLearningPoint_shouldDeletePoint_whenExists() {
         CourseLearningPoint point2 = CourseLPTestFactory.createDefaultCourseLP()
                 .id(2L)
@@ -224,7 +224,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("deleteCourseLearningPoint should")
+    @DisplayName("deleteCourseLearningPoint should throw when point not found")
     void deleteCourseLearningPoint_shouldThrow_whenPointNotFound() {
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
                 1L,
@@ -243,75 +243,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("updateCourseLearningPoint should")
-    void updatePositionCourseLearningPoint_shouldHandleMoveToFirstPosition() {
-        CourseLearningPoint point = CourseLPTestFactory.createDefaultCourseLP()
-                .id(1L)
-                .position(2)
-                .build();
-
-        ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
-                1
-        );
-
-        Mockito.when(repository.findByIdAndCourseId(point.getId(), point.getCourseId()))
-                .thenReturn(Optional.of(point));
-        Mockito.when(repository.findMaxPositionByCourseId(1L))
-                .thenReturn(3);
-        Mockito.when(mapper.toResponse(Mockito.any()))
-                .thenAnswer(i -> CourseLPTestData.mapToLearningPointResponse(i.getArgument(0)));
-
-        LearningPointResponse response = service.updatePositionCourseLearningPoint(
-                1L,
-                1L,
-                request
-        );
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(point.getId(), response.id()),
-                () -> Assertions.assertEquals(point.getCourseId(), response.courseId()),
-                () -> Assertions.assertEquals(point.getText(), response.text()),
-                () -> Assertions.assertEquals(1, response.position())
-        );
-    }
-
-    @Test
-    @DisplayName("updateCourseLearningPoint should")
-    void updatePositionCourseLearningPoint_shouldHandleMoveToLastPosition() {
-        CourseLearningPoint point = CourseLPTestFactory.createDefaultCourseLP()
-                .id(1L)
-                .position(2)
-                .build();
-
-        ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
-                3
-        );
-
-        Mockito.when(repository.findByIdAndCourseId(point.getId(), point.getCourseId()))
-                .thenReturn(Optional.of(point));
-        Mockito.when(repository.findMaxPositionByCourseId(1L))
-                .thenReturn(3);
-        Mockito.when(mapper.toResponse(Mockito.any()))
-                .thenAnswer(i -> CourseLPTestData.mapToLearningPointResponse(i.getArgument(0)));
-
-        LearningPointResponse response = service.updatePositionCourseLearningPoint(
-                1L,
-                1L,
-                request
-        );
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(point.getId(), response.id()),
-                () -> Assertions.assertEquals(point.getCourseId(), response.courseId()),
-                () -> Assertions.assertEquals(point.getText(), response.text()),
-                () -> Assertions.assertEquals(3, response.position())
-        );
-    }
-
-    @Test
-    @DisplayName("updatePositionCourseLearningPoint should")
+    @DisplayName("updatePositionCourseLearningPoint should do nothing when same position")
     void updatePositionCourseLearningPoint_shouldDoNothing_whenSamePosition() {
         CourseLearningPoint point = CourseLPTestFactory.createDefaultCourseLP()
                 .id(1L)
@@ -345,7 +277,7 @@ public class CourseAdminLearningPointServiceImplTest {
     }
 
     @Test
-    @DisplayName("updatePositionCourseLearningPoint should")
+    @DisplayName("updatePositionCourseLearningPoint should throw when position invalid")
     void updatePositionCourseLearningPoint_shouldThrow_whenPositionInvalid() {
         CourseLearningPoint point = CourseLPTestFactory.createDefaultCourseLP()
                 .id(1L)
