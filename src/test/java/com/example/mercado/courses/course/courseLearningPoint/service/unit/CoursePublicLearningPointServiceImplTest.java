@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseLearningPoint.service;
+package com.example.mercado.courses.course.courseLearningPoint.service.unit;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
@@ -7,6 +7,7 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointR
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.mapper.CourseLearningPointMapper;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
+import com.example.mercado.courses.course.courseLearningPoint.service.CoursePublicLearningPointServiceImpl;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import com.example.mercado.courses.testutils.course.courseLearningPoint.CourseLPTestFactory;
 import org.junit.jupiter.api.Assertions;

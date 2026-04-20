@@ -30,7 +30,10 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
 
     @Override
     @Transactional
-    public LearningPointResponse createCourseLearningPoint(Long courseId, AddLearningPointRequest request) {
+    public LearningPointResponse createCourseLearningPoint(
+            Long courseId,
+            AddLearningPointRequest request
+    ) {
         if (repository.existsByCourseIdAndText(courseId, request.text())) {
             throw new AppException(
                     ErrorCode.LEARNING_POINT_ALREADY_EXISTS,
@@ -39,12 +42,12 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
         }
 
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
-        int nextPos = (maxPos == null) ? 0 : maxPos + 1;
-        if (nextPos >= 10) {
+        if (maxPos != null && maxPos >= 10) {
             throw new AppException(
                     ErrorCode.LEARNING_POINT_LIMIT_REACHED
             );
         }
+        int nextPos = (maxPos == null) ? 0 : maxPos + 1;
 
         CourseLearningPoint point = mapper.toEntity(courseId, request);
         point.setPosition(nextPos);
@@ -56,7 +59,11 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
 
     @Override
     @Transactional
-    public LearningPointResponse updateCourseLearningPoint(Long pointId, Long courseId, UpdateLearningPointRequest request) {
+    public LearningPointResponse updateCourseLearningPoint(
+            Long pointId,
+            Long courseId,
+            UpdateLearningPointRequest request
+    ) {
         CourseLearningPoint point = finder.findEntityOrThrow(
                 () -> repository.findByIdAndCourseId(pointId, courseId),
                 ErrorCode.LEARNING_POINT_NOT_FOUND,
@@ -71,7 +78,10 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
 
     @Override
     @Transactional
-    public void deleteCourseLearningPoint(Long pointId, Long courseId) {
+    public void deleteCourseLearningPoint(
+            Long pointId,
+            Long courseId
+    ) {
         CourseLearningPoint point = finder.findEntityOrThrow(
                 () -> repository.findByIdAndCourseId(pointId, courseId),
                 ErrorCode.LEARNING_POINT_NOT_FOUND,
@@ -82,13 +92,13 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
         int deletedPos = point.getPosition();
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
+        repository.delete(point);
+
         repository.decrementPositionRange(
                 courseId,
                 deletedPos + 1,
                 maxPos
         );
-
-        repository.delete(point);
     }
 
     @Override
