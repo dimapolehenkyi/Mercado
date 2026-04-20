@@ -22,11 +22,6 @@ public interface CourseLearningPointMapper {
     @Mapping(target = "text", source = "text")
     void updateEntity(@MappingTarget CourseLearningPoint point, UpdateLearningPointRequest request);
 
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "courseId", source = "courseId")
-    @Mapping(target = "text", source = "text")
-    @Mapping(target = "position", source = "position")
     LearningPointResponse toResponse(CourseLearningPoint point);
 
 }

@@ -24,7 +24,7 @@ public class CoursePublicLearningPointController {
             @PathVariable @Positive Long courseId,
             @PathVariable @Positive Long pointId
     ) {
-        return service.getCourseLearningPoint(courseId, pointId);
+        return service.getCourseLearningPoint(pointId, courseId);
     }
 
     @GetMapping
