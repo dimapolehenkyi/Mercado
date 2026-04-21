@@ -19,6 +19,7 @@ public class CoursePublicLearningPointController {
 
     private final CoursePublicLearningPointService service;
 
+
     @GetMapping("/{pointId}")
     public LearningPointResponse getLearningPoint(
             @PathVariable @Positive Long courseId,
