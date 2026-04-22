@@ -49,6 +49,8 @@ public class CourseLearningPoint extends BaseEntity {
 
 
     public void setText(String text) {
+        text = text.trim();
+
         if (Objects.equals(this.text, text)) {
             throw new AppException(
                     ErrorCode.LEARNING_POINT_SAME_TEXT
