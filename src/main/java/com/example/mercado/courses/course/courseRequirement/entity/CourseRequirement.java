@@ -48,6 +48,9 @@ public class CourseRequirement extends BaseEntity {
 
 
     public void setPosition(Integer position) {
+        if (Objects.equals(position, this.position)) {
+            return;
+        }
 
         if (position < 0) {
             throw new AppException(
@@ -60,7 +63,6 @@ public class CourseRequirement extends BaseEntity {
     }
 
     public void setText(String text) {
-
         text = text.trim();
 
         if (Objects.equals(this.text, text)) {

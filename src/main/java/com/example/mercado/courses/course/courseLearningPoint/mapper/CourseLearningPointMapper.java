@@ -1,32 +1,27 @@
 package com.example.mercado.courses.course.courseLearningPoint.mapper;
 
+import com.example.mercado.configs.CentralMapperConfig;
 import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
-@Component
-public class CourseLearningPointMapper {
+@Mapper(
+        componentModel = "spring",
+        config = CentralMapperConfig.class
+)
+public interface CourseLearningPointMapper {
 
-    public CourseLearningPoint toEntity(Long courseId, AddLearningPointRequest request) {
-        return CourseLearningPoint.builder()
-                .courseId(courseId)
-                .text(request.text())
-                .build();
-    }
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "text", source = "request.text")
+    @Mapping(target = "courseId", source = "courseId")
+    CourseLearningPoint toEntity(Long courseId, AddLearningPointRequest request);
 
-    public void updateEntity(CourseLearningPoint point, UpdateLearningPointRequest request) {
-        point.setText(request.text());
-    }
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "text", source = "text")
+    void updateEntity(@MappingTarget CourseLearningPoint point, UpdateLearningPointRequest request);
 
-    public LearningPointResponse toResponse(CourseLearningPoint point) {
-        return new LearningPointResponse(
-                point.getId(),
-                point.getCourseId(),
-                point.getText(),
-                point.getPosition()
-        );
-    }
+    LearningPointResponse toResponse(CourseLearningPoint point);
 
 }

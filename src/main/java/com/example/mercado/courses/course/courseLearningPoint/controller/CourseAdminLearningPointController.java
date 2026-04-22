@@ -1,73 +1,58 @@
 package com.example.mercado.courses.course.courseLearningPoint.controller;
 
-
 import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseAdminLearningPointService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/courses/{courseId}/learning-points")
+@Validated
+@RequestMapping("courses/{courseId}/admin/learning-points")
 @RequiredArgsConstructor
-public class CourseLearningPointController {
+public class CourseAdminLearningPointController {
 
 
-    private final CourseLearningPointService service;
+    private final CourseAdminLearningPointService service;
 
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public LearningPointResponse addCourseRequirement(
-            @PathVariable Long courseId,
+    public LearningPointResponse addCourseLearningPoint(
+            @PathVariable @Positive Long courseId,
             @RequestBody @Valid AddLearningPointRequest request
     ) {
         return service.createCourseLearningPoint(courseId, request);
     }
 
-    @PatchMapping("/{pointId}")
-    public LearningPointResponse updateCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long pointId,
+    @PutMapping("/{pointId}")
+    public LearningPointResponse updateCourseLearningPoint(
+            @PathVariable @Positive Long courseId,
+            @PathVariable @Positive Long pointId,
             @RequestBody @Valid UpdateLearningPointRequest request
     ) {
         return service.updateCourseLearningPoint(courseId, pointId, request);
     }
 
-    @GetMapping("/{pointId}")
-    public LearningPointResponse getCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long pointId
-    ) {
-        return service.getCourseLearningPoint(courseId, pointId);
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{pointId}")
-    public void deleteCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long pointId
+    public void deleteCourseLearningPoint(
+            @PathVariable @Positive Long courseId,
+            @PathVariable @Positive Long pointId
     ) {
         service.deleteCourseLearningPoint(courseId, pointId);
     }
 
-    @GetMapping
-    public List<LearningPointResponse> getAllByCourseId(
-            @PathVariable Long courseId
-    ) {
-        return service.getAllLearningPointsByCourseId(courseId);
-    }
-
     @PatchMapping("/{pointId}/position")
     public LearningPointResponse updatePosition(
-            @PathVariable Long courseId,
-            @PathVariable Long pointId,
+            @PathVariable @Positive Long courseId,
+            @PathVariable @Positive Long pointId,
             @RequestBody @Valid ReorderLearningPointRequest request
     ) {
         return service.updatePositionCourseLearningPoint(courseId, pointId, request);

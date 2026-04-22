@@ -1,10 +1,7 @@
 package com.example.mercado.courses.course.courseLearningPoint.repository;
 
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
-import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
-import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,8 +13,6 @@ import java.util.Optional;
 public interface CourseLearningPointRepository extends JpaRepository<CourseLearningPoint, Long> {
 
     boolean existsByCourseIdAndText(Long courseId, String text);
-
-    void deleteByCourseId(Long courseId);
 
     List<CourseLearningPoint> findAllByCourseIdOrderByPositionAsc(Long courseId);
 

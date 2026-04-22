@@ -7,15 +7,12 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearning
 
 import java.util.List;
 
-public interface CourseLearningPointService {
+public interface CourseAdminLearningPointService {
 
     LearningPointResponse createCourseLearningPoint(Long courseId, AddLearningPointRequest request);
     LearningPointResponse updateCourseLearningPoint(Long pointId, Long courseId, UpdateLearningPointRequest request);
-    LearningPointResponse getCourseLearningPoint(Long pointId, Long courseId);
 
     void deleteCourseLearningPoint(Long pointId, Long courseId);
-
-    List<LearningPointResponse> getAllLearningPointsByCourseId(Long courseId);
 
     LearningPointResponse updatePositionCourseLearningPoint(Long pointId, Long courseId, ReorderLearningPointRequest request);
 }
