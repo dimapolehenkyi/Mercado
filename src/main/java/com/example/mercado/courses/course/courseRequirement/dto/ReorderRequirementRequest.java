@@ -6,7 +6,9 @@ public record ReorderRequirementRequest(
 
         Long id,
 
-        @Positive
+        @Positive(
+                message = "Invalid position"
+        )
         Integer position
 
 ) {
