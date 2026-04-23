@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseLearningPoint.service;
+package com.example.mercado.courses.course.courseLearningPoint.service.publicService;
 
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;

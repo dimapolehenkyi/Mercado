@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseRequirement.service;
+package com.example.mercado.courses.course.courseRequirement.service.adminService;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
@@ -9,27 +9,31 @@ import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequiremen
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapper;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseRequirementService;
-import lombok.NonNull;
+import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseAdminRequirementService;
+import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequiredArgsConstructor
-@Transactional
-public class CourseRequirementServiceImpl implements CourseRequirementService {
+public class CourseAdminRequirementServiceImpl implements CourseAdminRequirementService {
+
 
     private final CourseRequirementRepository repository;
-
     private final CourseRequirementMapper mapper;
 
+    private final EntityFinder finder;
 
 
     @Override
-    public RequirementResponse addCourseRequirement(Long courseId, AddRequirementRequest request) {
+    @Transactional
+    public RequirementResponse createCourseRequirement(
+            Long courseId,
+            AddRequirementRequest request
+    ) {
         if (repository.existsByCourseIdAndText(courseId, request.text())) {
             throw new AppException(
                     ErrorCode.REQUIREMENT_ALREADY_EXISTS,
@@ -38,24 +42,34 @@ public class CourseRequirementServiceImpl implements CourseRequirementService {
         }
 
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
-        int nextPos = (maxPos == null) ? 0 : maxPos + 1;
-        if (nextPos >= 10) {
+        if (maxPos != null && maxPos >= 10) {
             throw new AppException(
                     ErrorCode.REQUIREMENT_LIMIT_REACHED
             );
         }
+        int nextPos = (maxPos == null) ? 0 : maxPos + 1;
 
         CourseRequirement requirement = mapper.toEntity(courseId, request);
         requirement.setPosition(nextPos);
 
-        CourseRequirement saved = repository.save(requirement);
+        repository.save(requirement);
 
-        return mapper.toResponse(saved);
+        return mapper.toResponse(requirement);
     }
 
     @Override
-    public RequirementResponse updateCourseRequirement(Long requirementId, Long courseId, UpdateRequirementRequest request) {
-        CourseRequirement requirement = getCourseRequirementOrThrow(requirementId, courseId);
+    @Transactional
+    public RequirementResponse updateCourseRequirement(
+            Long requirementId,
+            Long courseId,
+            UpdateRequirementRequest request
+    ) {
+        CourseRequirement requirement = finder.findEntityOrThrow(
+                () -> repository.findByIdAndCourseId(requirementId, courseId),
+                ErrorCode.REQUIREMENT_NOT_FOUND,
+                requirementId,
+                courseId
+        );
 
         requirement.setText(request.text());
 
@@ -63,36 +77,29 @@ public class CourseRequirementServiceImpl implements CourseRequirementService {
     }
 
     @Override
-    public RequirementResponse getCourseRequirement(Long requirementId, Long courseId) {
-        CourseRequirement requirement = getCourseRequirementOrThrow(requirementId, courseId);
-
-        return mapper.toResponse(requirement);
-    }
-
-    @Override
-    public void deleteCourseRequirement(Long requirementId, Long courseId) {
-        CourseRequirement requirement = getCourseRequirementOrThrow(requirementId, courseId);
+    @Transactional
+    public void deleteCourseRequirement(
+            Long requirementId,
+            Long courseId
+    ) {
+        CourseRequirement requirement = finder.findEntityOrThrow(
+                () -> repository.findByIdAndCourseId(requirementId, courseId),
+                ErrorCode.REQUIREMENT_NOT_FOUND,
+                requirementId,
+                courseId
+        );
 
         int deletedPos = requirement.getPosition() + 1;
 
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
+        repository.delete(requirement);
+
         repository.decrementPositionRange(
                 courseId,
-                deletedPos,
+                deletedPos + 1,
                 maxPos
         );
-
-        repository.delete(requirement);
-    }
-
-    @Override
-    public List<RequirementResponse> getAllByCourseId(Long courseId) {
-        List<CourseRequirement> requirements = repository.findAllByCourseIdOrderByPositionAsc(courseId);
-
-        return requirements.stream()
-                .map(mapper::toResponse)
-                .toList();
     }
 
     @Override
@@ -102,9 +109,12 @@ public class CourseRequirementServiceImpl implements CourseRequirementService {
             Long courseId,
             ReorderRequirementRequest request
     ) {
-
-        CourseRequirement current =
-                getCourseRequirementOrThrow(requirementId, courseId);
+        CourseRequirement current = finder.findEntityOrThrow(
+                () -> repository.findByIdAndCourseId(requirementId, courseId),
+                ErrorCode.REQUIREMENT_NOT_FOUND,
+                requirementId,
+                courseId
+        );
 
         int oldPos = current.getPosition();
         int newPos = request.position();
@@ -112,7 +122,9 @@ public class CourseRequirementServiceImpl implements CourseRequirementService {
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
         if (newPos < 0 || newPos > maxPos) {
-            throw new AppException(ErrorCode.REQUIREMENT_POSITION_INVALID);
+            throw new AppException(
+                    ErrorCode.REQUIREMENT_POSITION_INVALID
+            );
         }
 
         if (oldPos == newPos) {
@@ -125,20 +137,8 @@ public class CourseRequirementServiceImpl implements CourseRequirementService {
             repository.decrementPositionRange(courseId, oldPos + 1, newPos);
         }
 
-        current.setPosition(newPos);
+        repository.updatePosition(requirementId, newPos);
 
         return mapper.toResponse(current);
-    }
-
-
-    private CourseRequirement getCourseRequirementOrThrow(
-            @NonNull Long courseRequirementId,
-            @NonNull Long courseId
-    ) {
-        return  repository.findByIdAndCourseId(courseRequirementId, courseId)
-                .orElseThrow(() -> new AppException(
-                        ErrorCode.REQUIREMENT_NOT_FOUND,
-                        courseRequirementId
-                ));
     }
 }

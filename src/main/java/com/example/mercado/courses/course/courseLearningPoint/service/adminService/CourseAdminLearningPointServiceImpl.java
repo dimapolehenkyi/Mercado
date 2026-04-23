@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseLearningPoint.service;
+package com.example.mercado.courses.course.courseLearningPoint.service.adminService;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
@@ -90,6 +90,7 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
         );
 
         int deletedPos = point.getPosition();
+
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
         repository.delete(point);
@@ -121,7 +122,9 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
         if (newPos < 0 || newPos > maxPos) {
-            throw new AppException(ErrorCode.LEARNING_POINT_POSITION_INVALID);
+            throw new AppException(
+                    ErrorCode.LEARNING_POINT_POSITION_INVALID
+            );
         }
 
         if (oldPos == newPos) {

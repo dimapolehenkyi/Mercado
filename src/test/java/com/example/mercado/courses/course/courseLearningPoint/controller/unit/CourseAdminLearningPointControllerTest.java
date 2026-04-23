@@ -4,7 +4,7 @@ import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.common.exception.GlobalExceptionHandler;
 import com.example.mercado.configs.MessageConfig;
-import com.example.mercado.courses.course.courseLearningPoint.controller.CourseAdminLearningPointController;
+import com.example.mercado.courses.course.courseLearningPoint.controller.adminController.CourseAdminLearningPointController;
 import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;

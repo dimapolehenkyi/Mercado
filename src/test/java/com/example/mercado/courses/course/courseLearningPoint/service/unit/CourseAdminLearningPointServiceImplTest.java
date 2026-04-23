@@ -10,7 +10,7 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearning
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.mapper.CourseLearningPointMapper;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
-import com.example.mercado.courses.course.courseLearningPoint.service.CourseAdminLearningPointServiceImpl;
+import com.example.mercado.courses.course.courseLearningPoint.service.adminService.CourseAdminLearningPointServiceImpl;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import com.example.mercado.courses.testutils.course.courseLearningPoint.CourseLPTestData;
 import com.example.mercado.courses.testutils.course.courseLearningPoint.CourseLPTestFactory;

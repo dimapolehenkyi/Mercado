@@ -4,7 +4,7 @@ import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.common.exception.GlobalExceptionHandler;
 import com.example.mercado.configs.MessageConfig;
-import com.example.mercado.courses.course.courseLearningPoint.controller.CoursePublicLearningPointController;
+import com.example.mercado.courses.course.courseLearningPoint.controller.publicController.CoursePublicLearningPointController;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CoursePublicLearningPointService;
 import org.junit.jupiter.api.DisplayName;

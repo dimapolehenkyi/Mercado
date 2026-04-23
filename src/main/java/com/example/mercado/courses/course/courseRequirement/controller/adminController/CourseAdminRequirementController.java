@@ -1,23 +1,22 @@
-package com.example.mercado.courses.course.courseRequirement.controller;
+package com.example.mercado.courses.course.courseRequirement.controller.adminController;
 
 import com.example.mercado.courses.course.courseRequirement.dto.AddRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.ReorderRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequirementRequest;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseRequirementService;
+import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseAdminRequirementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/courses/{courseId}/requirements")
+@RequestMapping("/courses/{courseId}/admin/requirements")
 @RequiredArgsConstructor
-public class CourseRequirementController {
+public class CourseAdminRequirementController {
 
-    private final CourseRequirementService service;
+
+    private final CourseAdminRequirementService service;
 
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,49 +25,34 @@ public class CourseRequirementController {
             @PathVariable Long courseId,
             @RequestBody @Valid AddRequirementRequest request
     ) {
-        return service.addCourseRequirement(courseId, request);
+        return service.createCourseRequirement(courseId, request);
     }
 
-    @PatchMapping("/{requirementId}")
+    @PutMapping("/{requirementId}")
     public RequirementResponse updateCourseRequirement(
-            @PathVariable Long courseId,
             @PathVariable Long requirementId,
+            @PathVariable Long courseId,
             @RequestBody @Valid UpdateRequirementRequest request
     ) {
-        return service.updateCourseRequirement(courseId, requirementId, request);
-    }
-
-    @GetMapping("/{requirementId}")
-    public RequirementResponse getCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long requirementId
-    ) {
-        return service.getCourseRequirement(courseId, requirementId);
+        return service.updateCourseRequirement(requirementId, courseId, request);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{requirementId}")
     public void deleteCourseRequirement(
-            @PathVariable Long courseId,
-            @PathVariable Long requirementId
-    ) {
-        service.deleteCourseRequirement(courseId, requirementId);
-    }
-
-    @GetMapping
-    public List<RequirementResponse> getAllByCourseId(
+            @PathVariable Long requirementId,
             @PathVariable Long courseId
     ) {
-        return service.getAllByCourseId(courseId);
+        service.deleteCourseRequirement(requirementId, courseId);
     }
 
     @PatchMapping("/{requirementId}/position")
     public RequirementResponse updatePosition(
-            @PathVariable Long courseId,
             @PathVariable Long requirementId,
+            @PathVariable Long courseId,
             @RequestBody @Valid ReorderRequirementRequest request
     ) {
-        return service.updatePosition(courseId, requirementId, request);
+        return service.updatePosition(requirementId, courseId, request);
     }
 
 }

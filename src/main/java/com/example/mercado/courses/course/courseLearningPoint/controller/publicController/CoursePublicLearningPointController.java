@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseLearningPoint.controller;
+package com.example.mercado.courses.course.courseLearningPoint.controller.publicController;
 
 
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
