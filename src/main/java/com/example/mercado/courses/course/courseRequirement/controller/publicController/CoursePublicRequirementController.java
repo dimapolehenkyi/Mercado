@@ -2,7 +2,9 @@ package com.example.mercado.courses.course.courseRequirement.controller.publicCo
 
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.service.interfaces.CoursePublicRequirementService;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/courses/{courseId}/requirements")
+@Validated
 @RequiredArgsConstructor
 public class CoursePublicRequirementController {
 
@@ -20,8 +23,8 @@ public class CoursePublicRequirementController {
 
     @GetMapping("/{requirementId}")
     public RequirementResponse getCourseRequirement(
-            @PathVariable Long requirementId,
-            @PathVariable Long courseId
+            @PathVariable @Positive Long requirementId,
+            @PathVariable @Positive Long courseId
     ) {
         return service.getCourseRequirement(requirementId, courseId);
     }
@@ -30,7 +33,7 @@ public class CoursePublicRequirementController {
 
     @GetMapping
     public List<RequirementResponse> getAllByCourseId(
-            @PathVariable Long courseId
+            @PathVariable @Positive Long courseId
     ) {
         return service.getAllByCourseId(courseId);
     }
