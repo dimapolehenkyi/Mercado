@@ -1,7 +1,7 @@
 package com.example.mercado.courses.course.controller;
 
 import com.example.mercado.courses.course.dto.*;
-import com.example.mercado.courses.course.service.interfaces.CourseCommandService;
+import com.example.mercado.courses.course.service.interfaces.CourseAdminService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CourseAdminController {
 
-    private final CourseCommandService service;
+    private final CourseAdminService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
