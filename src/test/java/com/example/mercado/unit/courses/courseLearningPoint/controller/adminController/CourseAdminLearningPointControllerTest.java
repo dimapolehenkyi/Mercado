@@ -192,7 +192,7 @@ public class CourseAdminLearningPointControllerTest {
     }
 
     @Test
-    @DisplayName("updateCourseLearningPoint should return {400} when courseId negative")
+    @DisplayName("updateCourseLearningPoint should return {400} when pointId negative")
     void updateCourseLearningPoint_shouldReturn400_whenPointIdNegative() throws  Exception {
         Long courseId = 1L;
         Long pointId = -1L;
@@ -248,7 +248,7 @@ public class CourseAdminLearningPointControllerTest {
     }
 
     @Test
-    @DisplayName("deleteCourseLearningPoint should return {400} when courseId negative")
+    @DisplayName("deleteCourseLearningPoint should return {400} when pointId negative")
     void deleteCourseLearningPoint_shouldReturn400_whenPointIdNegative() throws  Exception {
         Long courseId = 1L;
         Long pointId = -1L;
@@ -345,7 +345,7 @@ public class CourseAdminLearningPointControllerTest {
     }
 
     @Test
-    @DisplayName("updatePosition should return {400} when courseId negative")
+    @DisplayName("updatePosition should return {400} when pointId negative")
     void updatePosition_shouldReturn400_whenPointIdNegative() throws  Exception {
         Long courseId = 1L;
         Long pointId = -1L;
