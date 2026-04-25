@@ -89,17 +89,19 @@ public class CourseAdminRequirementServiceImpl implements CourseAdminRequirement
                 courseId
         );
 
-        int deletedPos = requirement.getPosition() + 1;
+        int deletedPos = requirement.getPosition();
 
         Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
         repository.delete(requirement);
 
-        repository.decrementPositionRange(
-                courseId,
-                deletedPos + 1,
-                maxPos
-        );
+        if (deletedPos < maxPos) {
+            repository.decrementPositionRange(
+                    courseId,
+                    deletedPos + 1,
+                    maxPos
+            );
+        }
     }
 
     @Override

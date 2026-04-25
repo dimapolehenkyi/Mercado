@@ -179,7 +179,6 @@ public class CourseAdminLearningPointServiceImplTest {
         );
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                5L,
                 2
         );
 
@@ -247,7 +246,6 @@ public class CourseAdminLearningPointServiceImplTest {
         );
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                2L,
                 4
         );
 

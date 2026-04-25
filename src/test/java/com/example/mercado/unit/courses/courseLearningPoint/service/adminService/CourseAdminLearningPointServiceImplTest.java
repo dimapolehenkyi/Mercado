@@ -227,7 +227,6 @@ public class CourseAdminLearningPointServiceImplTest {
     @DisplayName("deleteCourseLearningPoint should throw when point not found")
     void deleteCourseLearningPoint_shouldThrow_whenPointNotFound() {
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 2
         );
 
@@ -251,7 +250,6 @@ public class CourseAdminLearningPointServiceImplTest {
                 .build();
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 2
         );
 
@@ -285,7 +283,6 @@ public class CourseAdminLearningPointServiceImplTest {
                 .build();
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 4
         );
 

@@ -49,8 +49,8 @@ public class CoursePublicRequirementServiceImplTest {
 
 
     @Test
-    @DisplayName("getCourseLearningPoint should return correct LearningPoint when exists")
-    void getCourseLearningPoint_shouldReturnCorrectLearningPoint_whenExists() {
+    @DisplayName("getCourseRequirement should return correct Requirement when exists")
+    void getCourseRequirement_shouldReturnCorrectRequirement_whenExists() {
         CourseRequirement requirement = CourseRequirementTestFactory.createDefaultCourseRequirement()
                 .id(1L)
                 .build();
@@ -76,8 +76,8 @@ public class CoursePublicRequirementServiceImplTest {
     }
 
     @Test
-    @DisplayName("getCourseLearningPoint should throw when not exists")
-    void getCourseLearningPoint_shouldThrow_whenNotExists() {
+    @DisplayName("getCourseRequirement should throw when not exists")
+    void getCourseRequirement_shouldThrow_whenNotExists() {
         CourseRequirement requirement = CourseRequirementTestFactory.createDefaultCourseRequirement()
                 .id(2L)
                 .build();
@@ -96,8 +96,8 @@ public class CoursePublicRequirementServiceImplTest {
     }
 
     @Test
-    @DisplayName("getCourseLearningPoints should return correct list when exists")
-    void getCourseLearningPoints_shouldReturnCorrectList_whenExists() {
+    @DisplayName("getAllByCourseId should return correct list when exists")
+    void getAllByCourseId_shouldReturnCorrectList_whenExists() {
         List<CourseRequirement> requirements = List.of(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
                         .id(1L)
@@ -155,8 +155,8 @@ public class CoursePublicRequirementServiceImplTest {
     }
 
     @Test
-    @DisplayName("getCourseLearningPoints should return empty list when no one exists")
-    void getCourseLearningPoints_shouldReturnEmptyList_whenNoOneExists() {
+    @DisplayName("getAllByCourseId should return empty list when no one exists")
+    void getAllByCourseId_shouldReturnEmptyList_whenNoOneExists() {
         List<RequirementResponse> responses = List.of(
                 new RequirementResponse(
                         1L,

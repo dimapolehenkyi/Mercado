@@ -266,7 +266,6 @@ public class CourseAdminLearningPointControllerTest {
         Long pointId = 1L;
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 1
         );
 
@@ -299,7 +298,6 @@ public class CourseAdminLearningPointControllerTest {
         Long pointId = 1L;
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 1
         );
 
@@ -321,7 +319,6 @@ public class CourseAdminLearningPointControllerTest {
         Long pointId = -1L;
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                null,
                 null
         );
 
@@ -338,7 +335,6 @@ public class CourseAdminLearningPointControllerTest {
         Long pointId = 1L;
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 1
         );
 
@@ -355,7 +351,6 @@ public class CourseAdminLearningPointControllerTest {
         Long pointId = -1L;
 
         ReorderLearningPointRequest request = new ReorderLearningPointRequest(
-                1L,
                 1
         );
 
