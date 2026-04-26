@@ -20,11 +20,11 @@ import java.util.Objects;
         name = "course_learning_points",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_position_course_id",
+                        name = "uk_lp_position_course_id",
                         columnNames = {"course_id", "position"}
                 ),
                 @UniqueConstraint(
-                        name = "uk_text_course_id",
+                        name = "uk_lp_text_course_id",
                         columnNames = {"course_id", "text"}
                 )
         }
