@@ -1,9 +1,8 @@
-package com.example.mercado.integration.courses.courseLearningPoint.controller.publicController;
-
-import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
-import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CoursePublicLearningPointService;
-import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
+package com.example.mercado.integration.courses.courseRequirement.controller.publicController;
+import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
+import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
+import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
+import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,107 +22,105 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("CoursePublicLP Controller Test")
+@DisplayName("CoursePublicRequirement Controller Test")
 @ActiveProfiles("test")
-public class CoursePublicLearningPointControllerTest {
+public class CoursePublicRequirementControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private CourseLearningPointRepository repository;
+    private CourseRequirementRepository repository;
 
     @Autowired
-    private CoursePublicLearningPointService service;
+    private CoursePublicRequirementService service;
 
     @AfterEach
     void clean() {
         repository.deleteAllInBatch();
     }
 
-
     @Test
-    @DisplayName("getLearningPoint should return 200 and LearningPoint when Point Exists")
-    void getLearningPoint_shouldReturn200AndLearningPoint_whenPointExists() throws  Exception {
+    @DisplayName("getCourseRequirement should return 200 and Requirement when exists")
+    void getCourseRequirement_shouldReturn200AndRequirement_whenRequirementExists() throws  Exception {
         Long courseId = 1L;
 
-        CourseLearningPoint point = repository.save(
-                CourseLearningPoint.builder()
+        CourseRequirement requirement = repository.save(
+                CourseRequirementTestFactory.createDefaultCourseRequirement()
                         .courseId(1L)
                         .text("test text")
                         .position(1)
                         .build()
         );
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points/{pointId}",
-                        courseId, point.getId()
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
+                        courseId, requirement.getId()
                 ))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(point.getId()))
+                .andExpect(jsonPath("$.id").value(requirement.getId()))
                 .andExpect(jsonPath("$.courseId").value(1L))
                 .andExpect(jsonPath("$.text").value("test text"))
                 .andExpect(jsonPath("$.position").value(1));
     }
 
     @Test
-    @DisplayName("getLearningPoint should return 404 when LearningPoint doesnt exists")
-    void getLearningPoint_shouldReturn404_whenLearningPointDoesNotExist() throws  Exception {
+    @DisplayName("getCourseRequirement should return 404 when Requirement doesn't exists")
+    void getCourseRequirement_shouldReturn404_whenRequirementDoesNotExist() throws  Exception {
         Long courseId = 1L;
+        Long requirementId = 1L;
 
-        Long pointId = 1L;
-
-        mockMvc.perform(get("/courses/{courseId}/learning-points/{pointId}",
-                        courseId, pointId
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
+                        courseId, requirementId
                 ))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("getLearningPoint should return 400 when courseId negative")
-    void getLearningPoint_shouldReturn400_whenCourseIdIsNotPositive() throws  Exception {
+    @DisplayName("getCourseRequirement should return 400 when courseId negative")
+    void getCourseRequirement_shouldReturn400_whenCourseIdIsNotPositive() throws  Exception {
         Long courseId = -1L;
-        Long pointId = 1L;
+        Long requirementId = 1L;
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points/{pointId}",
-                        courseId, pointId
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
+                        courseId, requirementId
                 ))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("getLearningPoint should return 400 when pointId negative")
-    void getLearningPoint_shouldReturn400_whenPointIdIsNotPositive() throws  Exception {
+    @DisplayName("getCourseRequirement should return 400 when requirementId negative")
+    void getCourseRequirement_shouldReturn400_whenRequirementIdIsNotPositive() throws  Exception {
         Long courseId = 1L;
-        Long pointId = -1L;
+        Long requirementId = -1L;
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points/{pointId}",
-                        courseId, pointId
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
+                        courseId, requirementId
                 ))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    @DisplayName("getAllByCourseId should return 200 and ordered list of LearningPoints when points exist")
-    void getAllByCourseId_shouldReturn200AndOrderedLearningPoints_whenPointsExist() throws  Exception {
+    @DisplayName("getAllByCourseId should return 200 and ordered list of Requirements when points exist")
+    void getAllByCourseId_shouldReturn200AndOrderedRequirements_whenPointsExist() throws  Exception {
         Long courseId = 1L;
 
-        List<CourseLearningPoint> responses = List.of(
+        List<CourseRequirement> responses = List.of(
                 repository.save(
-                        CourseLPTestFactory.createDefaultCourseLP()
+                        CourseRequirementTestFactory.createDefaultCourseRequirement()
                                 .position(1)
                                 .text("test text 1")
                                 .courseId(courseId)
                                 .build()
                 ),
                 repository.save(
-                        CourseLPTestFactory.createDefaultCourseLP()
+                        CourseRequirementTestFactory.createDefaultCourseRequirement()
                                 .position(3)
                                 .text("test text 3")
                                 .courseId(courseId)
                                 .build()
                 ),
                 repository.save(
-                        CourseLPTestFactory.createDefaultCourseLP()
+                        CourseRequirementTestFactory.createDefaultCourseRequirement()
                                 .position(2)
                                 .text("test text 2")
                                 .courseId(courseId)
@@ -131,7 +128,7 @@ public class CoursePublicLearningPointControllerTest {
                 )
         );
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points", courseId))
+        mockMvc.perform(get("/courses/{courseId}/requirements", courseId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(3))
                 .andExpect(jsonPath("$[0].text").value("test text 1"))
@@ -140,13 +137,13 @@ public class CoursePublicLearningPointControllerTest {
     }
 
     @Test
-    @DisplayName("getAllByCourseId should return 200 and empty list when no one learning points exist")
-    void getAllByCourseId_shouldReturn200AndEmptyList_whenNoLearningPointsExist() throws  Exception {
+    @DisplayName("getAllByCourseId should return 200 and empty list when no one Requirements exist")
+    void getAllByCourseId_shouldReturn200AndEmptyList_whenNoRequirementsExist() throws  Exception {
         Long courseId = 1L;
 
-        List<CourseLearningPoint> responses = List.of();
+        List<CourseRequirement> responses = List.of();
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points", courseId))
+        mockMvc.perform(get("/courses/{courseId}/requirements", courseId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(0));
     }
@@ -156,7 +153,7 @@ public class CoursePublicLearningPointControllerTest {
     void getAllByCourseId_shouldReturn400_whenCourseIdIsNotPositive() throws  Exception {
         Long courseId = -1L;
 
-        mockMvc.perform(get("/courses/{courseId}/learning-points",
+        mockMvc.perform(get("/courses/{courseId}/requirements",
                         courseId
                 ))
                 .andExpect(status().isBadRequest());
