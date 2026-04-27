@@ -17,7 +17,7 @@ public enum ErrorCode {
     REQUIREMENT_ALREADY_EXISTS("requirement.already.exists", HttpStatus.CONFLICT),
     REQUIREMENT_NOT_FOUND("requirement.not.found", HttpStatus.NOT_FOUND),
     REQUIREMENT_POSITION_INVALID("requirement.position.invalid", HttpStatus.BAD_REQUEST),
-    REQUIREMENT_SAME_TEXT("requirement.same.text", HttpStatus.BAD_REQUEST),
+    REQUIREMENT_TEXT_INVALID("requirement.text.invalid", HttpStatus.BAD_REQUEST),
     REQUIREMENT_LIMIT_REACHED("requirement.limit.reached", HttpStatus.BAD_REQUEST),
 
     //COURSE LEARNING POINT

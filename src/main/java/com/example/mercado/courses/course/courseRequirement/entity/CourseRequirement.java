@@ -17,11 +17,11 @@ import java.util.Objects;
         name = "course_requirements",
         uniqueConstraints = {
                 @UniqueConstraint(
-                        name = "uk_position_course_id",
+                        name = "uk_req_position_course_id",
                         columnNames = {"course_id", "position"}
                 ),
                 @UniqueConstraint(
-                        name = "uk_text_course_id",
+                        name = "uk_req_text_course_id",
                         columnNames = {"course_id", "text"}
                 )
         }
@@ -65,9 +65,9 @@ public class CourseRequirement extends BaseEntity {
     public void setText(String text) {
         text = text.trim();
 
-        if (Objects.equals(this.text, text)) {
+        if (Objects.equals(this.text, text) || text.isBlank()) {
             throw new AppException(
-                    ErrorCode.REQUIREMENT_SAME_TEXT
+                    ErrorCode.REQUIREMENT_TEXT_INVALID
             );
         }
 

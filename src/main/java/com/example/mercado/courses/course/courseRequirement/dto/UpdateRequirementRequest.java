@@ -6,7 +6,10 @@ import jakarta.validation.constraints.Size;
 public record UpdateRequirementRequest(
 
         @NotBlank
-        @Size(max = 1000)
+        @Size(
+                max = 1000,
+                message = "Text can't contains more then 1000 characters"
+        )
         String text
 
 ) {

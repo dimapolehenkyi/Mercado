@@ -2,7 +2,7 @@ package com.example.mercado.courses.course.controller;
 
 import com.example.mercado.courses.course.dto.*;
 import com.example.mercado.courses.course.enums.CourseStatus;
-import com.example.mercado.courses.course.service.interfaces.CourseQueryService;
+import com.example.mercado.courses.course.service.interfaces.CoursePublicService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class CoursePublicController {
 
-    private final CourseQueryService service;
+    private final CoursePublicService service;
 
 
     @GetMapping("/{courseId}")

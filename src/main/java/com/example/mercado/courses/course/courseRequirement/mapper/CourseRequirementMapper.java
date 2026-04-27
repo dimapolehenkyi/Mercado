@@ -1,32 +1,27 @@
 package com.example.mercado.courses.course.courseRequirement.mapper;
 
+import com.example.mercado.configs.CentralMapperConfig;
 import com.example.mercado.courses.course.courseRequirement.dto.AddRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
-import org.springframework.stereotype.Component;
+import org.mapstruct.*;
 
-@Component
-public class CourseRequirementMapper {
+@Mapper(
+        componentModel = "spring",
+        config = CentralMapperConfig.class
+)
+public interface CourseRequirementMapper {
 
-    public CourseRequirement toEntity(Long courseId, AddRequirementRequest request) {
-        return CourseRequirement.builder()
-                .courseId(courseId)
-                .text(request.text())
-                .build();
-    }
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "text", source = "request.text")
+    @Mapping(target = "courseId", source = "courseId")
+    CourseRequirement toEntity(Long courseId, AddRequirementRequest request);
 
-    public void updateEntity(CourseRequirement courseRequirement, UpdateRequirementRequest request) {
-        courseRequirement.setText(request.text());
-    }
+    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "text", source = "text")
+    void updateEntity(@MappingTarget CourseRequirement requirement, UpdateRequirementRequest request);
 
-    public RequirementResponse toResponse(CourseRequirement courseRequirement) {
-        return new RequirementResponse(
-                courseRequirement.getId(),
-                courseRequirement.getCourseId(),
-                courseRequirement.getText(),
-                courseRequirement.getPosition()
-        );
-    }
+    RequirementResponse toResponse(CourseRequirement requirement);
 
 }

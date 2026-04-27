@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Positive;
 
 public record ReorderRequirementRequest(
 
-        Long id,
-
-        @Positive
+        @Positive(
+                message = "Invalid position"
+        )
         Integer position
 
 ) {
