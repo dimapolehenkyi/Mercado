@@ -68,7 +68,7 @@ public class CourseAdminRequirementControllerTest {
         Mockito.when(service.createCourseRequirement(courseId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(post("/courses/{courseId}/admin/requirements", courseId)
+        mockMvc.perform(post("/admin/courses/{courseId}/requirements", courseId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -88,7 +88,7 @@ public class CourseAdminRequirementControllerTest {
                 null
         );
 
-        mockMvc.perform(post("/courses/{courseId}/admin/requirements", courseId))
+        mockMvc.perform(post("/admin/courses/{courseId}/requirements", courseId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).createCourseRequirement(courseId, request);
@@ -102,7 +102,7 @@ public class CourseAdminRequirementControllerTest {
                 null
         );
 
-        mockMvc.perform(post("/courses/{courseId}/admin/requirements", courseId))
+        mockMvc.perform(post("/admin/courses/{courseId}/requirements", courseId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).createCourseRequirement(courseId, request);
@@ -128,7 +128,7 @@ public class CourseAdminRequirementControllerTest {
         Mockito.when(service.updateCourseRequirement(courseId, requirementId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(put("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId)
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -150,7 +150,7 @@ public class CourseAdminRequirementControllerTest {
                 null
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId)
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -171,7 +171,7 @@ public class CourseAdminRequirementControllerTest {
         Mockito.when(service.updateCourseRequirement(requirementId, courseId, request))
                 .thenThrow(new AppException(ErrorCode.REQUIREMENT_NOT_FOUND));
 
-        mockMvc.perform(put("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId)
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -189,7 +189,7 @@ public class CourseAdminRequirementControllerTest {
                 "Updated"
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updateCourseRequirement(courseId, requirementId, request);
@@ -205,7 +205,7 @@ public class CourseAdminRequirementControllerTest {
                 "Updated"
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updateCourseRequirement(courseId, requirementId, request);
@@ -217,7 +217,7 @@ public class CourseAdminRequirementControllerTest {
         Long courseId = 1L;
         Long requirementId = 1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isNoContent());
 
         Mockito.verify(service, Mockito.times(1)).deleteCourseRequirement(courseId, requirementId);
@@ -233,7 +233,7 @@ public class CourseAdminRequirementControllerTest {
                 .when(service)
                 .deleteCourseRequirement(courseId, requirementId);
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isNotFound());
 
         Mockito.verify(service, Mockito.times(1)).deleteCourseRequirement(courseId, requirementId);
@@ -245,7 +245,7 @@ public class CourseAdminRequirementControllerTest {
         Long courseId = -1L;
         Long requirementId = 1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).deleteCourseRequirement(courseId, requirementId);
@@ -257,7 +257,7 @@ public class CourseAdminRequirementControllerTest {
         Long courseId = 1L;
         Long requirementId = -1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/requirements/{requirementId}", courseId, requirementId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).deleteCourseRequirement(courseId, requirementId);
@@ -283,7 +283,7 @@ public class CourseAdminRequirementControllerTest {
         Mockito.when(service.updatePosition(courseId, requirementId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/requirements/{requirementId}/position", courseId, requirementId)
+        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirementId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -308,7 +308,7 @@ public class CourseAdminRequirementControllerTest {
         Mockito.when(service.updatePosition(courseId, requirementId, request))
                 .thenThrow(new AppException(ErrorCode.LEARNING_POINT_NOT_FOUND));
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/requirements/{requirementId}/position", courseId, requirementId)
+        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirementId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -326,7 +326,7 @@ public class CourseAdminRequirementControllerTest {
                 null
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/requirements/{requirementId}/position", courseId, requirementId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePosition(courseId, requirementId, request);
@@ -342,7 +342,7 @@ public class CourseAdminRequirementControllerTest {
                 1
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/requirements/{requirementId}/position", courseId, requirementId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePosition(courseId, requirementId, request);
@@ -358,7 +358,7 @@ public class CourseAdminRequirementControllerTest {
                 1
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/requirements/{requirementId}/position", courseId, requirementId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirementId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePosition(courseId, requirementId, request);

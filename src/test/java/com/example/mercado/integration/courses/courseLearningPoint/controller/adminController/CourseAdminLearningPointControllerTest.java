@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("CourseAdminLP Controller Test")
 @ActiveProfiles("test")
 public class CourseAdminLearningPointControllerTest {
 
