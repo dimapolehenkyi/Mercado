@@ -5,7 +5,7 @@ import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CoursePublicRequirementService;
+import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;

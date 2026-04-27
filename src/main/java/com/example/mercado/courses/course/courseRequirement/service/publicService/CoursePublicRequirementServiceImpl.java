@@ -5,7 +5,6 @@ import com.example.mercado.courses.course.courseRequirement.dto.RequirementRespo
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapper;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CoursePublicRequirementService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

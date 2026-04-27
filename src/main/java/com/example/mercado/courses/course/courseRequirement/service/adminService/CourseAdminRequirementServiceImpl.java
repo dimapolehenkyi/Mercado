@@ -9,7 +9,6 @@ import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequiremen
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapper;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseAdminRequirementService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -132,6 +131,8 @@ public class CourseAdminRequirementServiceImpl implements CourseAdminRequirement
         if (oldPos == newPos) {
             return mapper.toResponse(current);
         }
+
+        repository.updatePosition(requirementId, -1000);
 
         if (newPos < oldPos) {
             repository.incrementPositionRange(courseId, newPos, oldPos - 1);

@@ -1,7 +1,7 @@
 package com.example.mercado.courses.course.courseRequirement.controller.publicController;
 
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CoursePublicRequirementService;
+import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

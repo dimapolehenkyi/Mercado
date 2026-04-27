@@ -65,9 +65,9 @@ public class CourseRequirement extends BaseEntity {
     public void setText(String text) {
         text = text.trim();
 
-        if (Objects.equals(this.text, text)) {
+        if (Objects.equals(this.text, text) || text.isBlank()) {
             throw new AppException(
-                    ErrorCode.REQUIREMENT_SAME_TEXT
+                    ErrorCode.REQUIREMENT_TEXT_INVALID
             );
         }
 

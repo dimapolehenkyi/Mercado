@@ -9,7 +9,7 @@ import com.example.mercado.courses.course.courseRequirement.dto.AddRequirementRe
 import com.example.mercado.courses.course.courseRequirement.dto.ReorderRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequirementRequest;
-import com.example.mercado.courses.course.courseRequirement.service.interfaces.CourseAdminRequirementService;
+import com.example.mercado.courses.course.courseRequirement.service.adminService.CourseAdminRequirementService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseRequirement.service.interfaces;
+package com.example.mercado.courses.course.courseRequirement.service.publicService;
 
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 
