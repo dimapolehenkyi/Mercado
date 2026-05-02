@@ -48,7 +48,7 @@ public class CourseAdminLearningPointControllerTest {
 
     @Test
     @DisplayName("addCourseLearningPoint should return 201 and LearningPoint when valid request")
-    void addCourseLearningPoint_shouldReturn201AndLearningPoint_whenValidRequest() throws  Exception {
+    void createCourseLearningPoint_shouldReturn201AndLearningPoint_whenValidRequest() throws  Exception {
         Long courseId = 1L;
         AddLearningPointRequest request = new AddLearningPointRequest(
                 "Test"
@@ -64,7 +64,7 @@ public class CourseAdminLearningPointControllerTest {
         Mockito.when(service.createCourseLearningPoint(courseId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(post("/courses/{courseId}/admin/learning-points", courseId)
+        mockMvc.perform(post("/admin/courses/{courseId}/learning-points", courseId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -78,13 +78,13 @@ public class CourseAdminLearningPointControllerTest {
 
     @Test
     @DisplayName("addCourseLearningPoint should return {400} when request invalid")
-    void addCourseLearningPoint_shouldReturn400_whenRequestInvalid() throws  Exception {
+    void createCourseLearningPoint_shouldReturn400_whenRequestInvalid() throws  Exception {
         Long courseId = 1L;
         AddLearningPointRequest request = new AddLearningPointRequest(
                 null
         );
 
-        mockMvc.perform(post("/courses/{courseId}/admin/learning-points", courseId))
+        mockMvc.perform(post("/admin/courses/{courseId}/learning-points", courseId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).createCourseLearningPoint(courseId, request);
@@ -92,13 +92,13 @@ public class CourseAdminLearningPointControllerTest {
 
     @Test
     @DisplayName("addCourseLearningPoint should return {400} when courseId negative")
-    void addCourseLearningPoint_shouldReturn400_whenCourseIdNegative() throws  Exception {
+    void createCourseLearningPoint_shouldReturn400_whenCourseIdNegative() throws  Exception {
         Long courseId = -1L;
         AddLearningPointRequest request = new AddLearningPointRequest(
                 null
         );
 
-        mockMvc.perform(post("/courses/{courseId}/admin/learning-points", courseId))
+        mockMvc.perform(post("/admin/courses/{courseId}/learning-points", courseId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).createCourseLearningPoint(courseId, request);
@@ -124,7 +124,7 @@ public class CourseAdminLearningPointControllerTest {
         Mockito.when(service.updateCourseLearningPoint(courseId, pointId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(put("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId)
+        mockMvc.perform(put("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -146,7 +146,7 @@ public class CourseAdminLearningPointControllerTest {
                 null
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId)
+        mockMvc.perform(put("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
@@ -167,7 +167,7 @@ public class CourseAdminLearningPointControllerTest {
         Mockito.when(service.updateCourseLearningPoint(courseId, pointId, request))
                 .thenThrow(new AppException(ErrorCode.LEARNING_POINT_NOT_FOUND));
 
-        mockMvc.perform(put("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId)
+        mockMvc.perform(put("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -185,7 +185,7 @@ public class CourseAdminLearningPointControllerTest {
                 "Updated"
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(put("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updateCourseLearningPoint(courseId, pointId, request);
@@ -201,7 +201,7 @@ public class CourseAdminLearningPointControllerTest {
                 "Updated"
         );
 
-        mockMvc.perform(put("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(put("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updateCourseLearningPoint(courseId, pointId, request);
@@ -213,7 +213,7 @@ public class CourseAdminLearningPointControllerTest {
         Long courseId = 1L;
         Long pointId = 1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isNoContent());
 
         Mockito.verify(service, Mockito.times(1)).deleteCourseLearningPoint(courseId, pointId);
@@ -229,7 +229,7 @@ public class CourseAdminLearningPointControllerTest {
                 .when(service)
                 .deleteCourseLearningPoint(courseId, pointId);
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isNotFound());
 
         Mockito.verify(service, Mockito.times(1)).deleteCourseLearningPoint(courseId, pointId);
@@ -241,7 +241,7 @@ public class CourseAdminLearningPointControllerTest {
         Long courseId = -1L;
         Long pointId = 1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).deleteCourseLearningPoint(courseId, pointId);
@@ -253,7 +253,7 @@ public class CourseAdminLearningPointControllerTest {
         Long courseId = 1L;
         Long pointId = -1L;
 
-        mockMvc.perform(delete("/courses/{courseId}/admin/learning-points/{pointId}", courseId, pointId))
+        mockMvc.perform(delete("/admin/courses/{courseId}/learning-points/{pointId}", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).deleteCourseLearningPoint(courseId, pointId);
@@ -279,7 +279,7 @@ public class CourseAdminLearningPointControllerTest {
         Mockito.when(service.updatePositionCourseLearningPoint(courseId, pointId, request))
                 .thenReturn(response);
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/learning-points/{pointId}/position", courseId, pointId)
+        mockMvc.perform(patch("/admin/courses/{courseId}/learning-points/{pointId}/position", courseId, pointId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
@@ -304,7 +304,7 @@ public class CourseAdminLearningPointControllerTest {
         Mockito.when(service.updatePositionCourseLearningPoint(courseId, pointId, request))
                 .thenThrow(new AppException(ErrorCode.LEARNING_POINT_NOT_FOUND));
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/learning-points/{pointId}/position", courseId, pointId)
+        mockMvc.perform(patch("/admin/courses/{courseId}/learning-points/{pointId}/position", courseId, pointId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
@@ -322,7 +322,7 @@ public class CourseAdminLearningPointControllerTest {
                 null
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/learning-points/{pointId}/position", courseId, pointId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/learning-points/{pointId}/position", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePositionCourseLearningPoint(courseId, pointId, request);
@@ -338,7 +338,7 @@ public class CourseAdminLearningPointControllerTest {
                 1
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/learning-points/{pointId}/position", courseId, pointId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/learning-points/{pointId}/position", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePositionCourseLearningPoint(courseId, pointId, request);
@@ -354,7 +354,7 @@ public class CourseAdminLearningPointControllerTest {
                 1
         );
 
-        mockMvc.perform(patch("/courses/{courseId}/admin/learning-points/{pointId}/position", courseId, pointId))
+        mockMvc.perform(patch("/admin/courses/{courseId}/learning-points/{pointId}/position", courseId, pointId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).updatePositionCourseLearningPoint(courseId, pointId, request);
