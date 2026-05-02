@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
-@RequestMapping("courses/{courseId}/admin/learning-points")
+@RequestMapping("/admin/courses/{courseId}/learning-points")
 @RequiredArgsConstructor
 public class CourseAdminLearningPointController {
 
@@ -24,7 +24,7 @@ public class CourseAdminLearningPointController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public LearningPointResponse addCourseLearningPoint(
+    public LearningPointResponse createCourseLearningPoint(
             @PathVariable @Positive Long courseId,
             @RequestBody @Valid AddLearningPointRequest request
     ) {
@@ -55,7 +55,7 @@ public class CourseAdminLearningPointController {
             @PathVariable @Positive Long pointId,
             @RequestBody @Valid ReorderLearningPointRequest request
     ) {
-        return service.updatePositionCourseLearningPoint(courseId, pointId, request);
+        return service.updatePositionCourseLearningPoint(pointId, courseId, request);
     }
 
 }
