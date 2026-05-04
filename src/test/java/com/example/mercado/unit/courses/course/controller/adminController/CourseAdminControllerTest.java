@@ -57,9 +57,11 @@ public class CourseAdminControllerTest {
                 a -> {}
         );
 
-        CourseDetailsResponse response = CourseTestData.courseDetailsResponse(
-                1L,
-                "Java"
+        CourseDetailsResponse response = CourseTestData.courseDetails(
+                a -> {
+                    a.id = 1L;
+                    a.name = "Java";
+                }
         );
 
         Mockito.when(service.createCourse(request))
@@ -207,12 +209,11 @@ public class CourseAdminControllerTest {
                 }
         );
 
-        CourseDetailsResponse response = CourseTestData.courseUpdatedDetailsResponseWithNull(
-                1L,
-                "Java Core",
-                null,
-                null,
-                null
+        CourseDetailsResponse response = CourseTestData.courseDetails(
+                a -> {
+                    a.id = 1L;
+                    a.name = "Java Core";
+                }
         );
 
         Mockito.when(service.updateCourse(courseId, request))
@@ -239,12 +240,11 @@ public class CourseAdminControllerTest {
         }
         """;
 
-        CourseDetailsResponse response = CourseTestData.courseUpdatedDetailsResponseWithNull(
-                1L,
-                null,
-                null,
-                null,
-                BigDecimal.valueOf(99L)
+        CourseDetailsResponse response = CourseTestData.courseDetails(
+                a -> {
+                    a.id = 1L;
+                    a.price = BigDecimal.valueOf(99);
+                }
         );
 
         Mockito.when(service.updateCourse(Mockito.eq(courseId), Mockito.any()))

@@ -48,7 +48,12 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getCourse should return course")
     void getCourse_shouldReturnCourse() throws Exception {
-        CourseDetailsResponse response = CourseTestData.courseDetailsResponse(1L, "Java");
+        CourseDetailsResponse response = CourseTestData.courseDetails(
+                a -> {
+                    a.id = 1L;
+                    a.name = "Java";
+                }
+        );
 
         Mockito.when(service.getActiveCourseById(Mockito.anyLong()))
                 .thenReturn(response);
@@ -88,11 +93,16 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getPopularCourses should return pages")
     void getPopularCourses_shouldReturnPage() throws Exception {
-
         Page<CourseShortResponse> response =
                 new PageImpl<>(List.of(
-                        CourseTestData.courseShortResponse(1L, "Java"),
-                        CourseTestData.courseShortResponse(2L, "Python")
+                        CourseTestData.courseShort(a -> {
+                            a.id = 1L;
+                            a.name = "Java";
+                        }),
+                        CourseTestData.courseShort(a -> {
+                            a.id = 2L;
+                            a.name = "Python";
+                        })
                 ));
 
         Mockito.when(service.getPopularCourses(Mockito.any()))
@@ -109,7 +119,6 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getPopularCourses should return empty page")
     void getPopularCourses_shouldReturnEmptyPage() throws Exception {
-
         Mockito.when(service.getPopularCourses(Mockito.any()))
                 .thenReturn(Page.empty());
 
@@ -121,11 +130,16 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getMyCourses should return pages")
     void getMyCourses_shouldReturnPage() throws Exception {
-
         Page<CourseShortResponse> response =
                 new PageImpl<>(List.of(
-                        CourseTestData.courseShortResponse(1L, "Java"),
-                        CourseTestData.courseShortResponse(2L, "Python")
+                        CourseTestData.courseShort(a -> {
+                            a.id = 1L;
+                            a.name = "Java";
+                        }),
+                        CourseTestData.courseShort(a -> {
+                            a.id = 2L;
+                            a.name = "Python";
+                        })
                 ));
 
         Mockito.when(service.getMyCourse(Mockito.eq(1L), Mockito.any()))
@@ -142,7 +156,6 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getMyCourses should return empty page")
     void getMyCourses_shouldReturnEmptyPage() throws Exception {
-
         Mockito.when(service.getMyCourse(Mockito.eq(1L), Mockito.any()))
                 .thenReturn(Page.empty());
 
@@ -165,11 +178,16 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getCoursesByStatus should return pages")
     void getCoursesByStatus_shouldReturnPage() throws Exception {
-
         Page<CourseShortResponse> response =
                 new PageImpl<>(List.of(
-                        CourseTestData.courseShortResponse(1L, "Java"),
-                        CourseTestData.courseShortResponse(2L, "Python")
+                        CourseTestData.courseShort(a -> {
+                            a.id = 1L;
+                            a.name = "Java";
+                        }),
+                        CourseTestData.courseShort(a -> {
+                            a.id = 2L;
+                            a.name = "Python";
+                        })
                 ));
 
         Mockito.when(service.getCoursesByStatus(Mockito.eq(CourseStatus.PUBLISHED), Mockito.any()))
@@ -200,11 +218,16 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getCoursesByTeacherId should return pages")
     void getCoursesByTeacherId_shouldReturnPage() throws Exception {
-
         Page<CourseShortResponse> response =
                 new PageImpl<>(List.of(
-                        CourseTestData.courseShortResponse(1L, "Java"),
-                        CourseTestData.courseShortResponse(2L, "Python")
+                        CourseTestData.courseShort(a -> {
+                            a.id = 1L;
+                            a.name = "Java";
+                        }),
+                        CourseTestData.courseShort(a -> {
+                            a.id = 2L;
+                            a.name = "Python";
+                        })
                 ));
 
         Mockito.when(service.getCoursesByTeacherId(Mockito.eq(1L), Mockito.any()))
@@ -222,7 +245,6 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint getCoursesByTeacherId should return empty page")
     void getCoursesByTeacherId_shouldReturnEmptyPage() throws Exception {
-
         Mockito.when(service.getCoursesByTeacherId(Mockito.eq(1L), Mockito.any()))
                 .thenReturn(Page.empty());
 
@@ -245,7 +267,6 @@ public class CoursePublicControllerTest {
     @Test
     @DisplayName("Endpoint countAllCourses should return count of courses")
     void countAllCourses_shouldReturnCount() throws Exception {
-
         Mockito.when(service.countAllCourses())
                 .thenReturn(5L);
 
@@ -261,7 +282,7 @@ public class CoursePublicControllerTest {
     void countTeacherCoursesById_shouldReturnBadRequest_whenTeacherIdInvalid() throws Exception {
         Long teacherId = -1L;
 
-        mockMvc.perform(get("/api/courses//teachers/{teacherId}/count", teacherId))
+        mockMvc.perform(get("/api/courses/teachers/{teacherId}/count", teacherId))
                 .andExpect(status().isBadRequest());
 
         Mockito.verify(service, Mockito.never()).getActiveCourseById(Mockito.any());
