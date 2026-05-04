@@ -10,7 +10,7 @@ import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.service.CourseAdminServiceImpl;
+import com.example.mercado.courses.course.service.adminService.CourseAdminServiceImpl;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import com.example.mercado.testUtils.courses.course.CourseTestData;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
@@ -39,8 +39,6 @@ public class CourseAdminServiceImplTest {
     @Mock
     private CourseRepository repository;
 
-    private EntityFinder finder;
-
     @Mock
     private CourseMapper mapper;
 
@@ -49,7 +47,7 @@ public class CourseAdminServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        finder = new EntityFinder();
+        EntityFinder finder = new EntityFinder();
 
         service = new CourseAdminServiceImpl(
                 repository, mapper, finder
@@ -60,12 +58,14 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func createCourse should create course successfully")
     void createCourse_shouldCreateCourseSuccessfully() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(a -> {
+                    a.name("Java");
+                }
+        );
 
-        CreateCourseRequest request = CourseTestFactory.defaultCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.name = "Java"
+        );
 
         Mockito.when(repository.existsByName("Java")).thenReturn(false);
         Mockito.when(mapper.toEntity(request)).thenReturn(course);
@@ -83,7 +83,9 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func createCourse should throw when course already exists")
     void createCourse_shouldThrow_whenCourseAlreadyExists() {
-        CreateCourseRequest request = CourseTestFactory.defaultCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.name = "Java"
+        );
 
         Mockito.when(repository.existsByName("Java")).thenReturn(true);
 
@@ -98,12 +100,15 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func createCourse should apply pricing")
     void createCourse_shouldApplyPricing() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        CreateCourseRequest request = CourseTestFactory.defaultCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.name = "Java"
+        );
 
         Mockito.when(repository.existsByName("Java")).thenReturn(false);
         Mockito.when(mapper.toEntity(request)).thenReturn(course);
@@ -121,12 +126,15 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func updateCourse should update course successfully")
     void updateCourse_shouldUpdateSuccessfully() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        UpdateCourseRequest request = CourseTestFactory.defaultUpdateCourseRequest();
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {}
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -144,7 +152,9 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func updateCourse should throw when not found")
     void updateCourse_shouldThrow_whenNotFound() {
-        UpdateCourseRequest request = CourseTestFactory.defaultUpdateCourseRequest();
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {}
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.empty());
@@ -160,12 +170,15 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func updateCourse should throw when name exists")
     void updateCourse_shouldThrow_whenNameExists() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        UpdateCourseRequest request = CourseTestFactory.defaultUpdateCourseRequest();
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {}
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -182,12 +195,15 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func updateCourse should apply pricing")
     void updateCourse_shouldApplyPricing() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        UpdateCourseRequest request = CourseTestFactory.defaultUpdateCourseRequest();
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {}
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -206,12 +222,15 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func updateCourse should throw when name invalid")
     void updateCourse_shouldThrow_whenNameInvalid() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        UpdateCourseRequest request = CourseTestFactory.defaultUpdateCourseRequest();
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {}
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -239,10 +258,11 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func changeCourseStatus should update status")
     void changeCourseStatus_shouldUpdateStatus() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -271,10 +291,11 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func changeCourseStatus should throw when invalid status")
     void changeCourseStatus_shouldThrow_whenInvalidStatus() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -290,10 +311,11 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func changeCourseLevel should update level")
     void changeCourseLevel_shouldUpdateLevel() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -322,10 +344,11 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func changeCourseLevel should throw when invalid level")
     void changeCourseLevel_shouldThrow_whenInvalidLevel() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));
@@ -341,10 +364,11 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func deleteCourse should close course")
     void deleteCourse_shouldCloseCourse() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findById(1L))
                 .thenReturn(Optional.of(course));

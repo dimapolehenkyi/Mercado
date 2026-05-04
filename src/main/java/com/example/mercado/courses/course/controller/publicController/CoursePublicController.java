@@ -1,8 +1,8 @@
-package com.example.mercado.courses.course.controller;
+package com.example.mercado.courses.course.controller.publicController;
 
 import com.example.mercado.courses.course.dto.*;
 import com.example.mercado.courses.course.enums.CourseStatus;
-import com.example.mercado.courses.course.service.interfaces.CoursePublicService;
+import com.example.mercado.courses.course.service.publicService.CoursePublicService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

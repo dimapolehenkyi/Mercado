@@ -20,6 +20,7 @@ import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DisplayName("CoursePublicLearningPointServiceImpl Integration Test")
 @ActiveProfiles("test")
 public class CoursePublicLearningPointServiceImplTest {
 

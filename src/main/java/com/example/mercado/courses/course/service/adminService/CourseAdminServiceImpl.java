@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.service;
+package com.example.mercado.courses.course.service.adminService;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
@@ -7,7 +7,6 @@ import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.service.interfaces.CourseAdminService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

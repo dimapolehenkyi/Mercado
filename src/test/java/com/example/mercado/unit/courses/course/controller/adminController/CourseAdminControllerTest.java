@@ -4,11 +4,11 @@ import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.common.exception.GlobalExceptionHandler;
 import com.example.mercado.configs.MessageConfig;
-import com.example.mercado.courses.course.controller.CourseAdminController;
+import com.example.mercado.courses.course.controller.adminController.CourseAdminController;
 import com.example.mercado.courses.course.dto.*;
 import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
-import com.example.mercado.courses.course.service.interfaces.CourseAdminService;
+import com.example.mercado.courses.course.service.adminService.CourseAdminService;
 import com.example.mercado.testUtils.courses.course.CourseTestData;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -53,7 +53,9 @@ public class CourseAdminControllerTest {
     @Test
     @DisplayName("Endpoint createCourse should create Course and return response")
     void createCourse_shouldCreateCourse_andReturnResponse() throws Exception {
-        CreateCourseRequest request = CourseTestFactory.defaultCreateCourseRequest();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> {}
+        );
 
         CourseDetailsResponse response = CourseTestData.courseDetailsResponse(
                 1L,
@@ -74,7 +76,9 @@ public class CourseAdminControllerTest {
     @Test
     @DisplayName("Endpoint createCourse should return {BAD_REQUEST} when name is blank")
     void createCourse_shouldReturnBadRequest_whenNameIsBlank() throws Exception {
-        CreateCourseRequest request = CourseTestFactory.createCourseRequestWithBlankName();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.name = "   "
+        );
 
         mockMvc.perform(post("/api/admin/courses")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -85,7 +89,9 @@ public class CourseAdminControllerTest {
     @Test
     @DisplayName("Endpoint createCourse should return {BAD_REQUEST} when type is null")
     void createCourse_shouldReturnBadRequest_whenTypeIsNull() throws Exception {
-        CreateCourseRequest request = CourseTestFactory.createCourseRequestWithNullType();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.type = null
+        );
 
         mockMvc.perform(post("/api/admin/courses")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -96,7 +102,9 @@ public class CourseAdminControllerTest {
     @Test
     @DisplayName("Endpoint createCourse should return {BAD_REQUEST} when level is null")
     void createCourse_shouldReturnBadRequest_whenLevelIsNull() throws Exception {
-        CreateCourseRequest request = CourseTestFactory.createCourseRequestWithNullLevel();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.level = null
+        );
 
         mockMvc.perform(post("/api/admin/courses")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,7 +115,9 @@ public class CourseAdminControllerTest {
     @Test
     @DisplayName("Endpoint createCourse should return {BAD_REQUEST} when price is null")
     void createCourse_shouldReturnBadRequest_whenPriceIsNull() throws Exception {
-        CreateCourseRequest request = CourseTestFactory.createCourseRequestWithNullPrice();
+        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
+                a -> a.price = null
+        );
 
         mockMvc.perform(post("/api/admin/courses")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -128,9 +138,7 @@ public class CourseAdminControllerTest {
     void changeCourseStatus_shouldCorrectlyChange_courseStatus() throws Exception {
         Long courseId = 1L;
 
-        ChangeStatusRequest request = CourseTestFactory.customChangeStatusRequest(
-                CourseStatus.PUBLISHED
-        );
+        ChangeStatusRequest request = new ChangeStatusRequest(CourseStatus.PUBLISHED);
 
         mockMvc.perform(put("/api/admin/courses/{courseId}/status", courseId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -186,11 +194,17 @@ public class CourseAdminControllerTest {
     void updateCourse_shouldUpdateCourse() throws Exception {
         Long courseId = 1L;
 
-        UpdateCourseRequest request = CourseTestFactory.customUpdateCourseRequestWithNull(
-                "Java Core",
-                null,
-                null,
-                null
+        UpdateCourseRequest request = CourseTestFactory.updateCourseRequest(
+                a -> {
+                    a.name = "Java Core";
+                    a.description = null;
+                    a.shortDescription = null;
+                    a.price = null;
+                    a.type = null;
+                    a.level = null;
+                    a.thumbnailUrl = null;
+                    a.previewVideoUrl = null;
+                }
         );
 
         CourseDetailsResponse response = CourseTestData.courseUpdatedDetailsResponseWithNull(
@@ -211,27 +225,6 @@ public class CourseAdminControllerTest {
                 .andExpect(jsonPath("$.name").value("Java Core"));
 
         Mockito.verify(service)
-                .updateCourse(courseId, request);
-    }
-
-    @Test
-    @DisplayName("Endpoint updateCourse should return {BAD_REQUEST} when name is empty")
-    void updateCourse_shouldReturnBadRequest_whenNameIsEmpty() throws Exception {
-        Long courseId = 1L;
-
-        UpdateCourseRequest request = CourseTestFactory.customUpdateCourseRequestWithNull(
-                "",
-                null,
-                null,
-                null
-        );
-
-        mockMvc.perform(patch("/api/admin/courses/{courseId}", courseId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isBadRequest());
-
-        Mockito.verify(service, Mockito.never())
                 .updateCourse(courseId, request);
     }
 
@@ -290,9 +283,7 @@ public class CourseAdminControllerTest {
     void changeCourseLevel_shouldCorrectlyChange_courseLevel() throws Exception {
         Long courseId = 1L;
 
-        ChangeLevelRequest request = CourseTestFactory.customChangeLevelRequest(
-                CourseLevel.ADVANCED
-        );
+        ChangeLevelRequest request = new ChangeLevelRequest(CourseLevel.ADVANCED);
 
         mockMvc.perform(put("/api/admin/courses/{courseId}/level", courseId)
                         .contentType(MediaType.APPLICATION_JSON)

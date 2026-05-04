@@ -9,7 +9,7 @@ import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.service.CoursePublicServiceImpl;
+import com.example.mercado.courses.course.service.publicService.CoursePublicServiceImpl;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import com.example.mercado.testUtils.courses.course.CourseTestData;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
@@ -62,10 +62,11 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getCoursesByStatus should return mapped pages correctly")
     void getCoursesByStatus_shouldReturnMappedPagesCorrectly() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findByStatus(CourseStatus.PUBLISHED, pageable))
                 .thenReturn(CourseTestData.page(course));
@@ -92,11 +93,12 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getCoursesByStatus should return mapped pages correctly")
     void getMyCourse_shouldReturnMappedPagesCorrectly() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .userId(1L)
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                    a.userId(1L);
+                }
+        );
 
         Mockito.when(repository.findAllByUserId(1L, pageable))
                 .thenReturn(CourseTestData.page(course));
@@ -123,17 +125,19 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getPopularCourses should return mapped pages correctly")
     void getPopularCourses_shouldReturnMappedPagesCorrectly() {
-        Course course1 = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .studentCount(10L)
-                .build();
+        Course course1 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                    a.studentCount(10L);
+                }
+        );
 
-        Course course2 = CourseTestFactory.createDefaultCourse()
-                .id(2L)
-                .name("Python")
-                .studentCount(8L)
-                .build();
+        Course course2 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Python");
+                    a.studentCount(8L);
+                }
+        );
 
         Mockito.when(repository.findAllByOrderByStudentCountDesc(pageable))
                 .thenReturn(CourseTestData.page(course1, course2));
@@ -161,10 +165,11 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getActiveCourseById should return course")
     void getActiveCourseById_shouldReturnCourse() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
         Mockito.when(repository.findActiveById(1L))
                 .thenReturn(Optional.of(course));
@@ -193,15 +198,17 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getAllCourses should return mapped pages correctly")
     void getAllCourses_shouldReturnMappedPagesCorrectly() {
-        Course course1 = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .build();
+        Course course1 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                }
+        );
 
-        Course course2 = CourseTestFactory.createDefaultCourse()
-                .id(2L)
-                .name("Python")
-                .build();
+        Course course2 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Python");
+                }
+        );
 
         Mockito.when(repository.findAll(pageable))
                 .thenReturn(CourseTestData.page(course1, course2));
@@ -229,17 +236,19 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getCoursesByTeacher should return mapped pages correctly")
     void getCoursesByTeacher_shouldReturnMappedPagesCorrectly() {
-        Course course1 = CourseTestFactory.createDefaultCourse()
-                .id(1L)
-                .name("Java")
-                .teacherId(1L)
-                .build();
+        Course course1 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java");
+                    a.teacherId(1L);
+                }
+        );
 
-        Course course2 = CourseTestFactory.createDefaultCourse()
-                .id(2L)
-                .name("Python")
-                .teacherId(1L)
-                .build();
+        Course course2 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Python");
+                    a.teacherId(1L);
+                }
+        );
 
         Mockito.when(repository.findAllByTeacherId(1L, pageable))
                 .thenReturn(CourseTestData.page(course1, course2));

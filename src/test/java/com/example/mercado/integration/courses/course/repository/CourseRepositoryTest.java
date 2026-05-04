@@ -28,9 +28,9 @@ public class CourseRepositoryTest {
     @DisplayName("Func findByName should return course when exists")
     void findByName_shouldReturnCourse_whenExists() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> a.name("Java Course")
+        );
 
         repository.save(course);
 
@@ -53,9 +53,9 @@ public class CourseRepositoryTest {
     @DisplayName("Func findByName should be case sensitive by default")
     void findByName_shouldBeCaseSensitive() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> a.name("Java Course")
+        );
 
         repository.save(course);
 
@@ -68,15 +68,19 @@ public class CourseRepositoryTest {
     @DisplayName("Func should not allow duplicate names")
     void shouldNotAllowDuplicateNames() {
 
-        Course course1 = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .description("Desc1")
-                .build();
+        Course course1 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java Course");
+                    a.description("Desc1");
+                }
+        );
 
-        Course course2 = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .description("Desc2")
-                .build();
+        Course course2 = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java Course");
+                    a.description("Desc2");
+                }
+        );
 
         repository.save(course1);
 
@@ -89,9 +93,9 @@ public class CourseRepositoryTest {
     @DisplayName("Func existsByName should return true when course exists")
     void existsByName_shouldReturnTrue_whenExists() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> a.name("Java Course")
+        );
 
         repository.save(course);
 
@@ -113,9 +117,9 @@ public class CourseRepositoryTest {
     @DisplayName("Func existsByName should be case sensitive by default")
     void existsByName_shouldBeCaseSensitive() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> a.name("Java Course")
+        );
 
         repository.save(course);
 
@@ -128,10 +132,12 @@ public class CourseRepositoryTest {
     @DisplayName("Func existsByIdAndStatus should return true when match exists")
     void existsByIdAndStatus_shouldReturnTrue_whenMatchExists() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .status(CourseStatus.PUBLISHED)
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java Course");
+                    a.status(CourseStatus.PUBLISHED);
+                }
+        );
 
         Course saved = repository.save(course);
 
@@ -147,10 +153,12 @@ public class CourseRepositoryTest {
     @DisplayName("Func existsByIdAndStatus should return false when status does not match")
     void existsByIdAndStatus_shouldReturnFalse_whenStatusMismatch() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .status(CourseStatus.ARCHIVED)
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java Course");
+                    a.status(CourseStatus.ARCHIVED);
+                }
+        );
 
         Course saved = repository.save(course);
 
@@ -178,10 +186,12 @@ public class CourseRepositoryTest {
     @DisplayName("Func existsByIdAndStatus should correctly handle enum mapping")
     void existsByIdAndStatus_shouldHandleEnumCorrectly() {
 
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java Course")
-                .status(CourseStatus.ARCHIVED)
-                .build();
+        Course course = CourseTestFactory.createCourse(
+                a -> {
+                    a.name("Java Course");
+                    a.status(CourseStatus.ARCHIVED);
+                }
+        );
 
         Course saved = repository.save(course);
 
@@ -201,19 +211,21 @@ public class CourseRepositoryTest {
         Long teacherId = 1L;
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 1")
-                        .teacherId(teacherId)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 1");
+                            a.teacherId(teacherId);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 2")
-                        .teacherId(teacherId)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 2");
+                            a.teacherId(teacherId);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         long count = repository.countByTeacherId(teacherId);
@@ -238,19 +250,21 @@ public class CourseRepositoryTest {
         Long teacher2 = 2L;
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 1")
-                        .teacherId(teacher1)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 1");
+                            a.teacherId(teacher1);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 2")
-                        .teacherId(teacher2)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 2");
+                            a.teacherId(teacher2);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         long count = repository.countByTeacherId(teacher1);
@@ -265,12 +279,14 @@ public class CourseRepositoryTest {
         Long userId = 1L;
 
         for (int i = 0; i < 5; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Course " + i)
-                            .userId(userId)
-                            .status(CourseStatus.PUBLISHED)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Course " + finalI);
+                                a.userId(userId);
+                                a.status(CourseStatus.PUBLISHED);
+                            })
             );
         }
 
@@ -290,12 +306,14 @@ public class CourseRepositoryTest {
         Long userId = 1L;
 
         for (int i = 0; i < 5; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Course " + i)
-                            .userId(userId)
-                            .status(CourseStatus.PUBLISHED)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Course " + finalI);
+                                a.userId(userId);
+                                a.status(CourseStatus.PUBLISHED);
+                            })
             );
         }
 
@@ -314,19 +332,21 @@ public class CourseRepositoryTest {
         Long user2 = 2L;
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 1")
-                        .userId(user1)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 1");
+                            a.userId(user1);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Course 2")
-                        .userId(user2)
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Course 2");
+                            a.userId(user2);
+                            a.status(CourseStatus.PUBLISHED);
+                        })
         );
 
         Page<Course> result = repository.findAllByUserId(user1, PageRequest.of(0, 10));
@@ -353,20 +373,24 @@ public class CourseRepositoryTest {
     void findByStatus_shouldReturnPage() {
 
         for (int i = 0; i < 5; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Course " + i)
-                            .status(CourseStatus.ARCHIVED)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Archived " + finalI);
+                                a.status(CourseStatus.ARCHIVED);
+                            })
             );
         }
 
         for (int i = 0; i < 3; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Published " + i)
-                            .status(CourseStatus.PUBLISHED)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Published " + finalI);
+                                a.status(CourseStatus.PUBLISHED);
+                            })
             );
         }
 
@@ -389,11 +413,13 @@ public class CourseRepositoryTest {
     void findByStatus_shouldPaginateCorrectly() {
 
         for (int i = 0; i < 10; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Published " + i)
-                            .status(CourseStatus.PUBLISHED)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Published " + finalI);
+                                a.status(CourseStatus.PUBLISHED);
+                            })
             );
         }
 
@@ -429,17 +455,20 @@ public class CourseRepositoryTest {
     void findByStatus_shouldFilterCorrectly() {
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Drafted course")
-                        .status(CourseStatus.DRAFT)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Drafted course");
+                            a.status(CourseStatus.DRAFT);
+                        }
+                )
         );
-
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Published course")
-                        .status(CourseStatus.PUBLISHED)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Published course");
+                            a.status(CourseStatus.PUBLISHED);
+                        }
+                )
         );
 
         Page<Course> result = repository.findByStatus(
@@ -459,11 +488,13 @@ public class CourseRepositoryTest {
         Long teacherId = 1L;
 
         for (int i = 0; i < 5; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Course " + i)
-                            .teacherId(teacherId)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Course " + finalI);
+                                a.teacherId(teacherId);
+                            })
             );
         }
 
@@ -484,11 +515,13 @@ public class CourseRepositoryTest {
         Long teacherId = 1L;
 
         for (int i = 0; i < 7; i++) {
+            int finalI = i;
             repository.save(
-                    CourseTestFactory.createDefaultCourse()
-                            .name("Course " + i)
-                            .teacherId(teacherId)
-                            .build()
+                    CourseTestFactory.createCourse(
+                            a -> {
+                                a.name("Course " + finalI);
+                                a.teacherId(teacherId);
+                            })
             );
         }
 
@@ -507,17 +540,20 @@ public class CourseRepositoryTest {
         Long teacher2 = 2L;
 
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Teacher 1 course ")
-                        .teacherId(teacher1)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Teacher 1 course");
+                            a.teacherId(teacher1);
+                        }
+                )
         );
-
         repository.save(
-                CourseTestFactory.createDefaultCourse()
-                        .name("Teacher 2 course ")
-                        .teacherId(teacher2)
-                        .build()
+                CourseTestFactory.createCourse(
+                        a -> {
+                            a.name("Teacher 2 course");
+                            a.teacherId(teacher2);
+                        }
+                )
         );
 
         Page<Course> result = repository.findAllByTeacherId(
