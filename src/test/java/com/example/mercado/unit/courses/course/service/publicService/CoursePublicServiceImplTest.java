@@ -68,7 +68,7 @@ public class CoursePublicServiceImplTest {
                 }
         );
 
-        Mockito.when(repository.findByStatus(CourseStatus.PUBLISHED, pageable))
+        Mockito.when(repository.findAllByStatus(CourseStatus.PUBLISHED, pageable))
                 .thenReturn(CourseTestData.page(course));
         Mockito.when(mapper.toShortResponse(Mockito.any()))
                 .thenAnswer(i -> CourseTestData.mapToShortResponse(i.getArgument(0)));
@@ -82,7 +82,7 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getCoursesByStatus should return empty page")
     void getCoursesByStatus_shouldReturnEmptyPage() {
-        Mockito.when(repository.findByStatus(CourseStatus.PUBLISHED, pageable))
+        Mockito.when(repository.findAllByStatus(CourseStatus.PUBLISHED, pageable))
                 .thenReturn(Page.empty());
 
         Page<CourseShortResponse> result = service.getCoursesByStatus(CourseStatus.PUBLISHED, pageable);
@@ -139,7 +139,7 @@ public class CoursePublicServiceImplTest {
                 }
         );
 
-        Mockito.when(repository.findAllByOrderByStudentCountDesc(pageable))
+        Mockito.when(repository.findPopularPublishedCourses(pageable))
                 .thenReturn(CourseTestData.page(course1, course2));
         Mockito.when(mapper.toShortResponse(Mockito.any()))
                 .thenAnswer(i -> CourseTestData.mapToShortResponse(i.getArgument(0)));
@@ -154,7 +154,7 @@ public class CoursePublicServiceImplTest {
     @Test
     @DisplayName("Func getPopularCourses should return empty page")
     void getPopularCourses_shouldReturnEmptyPage() {
-        Mockito.when(repository.findAllByOrderByStudentCountDesc(pageable))
+        Mockito.when(repository.findPopularPublishedCourses(pageable))
                 .thenReturn(Page.empty());
 
         Page<CourseShortResponse> result = service.getPopularCourses(pageable);

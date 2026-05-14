@@ -4,11 +4,11 @@ import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
-import com.example.mercado.courses.course.enums.SortType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -17,14 +17,21 @@ import java.util.Optional;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    Optional<Course> findByName(String name);
+    @Query("""
+            SELECT c FROM Course c
+            WHERE c.name = :name
+            AND c.status = 'PUBLISHED'
+            AND c.deleted = false
+            """)
+    Optional<Course> findByName(
+            @Param("name") String name
+    );
 
     @Query("""
-            SELECT c
-            FROM Course c
+            SELECT c FROM Course c
             WHERE c.id = :id
             AND c.deleted = false
-            AND c.status <> 'ARCHIVED'
+            AND c.status = 'PUBLISHED'
             """)
     Optional<Course> findActiveById(Long id);
 
@@ -33,11 +40,48 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     long countByTeacherId(Long teacherId);
 
-    Page<Course> findAllByUserId(Long userId, Pageable pageable);
-    Page<Course> findByStatus(CourseStatus status, Pageable pageable);
-    Page<Course> findAllByTeacherId(Long teacherId, Pageable pageable);
+    @Query("""
+            SELECT c FROM Course c
+            WHERE c.status = 'PUBLISHED'
+            AND c.deleted = false
+            AND c.userId = :userId
+            ORDER BY c.id DESC
+            """)
+    Page<Course> findAllByUserId(
+            @Param("userId") Long userId,
+            Pageable pageable
+    );
 
-    Page<Course> findAllByOrderByStudentCountDesc(Pageable pageable);
+    @Query("""
+            SELECT c FROM Course c
+            WHERE c.status = :status
+            AND c.deleted = false
+            ORDER BY c.id DESC
+            """)
+    Page<Course> findAllByStatus(
+            @Param("status") CourseStatus status,
+            Pageable pageable
+    );
+
+    @Query("""
+            SELECT c FROM Course c
+            WHERE c.status = 'PUBLISHED'
+            AND c.deleted = false
+            AND c.teacherId = :teacherId
+            ORDER BY c.id DESC
+            """)
+    Page<Course> findAllByTeacherId(
+            @Param("teacherId") Long teacherId,
+            Pageable pageable
+    );
+
+    @Query("""
+            SELECT c FROM Course c
+            WHERE c.status = 'PUBLISHED'
+            AND c.deleted = false
+            ORDER BY c.studentCount DESC
+            """)
+    Page<Course> findPopularPublishedCourses(Pageable pageable);
 
     @Query("""
             SELECT c FROM Course c

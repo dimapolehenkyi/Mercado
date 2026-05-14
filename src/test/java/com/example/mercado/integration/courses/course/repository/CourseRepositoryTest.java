@@ -370,7 +370,7 @@ public class CourseRepositoryTest {
 
     @Test
     @DisplayName("Func findByStatus should return paginated courses with given status")
-    void findByStatus_shouldReturnPage() {
+    void findAllByStatus_shouldReturnPage() {
 
         for (int i = 0; i < 5; i++) {
             int finalI = i;
@@ -394,7 +394,7 @@ public class CourseRepositoryTest {
             );
         }
 
-        Page<Course> result = repository.findByStatus(
+        Page<Course> result = repository.findAllByStatus(
                 CourseStatus.PUBLISHED,
                 PageRequest.of(0, 10)
         );
@@ -410,7 +410,7 @@ public class CourseRepositoryTest {
 
     @Test
     @DisplayName("Func findByStatus should paginate correctly")
-    void findByStatus_shouldPaginateCorrectly() {
+    void findAllByStatus_shouldPaginateCorrectly() {
 
         for (int i = 0; i < 10; i++) {
             int finalI = i;
@@ -423,12 +423,12 @@ public class CourseRepositoryTest {
             );
         }
 
-        Page<Course> page1 = repository.findByStatus(
+        Page<Course> page1 = repository.findAllByStatus(
                 CourseStatus.PUBLISHED,
                 PageRequest.of(0, 5)
         );
 
-        Page<Course> page2 = repository.findByStatus(
+        Page<Course> page2 = repository.findAllByStatus(
                 CourseStatus.PUBLISHED,
                 PageRequest.of(1, 5)
         );
@@ -440,9 +440,9 @@ public class CourseRepositoryTest {
 
     @Test
     @DisplayName("Func findByStatus should return empty page when no matches")
-    void findByStatus_shouldReturnEmpty_whenNoMatches() {
+    void findAllByStatus_shouldReturnEmpty_whenNoMatches() {
 
-        Page<Course> result = repository.findByStatus(
+        Page<Course> result = repository.findAllByStatus(
                 CourseStatus.PUBLISHED,
                 PageRequest.of(0, 10)
         );
@@ -452,7 +452,7 @@ public class CourseRepositoryTest {
 
     @Test
     @DisplayName("Func findByStatus should not mix different statuses")
-    void findByStatus_shouldFilterCorrectly() {
+    void findAllByStatus_shouldFilterCorrectly() {
 
         repository.save(
                 CourseTestFactory.createCourse(
@@ -471,7 +471,7 @@ public class CourseRepositoryTest {
                 )
         );
 
-        Page<Course> result = repository.findByStatus(
+        Page<Course> result = repository.findAllByStatus(
                 CourseStatus.PUBLISHED,
                 PageRequest.of(0, 10)
         );

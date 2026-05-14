@@ -14,8 +14,49 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * Helper-class for testing package of Course
+ */
 public class CourseTestData {
 
+    public static class ShortArgs {
+        public Long id = 1L;
+        public String name = "Test course";
+        public String shortDescription = "short description";
+        public BigDecimal price = BigDecimal.valueOf(100);
+        public CourseAccessType type = CourseAccessType.PAID;
+        public CourseStatus status = CourseStatus.PUBLISHED;
+        public Double rating = 0.0;
+        public String thumbnailUrl = "https://thumbnailUrl";
+    }
+
+    public static class DetailsArgs {
+        public Long id = 1L;
+        public Long userId = 1L;
+        public Long teacherId = 1L;
+        public String name = "Test course";
+        public String description = "description";
+        public String shortDescription = "short description";
+        public String previewVideoUrl = "previewUrl";
+        public String thumbnailUrl = "thumbnailUrl";
+        public Long studentCount = 10L;
+        public Double rating = 4.5;
+        public Long reviewsCount = 5L;
+        public BigDecimal price = BigDecimal.valueOf(100);
+        public CourseStatus status = CourseStatus.PUBLISHED;
+        public CourseAccessType type = CourseAccessType.PAID;
+        public CourseLevel level = CourseLevel.BEGINNER;
+        public Integer durationInMinutes = 120;
+        public Boolean deleted = false;
+        public Boolean isFree = false;
+        public LocalDateTime createdAt = LocalDateTime.now();
+        public LocalDateTime updatedAt = LocalDateTime.now();
+    }
+
+    /**
+     * Creates CourseDetailsResponse with default test values.
+     * Fields can be overridden using lambda customizer.
+     */
     public static CourseDetailsResponse courseDetails(
             Consumer<DetailsArgs> customizer
     ) {
@@ -46,29 +87,10 @@ public class CourseTestData {
         );
     }
 
-    public static class DetailsArgs {
-        public Long id = 1L;
-        public Long userId = 1L;
-        public Long teacherId = 1L;
-        public String name = "Test course";
-        public String description = "description";
-        public String shortDescription = "short description";
-        public String previewVideoUrl = "previewUrl";
-        public String thumbnailUrl = "thumbnailUrl";
-        public Long studentCount = 10L;
-        public Double rating = 4.5;
-        public Long reviewsCount = 5L;
-        public BigDecimal price = BigDecimal.valueOf(100);
-        public CourseStatus status = CourseStatus.PUBLISHED;
-        public CourseAccessType type = CourseAccessType.PAID;
-        public CourseLevel level = CourseLevel.BEGINNER;
-        public Integer durationInMinutes = 120;
-        public Boolean deleted = false;
-        public Boolean isFree = false;
-        public LocalDateTime createdAt = LocalDateTime.now();
-        public LocalDateTime updatedAt = LocalDateTime.now();
-    }
-
+    /**
+     * Creates CourseShortResponse with default test values.
+     * Fields can be overridden using lambda customizer.
+     */
     public static CourseShortResponse courseShort(
             Consumer<ShortArgs> customizer
     ) {
@@ -86,18 +108,6 @@ public class CourseTestData {
                 a.thumbnailUrl
         );
     }
-
-    public static class ShortArgs {
-        public Long id = 1L;
-        public String name = "Test course";
-        public String shortDescription = "short description";
-        public BigDecimal price = BigDecimal.valueOf(100);
-        public CourseAccessType type = CourseAccessType.PAID;
-        public CourseStatus status = CourseStatus.PUBLISHED;
-        public Double rating = 0.0;
-        public String thumbnailUrl = "https://thumbnailUrl";
-    }
-
 
     public static Page<Course> page(Course... courses) {
         return new PageImpl<>(List.of(courses));

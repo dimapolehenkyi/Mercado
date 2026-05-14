@@ -34,7 +34,7 @@ public class CoursePublicServiceImpl implements CoursePublicService {
             Pageable pageable
     ) {
         return repository
-                .findByStatus(status, pageable)
+                .findAllByStatus(status, pageable)
                 .map(mapper::toShortResponse);
     }
 
@@ -53,7 +53,7 @@ public class CoursePublicServiceImpl implements CoursePublicService {
             Pageable pageable
     ) {
         return repository
-                .findAllByOrderByStudentCountDesc(pageable)
+                .findPopularPublishedCourses(pageable)
                 .map(mapper::toShortResponse);
     }
 
