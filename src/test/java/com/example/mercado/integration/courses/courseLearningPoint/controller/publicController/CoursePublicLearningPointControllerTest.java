@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("CoursePublicLP Controller Test")
+@DisplayName("CoursePublicLearningPointController Integration Test")
 @ActiveProfiles("test")
 public class CoursePublicLearningPointControllerTest {
 

@@ -52,18 +52,6 @@ public class CoursePublicController {
         return service.getMyCourse(userId, pageable);
     }
 
-    @GetMapping
-    public Page<CourseShortResponse> getCoursesByStatus (
-            @PageableDefault(
-                    sort = "createdAt",
-                    direction = Sort.Direction.DESC
-            )
-            Pageable pageable,
-            @RequestParam (required = false) CourseStatus status
-    ) {
-        return service.getCoursesByStatus(status, pageable);
-    }
-
     @GetMapping("/search")
     public Page<CourseShortResponse> searchCourse (
             @Valid CourseSearchFilter filter,

@@ -41,7 +41,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     long countByTeacherId(Long teacherId);
 
     @Query("""
-            SELECT c FROM Course c
+             SELECT c FROM Course c
             WHERE c.status = 'PUBLISHED'
             AND c.deleted = false
             AND c.userId = :userId

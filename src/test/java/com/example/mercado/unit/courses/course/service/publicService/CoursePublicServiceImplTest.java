@@ -57,39 +57,6 @@ public class CoursePublicServiceImplTest {
         pageable = PageRequest.of(0, 10);
     }
 
-
-
-    @Test
-    @DisplayName("Func getCoursesByStatus should return mapped pages correctly")
-    void getCoursesByStatus_shouldReturnMappedPagesCorrectly() {
-        Course course = CourseTestFactory.createCourse(
-                a -> {
-                    a.name("Java");
-                }
-        );
-
-        Mockito.when(repository.findAllByStatus(CourseStatus.PUBLISHED, pageable))
-                .thenReturn(CourseTestData.page(course));
-        Mockito.when(mapper.toShortResponse(Mockito.any()))
-                .thenAnswer(i -> CourseTestData.mapToShortResponse(i.getArgument(0)));
-
-        Page<CourseShortResponse> result = service.getCoursesByStatus(CourseStatus.PUBLISHED, pageable);
-
-        Assertions.assertEquals(1, result.getContent().size());
-        Assertions.assertEquals("Java", result.getContent().getFirst().name());
-    }
-
-    @Test
-    @DisplayName("Func getCoursesByStatus should return empty page")
-    void getCoursesByStatus_shouldReturnEmptyPage() {
-        Mockito.when(repository.findAllByStatus(CourseStatus.PUBLISHED, pageable))
-                .thenReturn(Page.empty());
-
-        Page<CourseShortResponse> result = service.getCoursesByStatus(CourseStatus.PUBLISHED, pageable);
-
-        Assertions.assertTrue(result.isEmpty());
-    }
-
     @Test
     @DisplayName("Func getCoursesByStatus should return mapped pages correctly")
     void getMyCourse_shouldReturnMappedPagesCorrectly() {

@@ -26,7 +26,9 @@ public class CourseAdminServiceImpl implements CourseAdminService {
 
 
     @Override
-    public CourseDetailsResponse createCourse(CreateCourseRequest request) {
+    public CourseDetailsResponse createCourse(
+            CreateCourseRequest request
+    ) {
         if (repository.existsByName(request.name())) {
             throw new AppException(
                     ErrorCode.COURSE_ALREADY_EXISTS,
@@ -35,6 +37,7 @@ public class CourseAdminServiceImpl implements CourseAdminService {
         }
 
         Course course = mapper.toEntity(request);
+        course.setName(request.name());
         course.applyPricing(request.type(), request.price());
 
         Course savedCourse = repository.save(course);
@@ -43,7 +46,10 @@ public class CourseAdminServiceImpl implements CourseAdminService {
     }
 
     @Override
-    public CourseDetailsResponse updateCourse(Long courseId, UpdateCourseRequest request) {
+    public CourseDetailsResponse updateCourse(
+            Long courseId,
+            UpdateCourseRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -59,6 +65,7 @@ public class CourseAdminServiceImpl implements CourseAdminService {
 
         mapper.updateEntity(course, request);
         course.setName(request.name());
+        course.setLevel(request.level());
         course.applyPricing(request.type(), request.price());
 
         Course saved = repository.save(course);
@@ -67,7 +74,10 @@ public class CourseAdminServiceImpl implements CourseAdminService {
     }
 
     @Override
-    public void changeCourseStatus(Long courseId, ChangeStatusRequest request) {
+    public void changeCourseStatus(
+            Long courseId,
+            ChangeStatusRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -80,7 +90,10 @@ public class CourseAdminServiceImpl implements CourseAdminService {
 
 
     @Override
-    public void changeCourseLevel(Long courseId, ChangeLevelRequest request) {
+    public void changeCourseLevel(
+            Long courseId,
+            ChangeLevelRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -92,7 +105,9 @@ public class CourseAdminServiceImpl implements CourseAdminService {
     }
 
     @Override
-    public void deleteCourse(Long courseId) {
+    public void deleteCourse(
+            Long courseId
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,

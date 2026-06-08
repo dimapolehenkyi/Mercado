@@ -121,8 +121,7 @@ public class Course extends BaseEntity {
 
 
     public void setName(String name) {
-
-        if (name == null || name.isBlank() || name.equals(this.name)) {
+        if (name == null || name.isBlank()) {
             throw new AppException(
                     ErrorCode.COURSE_NAME_INVALID
             );
@@ -174,7 +173,7 @@ public class Course extends BaseEntity {
     public void applyPricing(CourseAccessType type, BigDecimal price) {
         if (type == null) {
             throw new AppException(
-                    ErrorCode.COURSE_STATUS_INVALID
+                    ErrorCode.COURSE_ACCESS_TYPE_INVALID
             );
         }
 

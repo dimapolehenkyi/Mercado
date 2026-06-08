@@ -12,7 +12,6 @@ public interface CoursePublicService {
     Page<CourseShortResponse> getAllCourses(Pageable pageable);
     Page<CourseShortResponse> getCoursesByTeacherId(Long teacherId, Pageable pageable);
     Page<CourseShortResponse> searchCourse(CourseSearchFilter filter, Pageable pageable);
-    Page<CourseShortResponse> getCoursesByStatus(CourseStatus status, Pageable pageable);
     Page<CourseShortResponse> getMyCourse(Long userId, Pageable pageable);
 
     Page<CourseShortResponse> getPopularCourses(Pageable pageable);

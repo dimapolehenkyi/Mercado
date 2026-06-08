@@ -26,18 +26,6 @@ public class CoursePublicServiceImpl implements CoursePublicService {
 
     private final EntityFinder finder;
 
-
-
-    @Override
-    public Page<CourseShortResponse> getCoursesByStatus(
-            CourseStatus status,
-            Pageable pageable
-    ) {
-        return repository
-                .findAllByStatus(status, pageable)
-                .map(mapper::toShortResponse);
-    }
-
     @Override
     public Page<CourseShortResponse> getMyCourse(
             Long userId,

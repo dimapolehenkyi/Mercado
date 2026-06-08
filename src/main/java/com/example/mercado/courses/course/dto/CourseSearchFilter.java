@@ -3,6 +3,7 @@ package com.example.mercado.courses.course.dto;
 import com.example.mercado.courses.course.customValidators.price.validPriceRange.ValidPriceRange;
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseLevel;
+import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.enums.SortType;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
@@ -36,6 +37,8 @@ public record CourseSearchFilter(
 
         CourseLevel level,
 
-        SortType sortType
+        SortType sortType,
+
+        CourseStatus status
 ) {
 }

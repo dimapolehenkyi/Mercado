@@ -103,7 +103,7 @@ public class CourseTestFactory {
         public String shortDescription = "Test short description";
         public CourseAccessType type = CourseAccessType.PAID;
         public CourseLevel level = CourseLevel.ADVANCED;
-        public BigDecimal price = BigDecimal.valueOf(100);
+        public BigDecimal price = BigDecimal.valueOf(100L);
         public String previewVideoUrl = "https://previewVideoUrl";
         public String thumbnailUrl = "https://thumbnailUrl";
     }

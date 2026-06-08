@@ -176,46 +176,6 @@ public class CoursePublicControllerTest {
     }
 
     @Test
-    @DisplayName("Endpoint getCoursesByStatus should return pages")
-    void getCoursesByStatus_shouldReturnPage() throws Exception {
-        Page<CourseShortResponse> response =
-                new PageImpl<>(List.of(
-                        CourseTestData.courseShort(a -> {
-                            a.id = 1L;
-                            a.name = "Java";
-                        }),
-                        CourseTestData.courseShort(a -> {
-                            a.id = 2L;
-                            a.name = "Python";
-                        })
-                ));
-
-        Mockito.when(service.getCoursesByStatus(Mockito.eq(CourseStatus.PUBLISHED), Mockito.any()))
-                .thenReturn(response);
-
-        mockMvc.perform(get("/api/courses")
-                        .param("status", "PUBLISHED"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.length()").value(2))
-                .andExpect(jsonPath("$.content[0].name").value("Java"));
-
-        Mockito.verify(service)
-                .getCoursesByStatus(Mockito.eq(CourseStatus.PUBLISHED), Mockito.any());
-    }
-
-    @Test
-    @DisplayName("Endpoint getCoursesByStatus should work without status")
-    void getCoursesByStatus_shouldWorkWithoutStatus() throws Exception {
-
-        Mockito.when(service.getCoursesByStatus(Mockito.isNull(), Mockito.any()))
-                .thenReturn(Page.empty());
-
-        mockMvc.perform(get("/api/courses"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content").isEmpty());
-    }
-
-    @Test
     @DisplayName("Endpoint getCoursesByTeacherId should return pages")
     void getCoursesByTeacherId_shouldReturnPage() throws Exception {
         Page<CourseShortResponse> response =

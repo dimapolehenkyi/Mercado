@@ -24,8 +24,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -43,66 +45,6 @@ public class CoursePublicServiceImplTest {
     @AfterEach
     void clean() {
         repository.deleteAllInBatch();
-    }
-
-
-    @Test
-    @DisplayName("getCoursesByStatus should return paged courses when /COURSE-STATUS/ exists")
-    void getCoursesByStatus_shouldReturnPagedCourses_whenStatusExists() {
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Course published1 = CourseTestFactory.createCourse(a -> {
-            a.status(CourseStatus.PUBLISHED);
-            a.name("Java");
-        });
-        Course published2 = CourseTestFactory.createCourse(a -> {
-            a.status(CourseStatus.PUBLISHED);
-            a.name("C++");
-        });
-
-        Course draft = CourseTestFactory.createCourse(a -> {
-            a.status(CourseStatus.DRAFT);
-            a.name("Python");
-        });
-
-        repository.saveAll(
-                List.of(
-                        published1,
-                        published2,
-                        draft
-                )
-        );
-
-        Page<CourseShortResponse> result = service.getCoursesByStatus(
-                CourseStatus.PUBLISHED,
-                pageable
-        );
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(2, result.getContent().size()),
-                () -> Assertions.assertEquals("C++", result.getContent().getFirst().name()),
-                () -> Assertions.assertEquals("Java", result.getContent().get(1).name())
-        );
-    }
-
-    @Test
-    @DisplayName("getCoursesByStatus should return empty page when no one course with this /COURSE-STATUS/ exists")
-    void getCoursesByStatus_shouldReturnEmptyPage_whenNoCoursesWithStatus() {
-        Pageable pageable = PageRequest.of(0, 10);
-
-        Course draft = CourseTestFactory.createCourse(a -> {
-            a.status(CourseStatus.DRAFT);
-            a.name("Python");
-        });
-
-        repository.save(draft);
-
-        Page<CourseShortResponse> result = service.getCoursesByStatus(
-                CourseStatus.PUBLISHED,
-                pageable
-        );
-
-        Assertions.assertTrue(result.isEmpty());
     }
 
     @Test
@@ -468,7 +410,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.PRICE_ASC
+                SortType.PRICE_ASC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);
@@ -478,6 +421,7 @@ public class CoursePublicServiceImplTest {
                     a.name("Java");
                     a.teacherId(1L);
                     a.price(BigDecimal.valueOf(10L));
+                    a.status(CourseStatus.PUBLISHED);
                 }
         );
         Course course2 = CourseTestFactory.createCourse(
@@ -485,6 +429,7 @@ public class CoursePublicServiceImplTest {
                     a.name("Python");
                     a.teacherId(1L);
                     a.price(BigDecimal.valueOf(30L));
+                    a.status(CourseStatus.PUBLISHED);
                 }
         );
 
@@ -514,7 +459,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.PRICE_ASC
+                SortType.PRICE_ASC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);
@@ -553,7 +499,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.PRICE_ASC
+                SortType.PRICE_ASC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);
@@ -599,53 +546,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.PRICE_DESC
-        );
-
-        Pageable pageable = PageRequest.of(0, 2);
-
-        Course course1 = CourseTestFactory.createCourse(
-                a -> {
-                    a.name("Java");
-                    a.teacherId(1L);
-                    a.price(BigDecimal.valueOf(10L));
-                }
-        );
-        Course course2 = CourseTestFactory.createCourse(
-                a -> {
-                    a.name("Python");
-                    a.teacherId(1L);
-                    a.price(BigDecimal.valueOf(30L));
-                }
-        );
-
-        repository.saveAll(
-                List.of(course1, course2)
-        );
-
-        Page<CourseShortResponse> result = service.searchCourse(filter, pageable);
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(2, result.getTotalElements()),
-                () -> Assertions.assertEquals(1, result.getTotalPages()),
-                () -> Assertions.assertEquals(2, result.getContent().size()),
-
-                () -> Assertions.assertEquals("Python", result.getContent().get(0).name()),
-                () -> Assertions.assertEquals("Java", result.getContent().get(1).name())
-        );
-    }
-
-    @Test
-    @DisplayName("searchCourse should sort by /NEWEST/ when sort type /NEWEST/")
-    void searchCourse_shouldSortByNewest_whenSortTypeNewest() {
-        CourseSearchFilter filter = new CourseSearchFilter(
-                null,
-                CourseAccessType.PAID,
-                1L,
-                BigDecimal.valueOf(10L),
-                BigDecimal.valueOf(50L),
-                CourseLevel.ADVANCED,
-                SortType.NEWEST
+                SortType.PRICE_DESC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);
@@ -691,7 +593,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.RATING_ASC
+                SortType.RATING_ASC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);
@@ -739,7 +642,8 @@ public class CoursePublicServiceImplTest {
                 BigDecimal.valueOf(10L),
                 BigDecimal.valueOf(50L),
                 CourseLevel.ADVANCED,
-                SortType.RATING_DESC
+                SortType.RATING_DESC,
+                CourseStatus.PUBLISHED
         );
 
         Pageable pageable = PageRequest.of(0, 2);

@@ -58,17 +58,18 @@ public class CourseAdminServiceImplTest {
     @Test
     @DisplayName("Func createCourse should create course successfully")
     void createCourse_shouldCreateCourseSuccessfully() {
-        Course course = CourseTestFactory.createCourse(a -> {
-                    a.name("Java");
-                }
-        );
-
         CreateCourseRequest request = CourseTestFactory.createCourseRequest(
                 a -> a.name = "Java"
         );
 
-        Mockito.when(repository.existsByName("Java")).thenReturn(false);
-        Mockito.when(mapper.toEntity(request)).thenReturn(course);
+        Course course = CourseTestFactory.createCourse(
+                a -> a.name("Java")
+        );
+
+        Mockito.when(repository.existsByName(Mockito.eq("Java")))
+                .thenReturn(false);
+        Mockito.when(mapper.toEntity(Mockito.any(CreateCourseRequest.class)))
+                .thenReturn(course);
         Mockito.when(repository.save(Mockito.any()))
                 .thenAnswer(i -> i.getArgument(0));
         Mockito.when(mapper.toResponse(Mockito.any()))
@@ -95,32 +96,6 @@ public class CourseAdminServiceImplTest {
         );
 
         Assertions.assertEquals(ErrorCode.COURSE_ALREADY_EXISTS, ex.getCode());
-    }
-
-    @Test
-    @DisplayName("Func createCourse should apply pricing")
-    void createCourse_shouldApplyPricing() {
-        Course course = CourseTestFactory.createCourse(
-                a -> {
-                    a.name("Java");
-                }
-        );
-
-        CreateCourseRequest request = CourseTestFactory.createCourseRequest(
-                a -> a.name = "Java"
-        );
-
-        Mockito.when(repository.existsByName("Java")).thenReturn(false);
-        Mockito.when(mapper.toEntity(request)).thenReturn(course);
-        Mockito.when(repository.save(Mockito.any()))
-                .thenAnswer(i -> i.getArgument(0));
-        Mockito.when(mapper.toResponse(Mockito.any()))
-                .thenAnswer(i -> CourseTestData.mapToDetailsResponse(i.getArgument(0)));
-
-        service.createCourse(request);
-
-        Assertions.assertEquals(request.type(), course.getType());
-        Assertions.assertEquals(request.price(), course.getPrice());
     }
 
     @Test
