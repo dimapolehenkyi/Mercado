@@ -39,11 +39,11 @@ public interface CourseRequirementRepository extends JpaRepository<CourseRequire
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
-        UPDATE CourseRequirement r
-        SET r.position = r.position + 1
-        WHERE r.courseId = :courseId
-        AND r.position >= :start
-        AND r.position <= :end
+    UPDATE CourseRequirement r
+    SET r.position = r.position + 1
+    WHERE r.courseId = :courseId
+    AND r.position >= :start
+    AND r.position <= :end
 """)
     void incrementPositionRange(Long courseId, int start, int end);
 

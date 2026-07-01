@@ -2,7 +2,7 @@ package com.example.mercado.courses.course.courseLearningPoint.controller.public
 
 
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CoursePublicLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.publicService.CoursePublicLearningPointService;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

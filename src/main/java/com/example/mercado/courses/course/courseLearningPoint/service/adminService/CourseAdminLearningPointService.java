@@ -1,11 +1,9 @@
-package com.example.mercado.courses.course.courseLearningPoint.service.interfaces;
+package com.example.mercado.courses.course.courseLearningPoint.service.adminService;
 
 import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
-
-import java.util.List;
 
 public interface CourseAdminLearningPointService {
 

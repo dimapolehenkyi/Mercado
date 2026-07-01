@@ -3,6 +3,7 @@ package com.example.mercado.courses.course.entity;
 import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
+import com.example.mercado.courses.course.dto.UpdateCourseRequest;
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
@@ -141,14 +142,14 @@ public class Course extends BaseEntity {
                 }
             }
             case PUBLISHED -> {
-                if (status == CourseStatus.ARCHIVED || status == CourseStatus.CLOSED) {
+                if (status == CourseStatus.ARCHIVED || status == CourseStatus.CLOSED || status == CourseStatus.DRAFT) {
                     this.status = status;
                     if (status == CourseStatus.CLOSED) deleted = true;
                     return;
                 }
             }
             case ARCHIVED -> {
-                if (status == CourseStatus.PUBLISHED || status == CourseStatus.CLOSED) {
+                if (status == CourseStatus.PUBLISHED || status == CourseStatus.CLOSED || status == CourseStatus.DRAFT) {
                     this.status = status;
                     if (status == CourseStatus.CLOSED) deleted = true;
                     return;
@@ -177,6 +178,8 @@ public class Course extends BaseEntity {
             );
         }
 
+        this.type = type;
+
         if (type == CourseAccessType.FREE) {
             this.price = BigDecimal.ZERO;
             this.isFree = true;
@@ -189,5 +192,16 @@ public class Course extends BaseEntity {
 
         this.price = price;
         this.isFree = false;
+    }
+
+    public void update(UpdateCourseRequest r) {
+        setName(r.name());
+        setLevel(r.level());
+        applyPricing(r.type(), r.price());
+
+        if (r.description() != null) description = r.description();
+        if (r.shortDescription() != null) shortDescription = r.shortDescription();
+        if (r.previewVideoUrl() != null) previewVideoUrl = r.previewVideoUrl();
+        if (r.thumbnailUrl() != null) thumbnailUrl = r.thumbnailUrl();
     }
 }

@@ -84,8 +84,12 @@ public class CoursePublicServiceImpl implements CoursePublicService {
     ) {
         Pageable sortedPageable = applySorting(filter.sortType(), pageable);
 
+        String keywordParam = filter.keyword() == null
+                ? null
+                : "%" + filter.keyword().toLowerCase() + "%";
+
         return repository.searchCourses(
-                filter.keyword(),
+                keywordParam,
                 filter.type(),
                 filter.teacherId(),
                 filter.priceFrom(),

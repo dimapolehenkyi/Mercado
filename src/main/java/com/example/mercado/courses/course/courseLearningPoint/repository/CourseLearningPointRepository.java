@@ -56,5 +56,4 @@ public interface CourseLearningPointRepository extends JpaRepository<CourseLearn
         AND r.position <= :end
 """)
     void decrementPositionRange(Long courseId, int start, int end);
-
 }

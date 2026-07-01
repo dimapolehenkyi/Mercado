@@ -85,7 +85,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     @Query("""
             SELECT c FROM Course c
-            WHERE (:keyword IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            WHERE (:keyword IS NULL OR LOWER(c.name) LIKE :keyword)
             AND (:type IS NULL OR c.type = :type)
             AND (:teacherId IS NULL OR c.teacherId = :teacherId)
             AND (:priceFrom IS NULL OR c.price >= :priceFrom)
@@ -94,12 +94,12 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
             AND c.status = 'PUBLISHED'
             """)
     Page<Course> searchCourses(
-            String keyword,
-            CourseAccessType type,
-            Long teacherId,
-            BigDecimal priceFrom,
-            BigDecimal priceTo,
-            CourseLevel level,
+            @Param("keyword") String keyword,
+            @Param("type") CourseAccessType type,
+            @Param("teacherId") Long teacherId,
+            @Param("priceFrom") BigDecimal priceFrom,
+            @Param("priceTo") BigDecimal priceTo,
+            @Param("level") CourseLevel level,
             Pageable pageable
     );
 

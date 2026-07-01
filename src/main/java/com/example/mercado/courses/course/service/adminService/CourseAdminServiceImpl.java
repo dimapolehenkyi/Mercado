@@ -40,9 +40,7 @@ public class CourseAdminServiceImpl implements CourseAdminService {
         course.setName(request.name());
         course.applyPricing(request.type(), request.price());
 
-        Course savedCourse = repository.save(course);
-
-        return mapper.toResponse(savedCourse);
+        return mapper.toResponse(repository.save(course));
     }
 
     @Override
@@ -56,21 +54,18 @@ public class CourseAdminServiceImpl implements CourseAdminService {
                 courseId
         );
 
-        if (repository.existsByName(request.name())) {
+        if (request.name() != null
+                && !request.name().equals(course.getName())
+                && repository.existsByName(request.name())) {
             throw new AppException(
                     ErrorCode.COURSE_ALREADY_EXISTS,
                     request.name()
             );
         }
 
-        mapper.updateEntity(course, request);
-        course.setName(request.name());
-        course.setLevel(request.level());
-        course.applyPricing(request.type(), request.price());
+        course.update(request);
 
-        Course saved = repository.save(course);
-
-        return mapper.toResponse(saved);
+        return mapper.toResponse(repository.save(course));
     }
 
     @Override
