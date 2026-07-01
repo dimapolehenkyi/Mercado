@@ -56,7 +56,7 @@ public class ModuleServiceImpl implements ModuleService {
 
         updateIfChanged(request.name(), module.getName(), module::setName);
         updateIfChanged(request.description(), module.getDescription(), module::setDescription);
-        updateIfChanged(request.moduleType(), module.getModuleType(), module::setModuleType);
+        updateIfChanged(request.moduleAccessType(), module.getModuleAccessType(), module::setModuleAccessType);
         updateIfChanged(request.status(), module.getStatus(), module::setStatus);
 
         return moduleMapper.toResponse(module);

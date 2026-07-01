@@ -1,8 +1,10 @@
 package com.example.mercado.courses.module.entity;
 
 import com.example.mercado.common.entity.BaseEntity;
+import com.example.mercado.common.exception.AppException;
+import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleType;
+import com.example.mercado.courses.module.enums.ModuleAccessType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +16,20 @@ import lombok.*;
 @ToString
 @Table(
         name = "modules",
+        indexes = {
+                @Index(
+                        name = "idx_module_status",
+                        columnList = "status"
+                ),
+                @Index(
+                        name = "idx_module_course_id",
+                        columnList = "course_id"
+                ),
+                @Index(
+                        name = "idx_module_course_position",
+                        columnList = "course_id, position"
+                )
+        },
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_module_name_courseid",
@@ -31,25 +47,14 @@ public class Module extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(
-            name = "course_id",
-            nullable = false
-    )
+    @Column(name = "course_id", nullable = false)
     @Setter
     private Long courseId;
 
-    @Column(
-            name = "name",
-            nullable = false,
-            length = 150
-    )
-    @Setter
+    @Column(name = "name", nullable = false, length = 150)
     private String name;
 
-    @Column(
-            name = "description",
-            length = 1000
-    )
+    @Column(name = "description", length = 1000)
     @Setter
     private String description;
 
@@ -64,11 +69,52 @@ public class Module extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    @Setter
-    private ModuleStatus status;
+    @Builder.Default
+    private ModuleStatus status = ModuleStatus.DRAFT;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @Setter
-    private ModuleType moduleType;
+    @Builder.Default
+    private ModuleAccessType moduleAccessType = ModuleAccessType.FREE;
+
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new AppException(
+                    ErrorCode.MODULE_NAME_INVALID
+            );
+        }
+
+        this.name = name;
+    }
+
+    public void setStatus(ModuleStatus status) {
+        if (this.status == status) return;
+
+        switch (this.status) {
+            case DRAFT -> {
+                if (status == ModuleStatus.PUBLISHED || status == ModuleStatus.ARCHIVED) {
+                    this.status = status;
+                    return;
+                }
+            }
+            case PUBLISHED -> {
+                if (status == ModuleStatus.ARCHIVED || status == ModuleStatus.CLOSED || status == ModuleStatus.DRAFT) {
+                    this.status = status;
+                    if (status == ModuleStatus.CLOSED) deleted = true;
+                    return;
+                }
+            }
+            case ARCHIVED -> {
+                if (status == ModuleStatus.PUBLISHED || status == ModuleStatus.CLOSED || status == ModuleStatus.DRAFT) {
+                    this.status = status;
+                    if (status == ModuleStatus.CLOSED) deleted = true;
+                    return;
+                }
+            }
+        }
+        throw new AppException(ErrorCode.MODULE_STATUS_INVALID);
+    }
+
 }
