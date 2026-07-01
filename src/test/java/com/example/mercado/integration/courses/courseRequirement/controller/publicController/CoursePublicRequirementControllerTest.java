@@ -1,4 +1,5 @@
 package com.example.mercado.integration.courses.courseRequirement.controller.publicController;
+
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -53,9 +53,7 @@ public class CoursePublicRequirementControllerTest extends AbstractRepositoryTes
                         .build()
         );
 
-        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
-                        courseId, requirement.getId()
-                ))
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}", courseId, requirement.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(requirement.getId()))
                 .andExpect(jsonPath("$.courseId").value(1L))
@@ -69,9 +67,7 @@ public class CoursePublicRequirementControllerTest extends AbstractRepositoryTes
         Long courseId = 1L;
         Long requirementId = 1L;
 
-        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
-                        courseId, requirementId
-                ))
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isNotFound());
     }
 
@@ -81,9 +77,7 @@ public class CoursePublicRequirementControllerTest extends AbstractRepositoryTes
         Long courseId = -1L;
         Long requirementId = 1L;
 
-        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
-                        courseId, requirementId
-                ))
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
     }
 
@@ -93,9 +87,7 @@ public class CoursePublicRequirementControllerTest extends AbstractRepositoryTes
         Long courseId = 1L;
         Long requirementId = -1L;
 
-        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}",
-                        courseId, requirementId
-                ))
+        mockMvc.perform(get("/courses/{courseId}/requirements/{requirementId}", courseId, requirementId))
                 .andExpect(status().isBadRequest());
     }
 
@@ -153,9 +145,7 @@ public class CoursePublicRequirementControllerTest extends AbstractRepositoryTes
     void getAllByCourseId_shouldReturn400_whenCourseIdIsNotPositive() throws  Exception {
         Long courseId = -1L;
 
-        mockMvc.perform(get("/courses/{courseId}/requirements",
-                        courseId
-                ))
+        mockMvc.perform(get("/courses/{courseId}/requirements", courseId))
                 .andExpect(status().isBadRequest());
     }
 

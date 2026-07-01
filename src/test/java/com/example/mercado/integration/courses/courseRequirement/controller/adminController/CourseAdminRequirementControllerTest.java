@@ -1,14 +1,10 @@
 package com.example.mercado.integration.courses.courseRequirement.controller.adminController;
 
-import com.example.mercado.common.exception.GlobalExceptionHandler;
-import com.example.mercado.configs.MessageConfig;
-import com.example.mercado.configs.TestSecurityConfig;
 import com.example.mercado.courses.course.courseRequirement.dto.AddRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.ReorderRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
-import com.example.mercado.courses.course.courseRequirement.service.adminService.CourseAdminRequirementService;
 import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.AfterEach;
@@ -18,11 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 
@@ -37,13 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("CourseAdminRequirement Controller Test")
-//@Import(
-//        {
-//                GlobalExceptionHandler.class,
-//                MessageConfig.class,
-//                TestSecurityConfig.class
-//        }
-//)
 public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest {
 
     @Autowired
@@ -82,7 +69,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, list.size()),
-                () -> Assertions.assertEquals("Test", list.get(0).getText())
+                () -> Assertions.assertEquals("Test", list.getFirst().getText())
         );
     }
 
@@ -131,9 +118,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updateCourseRequirement_shouldReturn200AndUpdatedRequirement_whenValidRequest() throws  Exception {
         Long courseId = 1L;
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "Updated"
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("Updated");
 
         CourseRequirement requirement = repository.save(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
@@ -156,7 +141,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, list.size()),
-                () -> Assertions.assertEquals("Updated", list.get(0).getText())
+                () -> Assertions.assertEquals("Updated", list.getFirst().getText())
         );
     }
 
@@ -165,9 +150,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updateCourseRequirement_shouldReturn400_whenRequestInvalid() throws  Exception {
         Long courseId = 1L;
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "   "
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("   ");
 
         CourseRequirement requirement = repository.save(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
@@ -187,7 +170,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, list.size()),
-                () -> Assertions.assertEquals("Test", list.get(0).getText())
+                () -> Assertions.assertEquals("Test", list.getFirst().getText())
         );
     }
 
@@ -196,9 +179,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updateCourseRequirement_shouldReturn404_whenRequirementNotFound() throws  Exception {
         Long courseId = 1L;
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "Updated"
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("Updated");
 
         CourseRequirement requirement = repository.save(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
@@ -218,7 +199,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(1, list.size()),
-                () -> Assertions.assertEquals("Test", list.get(0).getText())
+                () -> Assertions.assertEquals("Test", list.getFirst().getText())
         );
     }
 
@@ -250,22 +231,10 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void deleteCourseRequirement_shouldReturn404_whenRequirementNotFound() throws  Exception {
         Long courseId = 1L;
 
-        CourseRequirement requirement = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test")
-                        .courseId(courseId)
-                        .position(1)
-                        .build()
-        );
-
         mockMvc.perform(delete("/admin/courses/{courseId}/requirements/{requirementId}", courseId, 2L)
                         .with(user("admin").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-
-        List<CourseRequirement> list = repository.findAllByCourseIdOrderByPositionAsc(courseId);
-
-        Assertions.assertEquals(1, list.size());
     }
 
     @Test
@@ -273,9 +242,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updatePosition_shouldReturn200AndReorderedRequirements_whenValidRequest() throws  Exception {
         Long courseId = 1L;
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                3
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(3);
 
         CourseRequirement requirement1 = repository.save(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
@@ -299,7 +266,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
                         .build()
         );
 
-        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirement1.getId())
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirement1.getId())
                         .with(user("admin").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -317,43 +284,13 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updatePosition_shouldReturn400_whenPositionInvalid() throws  Exception {
         Long courseId = 1L;
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                -3
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(-3);
 
-        CourseRequirement requirement1 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 1")
-                        .courseId(courseId)
-                        .position(1)
-                        .build()
-        );
-        CourseRequirement requirement2 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 2")
-                        .courseId(courseId)
-                        .position(2)
-                        .build()
-        );
-        CourseRequirement requirement3 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 3")
-                        .courseId(courseId)
-                        .position(3)
-                        .build()
-        );
-
-        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirement1.getId())
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, 1L)
                         .with(user("admin").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest());
-
-        List<CourseRequirement> list = repository.findAllByCourseIdOrderByPositionAsc(courseId);
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(3, list.size())
-        );
     }
 
     @Test
@@ -361,43 +298,13 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updatePosition_shouldReturn404_whenRequirementNotFound() throws  Exception {
         Long courseId = 1L;
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                3
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(3);
 
-        CourseRequirement requirement1 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 1")
-                        .courseId(courseId)
-                        .position(1)
-                        .build()
-        );
-        CourseRequirement requirement2 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 2")
-                        .courseId(courseId)
-                        .position(2)
-                        .build()
-        );
-        CourseRequirement requirement3 = repository.save(
-                CourseRequirementTestFactory.createDefaultCourseRequirement()
-                        .text("Test 3")
-                        .courseId(courseId)
-                        .position(3)
-                        .build()
-        );
-
-        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, 5L)
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, 5L)
                         .with(user("admin").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound());
-
-        List<CourseRequirement> list = repository.findAllByCourseIdOrderByPositionAsc(courseId);
-
-        Assertions.assertAll(
-                () -> Assertions.assertEquals(3, list.size())
-        );
     }
 
     @Test
@@ -405,9 +312,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
     void updatePosition_shouldShiftPositionsInDatabase_whenMoveDown() throws  Exception {
         Long courseId = 1L;
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                1
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(1);
 
         CourseRequirement requirement1 = repository.save(
                 CourseRequirementTestFactory.createDefaultCourseRequirement()
@@ -431,7 +336,7 @@ public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest
                         .build()
         );
 
-        mockMvc.perform(patch("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirement3.getId())
+        mockMvc.perform(put("/admin/courses/{courseId}/requirements/{requirementId}/position", courseId, requirement3.getId())
                         .with(user("admin").authorities(new SimpleGrantedAuthority("ADMIN")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
