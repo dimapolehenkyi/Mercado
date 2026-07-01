@@ -2,7 +2,8 @@ package com.example.mercado.integration.courses.courseLearningPoint.controller.p
 
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CoursePublicLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.publicService.CoursePublicLearningPointService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -24,8 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("CoursePublicLearningPointController Integration Test")
-@ActiveProfiles("test")
-public class CoursePublicLearningPointControllerTest {
+public class CoursePublicLearningPointControllerTest extends AbstractRepositoryTest {
 
     @Autowired
     private MockMvc mockMvc;

@@ -9,6 +9,7 @@ import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequiremen
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.adminService.CourseAdminRequirementService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -24,8 +25,8 @@ import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
-public class CourseAdminRequirementServiceImplTest {
+@DisplayName("CourseAdminRequirementService Integration Test")
+public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private CourseRequirementRepository repository;

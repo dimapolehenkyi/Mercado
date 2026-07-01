@@ -9,7 +9,7 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPoi
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseAdminLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.adminService.CourseAdminLearningPointService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

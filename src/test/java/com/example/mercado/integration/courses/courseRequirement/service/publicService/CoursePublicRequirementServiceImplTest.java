@@ -6,6 +6,7 @@ import com.example.mercado.courses.course.courseRequirement.dto.RequirementRespo
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
-public class CoursePublicRequirementServiceImplTest {
+@DisplayName("CoursePublicRequirementService Integration Test")
+public class CoursePublicRequirementServiceImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private CourseRequirementRepository repository;

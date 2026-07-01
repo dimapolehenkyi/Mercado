@@ -8,6 +8,7 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearnin
 import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -34,16 +35,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("CourseAdminLP Controller Test")
-@Import(
-        {
-                GlobalExceptionHandler.class,
-                MessageConfig.class,
-                TestSecurityConfig.class
-        }
-)
-@ActiveProfiles("test")
-public class CourseAdminLearningPointControllerTest {
+@DisplayName("CourseAdminLearningPointController Integration Test")
+//@Import(
+//        {
+//                GlobalExceptionHandler.class,
+//                MessageConfig.class,
+//                TestSecurityConfig.class
+//        }
+//)
+public class CourseAdminLearningPointControllerTest extends AbstractRepositoryTest {
 
     @Autowired
     private MockMvc mockMvc;

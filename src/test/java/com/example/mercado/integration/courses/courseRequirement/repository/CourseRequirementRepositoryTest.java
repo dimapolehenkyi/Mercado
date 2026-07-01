@@ -3,12 +3,14 @@ package com.example.mercado.integration.courses.courseRequirement.repository;
 import com.example.mercado.configs.JpaAuditingConfig;
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
@@ -16,8 +18,8 @@ import java.util.Optional;
 
 @DataJpaTest
 @Import(JpaAuditingConfig.class)
-@DisplayName("CourseRequirement Repository Test")
-public class CourseRequirementRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class CourseRequirementRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private CourseRequirementRepository repository;
