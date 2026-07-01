@@ -1,7 +1,7 @@
-package com.example.mercado.courses.course.controller;
+package com.example.mercado.courses.course.controller.adminController;
 
 import com.example.mercado.courses.course.dto.*;
-import com.example.mercado.courses.course.service.interfaces.CourseAdminService;
+import com.example.mercado.courses.course.service.adminService.CourseAdminService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

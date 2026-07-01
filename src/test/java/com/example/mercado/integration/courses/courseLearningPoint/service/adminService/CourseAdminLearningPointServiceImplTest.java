@@ -5,7 +5,8 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointR
 import com.example.mercado.courses.course.courseLearningPoint.dto.ReorderLearningPointRequest;
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseAdminLearningPointService;
+import com.example.mercado.courses.course.courseLearningPoint.service.adminService.CourseAdminLearningPointService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -15,14 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
-public class CourseAdminLearningPointServiceImplTest {
+@DisplayName("CourseAdminLearningPointService Integration Test")
+public class CourseAdminLearningPointServiceImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private CourseLearningPointRepository repository;

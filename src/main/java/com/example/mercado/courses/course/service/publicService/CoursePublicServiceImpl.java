@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.service;
+package com.example.mercado.courses.course.service.publicService;
 
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.course.dto.*;
@@ -7,7 +7,6 @@ import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.enums.SortType;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.service.interfaces.CoursePublicService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,31 +26,29 @@ public class CoursePublicServiceImpl implements CoursePublicService {
 
     private final EntityFinder finder;
 
-
-
     @Override
-    public Page<CourseShortResponse> getCoursesByStatus(CourseStatus status, Pageable pageable) {
-        return repository
-                .findByStatus(status, pageable)
-                .map(mapper::toShortResponse);
-    }
-
-    @Override
-    public Page<CourseShortResponse> getMyCourse(Long userId, Pageable pageable) {
+    public Page<CourseShortResponse> getMyCourse(
+            Long userId,
+            Pageable pageable
+    ) {
         return repository
                 .findAllByUserId(userId, pageable)
                 .map(mapper::toShortResponse);
     }
 
     @Override
-    public Page<CourseShortResponse> getPopularCourses(Pageable pageable) {
+    public Page<CourseShortResponse> getPopularCourses(
+            Pageable pageable
+    ) {
         return repository
-                .findAllByOrderByStudentCountDesc(pageable)
+                .findPopularPublishedCourses(pageable)
                 .map(mapper::toShortResponse);
     }
 
     @Override
-    public CourseDetailsResponse getActiveCourseById(Long courseId) {
+    public CourseDetailsResponse getActiveCourseById(
+            Long courseId
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findActiveById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -62,14 +59,19 @@ public class CoursePublicServiceImpl implements CoursePublicService {
     }
 
     @Override
-    public Page<CourseShortResponse> getAllCourses(Pageable pageable) {
+    public Page<CourseShortResponse> getAllCourses(
+            Pageable pageable
+    ) {
         return repository
                 .findAll(pageable)
                 .map(mapper::toShortResponse);
     }
 
     @Override
-    public Page<CourseShortResponse> getCoursesByTeacherId(Long teacherId, Pageable pageable) {
+    public Page<CourseShortResponse> getCoursesByTeacherId(
+            Long teacherId,
+            Pageable pageable
+    ) {
         return repository
                 .findAllByTeacherId(teacherId, pageable)
                 .map(mapper::toShortResponse);
@@ -82,8 +84,12 @@ public class CoursePublicServiceImpl implements CoursePublicService {
     ) {
         Pageable sortedPageable = applySorting(filter.sortType(), pageable);
 
+        String keywordParam = filter.keyword() == null
+                ? null
+                : "%" + filter.keyword().toLowerCase() + "%";
+
         return repository.searchCourses(
-                filter.keyword(),
+                keywordParam,
                 filter.type(),
                 filter.teacherId(),
                 filter.priceFrom(),
@@ -99,7 +105,9 @@ public class CoursePublicServiceImpl implements CoursePublicService {
     }
 
     @Override
-    public long countTeacherCoursesById(Long teacherId) {
+    public long countTeacherCoursesById(
+            Long teacherId
+    ) {
         return repository.countByTeacherId(teacherId);
     }
 

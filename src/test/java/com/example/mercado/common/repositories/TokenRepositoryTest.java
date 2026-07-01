@@ -3,6 +3,7 @@ package com.example.mercado.common.repositories;
 import com.example.mercado.common.jwt.entity.Token;
 import com.example.mercado.common.jwt.repositories.TokenRepository;
 import com.example.mercado.configs.JpaAuditingConfig;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.users.entity.User;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
@@ -17,7 +19,8 @@ import java.util.Optional;
 
 @DataJpaTest
 @Import(JpaAuditingConfig.class)
-public class TokenRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class TokenRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private TokenRepository tokenRepository;

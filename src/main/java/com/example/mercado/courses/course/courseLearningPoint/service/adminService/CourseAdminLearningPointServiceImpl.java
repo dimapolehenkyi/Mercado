@@ -9,7 +9,6 @@ import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearning
 import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseLearningPoint.mapper.CourseLearningPointMapper;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
-import com.example.mercado.courses.course.courseLearningPoint.service.interfaces.CourseAdminLearningPointService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -131,15 +130,24 @@ public class CourseAdminLearningPointServiceImpl implements CourseAdminLearningP
             return mapper.toResponse(point);
         }
 
-        repository.updatePosition(pointId, -1000);
-
         if (newPos < oldPos) {
-            repository.incrementPositionRange(courseId, newPos, oldPos - 1);
+            repository.incrementPositionRange(
+                    courseId,
+                    newPos,
+                    oldPos - 1
+            );
         } else {
-            repository.decrementPositionRange(courseId, oldPos + 1, newPos);
+            repository.decrementPositionRange(
+                    courseId,
+                    oldPos + 1,
+                    newPos
+            );
         }
 
-        repository.updatePosition(pointId, newPos);
+        repository.updatePosition(
+                pointId,
+                newPos
+        );
 
         return mapper.toResponse(point);
     }

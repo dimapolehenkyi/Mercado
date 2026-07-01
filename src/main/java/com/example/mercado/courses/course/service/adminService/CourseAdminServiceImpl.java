@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.service;
+package com.example.mercado.courses.course.service.adminService;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
@@ -7,7 +7,6 @@ import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.service.interfaces.CourseAdminService;
 import com.example.mercado.courses.course.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,7 +26,9 @@ public class CourseAdminServiceImpl implements CourseAdminService {
 
 
     @Override
-    public CourseDetailsResponse createCourse(CreateCourseRequest request) {
+    public CourseDetailsResponse createCourse(
+            CreateCourseRequest request
+    ) {
         if (repository.existsByName(request.name())) {
             throw new AppException(
                     ErrorCode.COURSE_ALREADY_EXISTS,
@@ -36,39 +37,42 @@ public class CourseAdminServiceImpl implements CourseAdminService {
         }
 
         Course course = mapper.toEntity(request);
+        course.setName(request.name());
         course.applyPricing(request.type(), request.price());
 
-        Course savedCourse = repository.save(course);
-
-        return mapper.toResponse(savedCourse);
+        return mapper.toResponse(repository.save(course));
     }
 
     @Override
-    public CourseDetailsResponse updateCourse(Long courseId, UpdateCourseRequest request) {
+    public CourseDetailsResponse updateCourse(
+            Long courseId,
+            UpdateCourseRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
                 courseId
         );
 
-        if (repository.existsByName(request.name())) {
+        if (request.name() != null
+                && !request.name().equals(course.getName())
+                && repository.existsByName(request.name())) {
             throw new AppException(
                     ErrorCode.COURSE_ALREADY_EXISTS,
                     request.name()
             );
         }
 
-        mapper.updateEntity(course, request);
-        course.setName(request.name());
-        course.applyPricing(request.type(), request.price());
+        course.update(request);
 
-        Course saved = repository.save(course);
-
-        return mapper.toResponse(saved);
+        return mapper.toResponse(repository.save(course));
     }
 
     @Override
-    public void changeCourseStatus(Long courseId, ChangeStatusRequest request) {
+    public void changeCourseStatus(
+            Long courseId,
+            ChangeStatusRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -81,7 +85,10 @@ public class CourseAdminServiceImpl implements CourseAdminService {
 
 
     @Override
-    public void changeCourseLevel(Long courseId, ChangeLevelRequest request) {
+    public void changeCourseLevel(
+            Long courseId,
+            ChangeLevelRequest request
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,
@@ -93,7 +100,9 @@ public class CourseAdminServiceImpl implements CourseAdminService {
     }
 
     @Override
-    public void deleteCourse(Long courseId) {
+    public void deleteCourse(
+            Long courseId
+    ) {
         Course course = finder.findEntityOrThrow(
                 () -> repository.findById(courseId),
                 ErrorCode.COURSE_NOT_FOUND,

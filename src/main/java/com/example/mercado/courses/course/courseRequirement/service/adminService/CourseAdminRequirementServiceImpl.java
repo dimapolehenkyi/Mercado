@@ -132,15 +132,24 @@ public class CourseAdminRequirementServiceImpl implements CourseAdminRequirement
             return mapper.toResponse(current);
         }
 
-        repository.updatePosition(requirementId, -1000);
-
         if (newPos < oldPos) {
-            repository.incrementPositionRange(courseId, newPos, oldPos - 1);
+            repository.incrementPositionRange(
+                    courseId,
+                    newPos,
+                    oldPos - 1
+            );
         } else {
-            repository.decrementPositionRange(courseId, oldPos + 1, newPos);
+            repository.decrementPositionRange(
+                    courseId,
+                    oldPos + 1,
+                    newPos
+            );
         }
 
-        repository.updatePosition(requirementId, newPos);
+        repository.updatePosition(
+                requirementId,
+                newPos
+        );
 
         return mapper.toResponse(current);
     }

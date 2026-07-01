@@ -9,6 +9,7 @@ import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequiremen
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.adminService.CourseAdminRequirementService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -36,15 +37,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("CourseAdminRequirement Controller Test")
-@Import(
-        {
-                GlobalExceptionHandler.class,
-                MessageConfig.class,
-                TestSecurityConfig.class
-        }
-)
-@ActiveProfiles("test")
-public class CourseAdminRequirementControllerTest {
+//@Import(
+//        {
+//                GlobalExceptionHandler.class,
+//                MessageConfig.class,
+//                TestSecurityConfig.class
+//        }
+//)
+public class CourseAdminRequirementControllerTest extends AbstractRepositoryTest {
 
     @Autowired
     private MockMvc mockMvc;

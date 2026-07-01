@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.service.interfaces;
+package com.example.mercado.courses.course.service.adminService;
 
 import com.example.mercado.courses.course.dto.*;
 

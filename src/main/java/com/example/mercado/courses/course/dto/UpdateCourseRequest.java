@@ -2,7 +2,6 @@ package com.example.mercado.courses.course.dto;
 
 import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseLevel;
-import com.example.mercado.courses.course.enums.CourseStatus;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -12,7 +11,7 @@ public record UpdateCourseRequest(
         @Size(
                 min = 1,
                 max = 100,
-                message = "Name must not be empty"
+                message = "Name too long"
         )
         String name,
 

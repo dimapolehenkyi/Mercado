@@ -1,0 +1,18 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: mercado-postgres
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "5678:5432"
+
+    volumes:
+      - mercado_db:/var/lib/postgresql/data
+
+volumes:
+  mercado_db:

@@ -2,6 +2,7 @@ package com.example.mercado.integration.courses.courseRequirement.controller.pub
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,8 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("CoursePublicRequirement Controller Test")
-@ActiveProfiles("test")
-public class CoursePublicRequirementControllerTest {
+public class CoursePublicRequirementControllerTest extends AbstractRepositoryTest {
 
     @Autowired
     private MockMvc mockMvc;

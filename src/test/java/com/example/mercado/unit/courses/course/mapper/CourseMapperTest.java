@@ -47,12 +47,13 @@ public class CourseMapperTest {
     @Test
     @DisplayName("toResponse should map real values correctly")
     void toResponse_shouldMapRealValues() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .studentCount(10L)
-                .rating(4.5)
-                .reviewsCount(3L)
-                .durationInMinutes(120)
-                .build();
+        Course course = CourseTestFactory.createCourse(a -> {
+                    a.studentCount(10L);
+                    a.rating(4.5);
+                    a.reviewsCount(3L);
+                    a.durationInMinutes(120);
+                }
+        );
 
         CourseDetailsResponse response = mapper.toResponse(course);
 
@@ -67,10 +68,11 @@ public class CourseMapperTest {
     @Test
     @DisplayName("toShortResponse should default rating to 0.0 when null")
     void toShortResponse_shouldDefaultRating() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java")
-                .rating(null)
-                .build();
+        Course course = CourseTestFactory.createCourse(a -> {
+                    a.name("Java");
+                    a.rating(null);
+                }
+        );
 
         CourseShortResponse response = mapper.toShortResponse(course);
 
@@ -80,13 +82,14 @@ public class CourseMapperTest {
     @Test
     @DisplayName("toShortResponse should map fields correctly")
     void toShortResponse_shouldMapCorrectly() {
-        Course course = CourseTestFactory.createDefaultCourse()
-                .name("Java")
-                .price(BigDecimal.valueOf(100L))
-                .type(CourseAccessType.PAID)
-                .status(CourseStatus.PUBLISHED)
-                .rating(4.2)
-                .build();
+        Course course = CourseTestFactory.createCourse(a -> {
+                    a.name("Java");
+                    a.price(BigDecimal.valueOf(100L));
+                    a.type(CourseAccessType.PAID);
+                    a.status(CourseStatus.PUBLISHED);
+                    a.rating(4.2);
+                }
+        );
 
         CourseShortResponse response = mapper.toShortResponse(course);
 

@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.courseLearningPoint.service.interfaces;
+package com.example.mercado.courses.course.courseLearningPoint.service.publicService;
 
 import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
 

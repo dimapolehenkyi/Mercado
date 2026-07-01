@@ -1,6 +1,7 @@
 package com.example.mercado.unit.user.repository;
 
 import com.example.mercado.configs.JpaAuditingConfig;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.users.entity.User;
 import com.example.mercado.users.repositories.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -8,14 +9,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
-
 
 import java.util.Optional;
 
+
 @DataJpaTest
 @Import(JpaAuditingConfig.class)
-public class UserRepositoryTest {
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class UserRepositoryTest extends AbstractRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
