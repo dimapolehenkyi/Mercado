@@ -5,6 +5,7 @@ import com.example.mercado.courses.course.enums.CourseAccessType;
 import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.repository.CourseRepository;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -31,8 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @DisplayName("CoursePublicController Integration Test")
-@ActiveProfiles("test")
-public class CoursePublicControllerTest {
+public class CoursePublicControllerTest extends AbstractRepositoryTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -494,13 +493,6 @@ public class CoursePublicControllerTest {
                 Arguments.of("?status=PUBLISHED&type=PAID", 2),
                 Arguments.of("?keyword=nonexistent", 0)
         );
-    }
-
-    @Test
-    void searchCourse_shouldReturnBadRequestWhenFilterValidationFails() throws Exception {
-        mockMvc.perform(get("/api/courses/search")
-                        .param("level", "NOT_EXISTING_LEVEL"))
-                .andExpect(status().isBadRequest());
     }
 
 

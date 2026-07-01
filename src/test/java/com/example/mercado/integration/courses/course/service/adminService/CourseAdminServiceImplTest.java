@@ -8,6 +8,7 @@ import com.example.mercado.courses.course.enums.CourseLevel;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.repository.CourseRepository;
 import com.example.mercado.courses.course.service.adminService.CourseAdminService;
+import com.example.mercado.testUtils.base.AbstractRepositoryTest;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -25,9 +26,8 @@ import java.util.Optional;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("CourseAdminServiceIntegrationTest")
-@ActiveProfiles("test")
-public class CourseAdminServiceImplTest {
+@DisplayName("CourseAdminService Integration Test")
+public class CourseAdminServiceImplTest extends AbstractRepositoryTest {
 
     @Autowired
     private CourseRepository repository;
