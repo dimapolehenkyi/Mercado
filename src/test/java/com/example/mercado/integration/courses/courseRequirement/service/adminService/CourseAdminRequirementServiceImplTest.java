@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -38,8 +37,6 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
     void clean() {
         repository.deleteAllInBatch();
     }
-
-
 
     @Test
     @WithMockUser(authorities = "ADMIN")
@@ -69,9 +66,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        AddRequirementRequest request = new AddRequirementRequest(
-                "New point"
-        );
+        AddRequirementRequest request = new AddRequirementRequest("New point");
 
         RequirementResponse response = service.createCourseRequirement(courseId, request);
 
@@ -89,9 +84,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
     void createCourseRequirement_shouldSetCorrectFirstPosition_whenNoOneRequirementsExists() {
         Long courseId = 1L;
 
-        AddRequirementRequest request = new AddRequirementRequest(
-                "New point"
-        );
+        AddRequirementRequest request = new AddRequirementRequest("New point");
 
         RequirementResponse response = service.createCourseRequirement(courseId, request);
 
@@ -117,9 +110,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "New text"
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("New text");
 
         RequirementResponse response = service.updateCourseRequirement(
                 requirement.getId(),
@@ -151,9 +142,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "Test text 1"
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("Test text 1");
 
         AppException ex = Assertions.assertThrows(
                 AppException.class,
@@ -186,9 +175,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        UpdateRequirementRequest request = new UpdateRequirementRequest(
-                "   "
-        );
+        UpdateRequirementRequest request = new UpdateRequirementRequest("   ");
 
         AppException ex = Assertions.assertThrows(
                 AppException.class,
@@ -241,7 +228,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals(2, requirements.size()),
-                () -> Assertions.assertEquals(1, requirements.get(0).getPosition()),
+                () -> Assertions.assertEquals(1, requirements.getFirst().getPosition()),
                 () -> Assertions.assertEquals(2, requirements.get(1).getPosition())
         );
     }
@@ -288,9 +275,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                2
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(2);
 
         service.updatePosition(
                 5L,
@@ -303,8 +288,8 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
         Assertions.assertAll(
                 () -> Assertions.assertEquals(5, points.size()),
 
-                () -> Assertions.assertEquals(1, points.get(0).getPosition()),
-                () -> Assertions.assertEquals("Test text 1", points.get(0).getText()),
+                () -> Assertions.assertEquals(1, points.getFirst().getPosition()),
+                () -> Assertions.assertEquals("Test text 1", points.getFirst().getText()),
 
                 () -> Assertions.assertEquals(2, points.get(1).getPosition()),
                 () -> Assertions.assertEquals("Test text 5", points.get(1).getText()),
@@ -355,9 +340,7 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
                         .build()
         );
 
-        ReorderRequirementRequest request = new ReorderRequirementRequest(
-                4
-        );
+        ReorderRequirementRequest request = new ReorderRequirementRequest(4);
 
         service.updatePosition(
                 2L,
@@ -370,8 +353,8 @@ public class CourseAdminRequirementServiceImplTest extends AbstractRepositoryTes
         Assertions.assertAll(
                 () -> Assertions.assertEquals(4, points.size()),
 
-                () -> Assertions.assertEquals(1, points.get(0).getPosition()),
-                () -> Assertions.assertEquals("Test text 1", points.get(0).getText()),
+                () -> Assertions.assertEquals(1, points.getFirst().getPosition()),
+                () -> Assertions.assertEquals("Test text 1", points.getFirst().getText()),
 
                 () -> Assertions.assertEquals(2, points.get(1).getPosition()),
                 () -> Assertions.assertEquals("Test text 3", points.get(1).getText()),

@@ -90,9 +90,7 @@ public class CoursePublicRequirementServiceImplTest extends AbstractRepositoryTe
                 )
         );
 
-        List<RequirementResponse> responses = service.getAllByCourseId(
-                1L
-        );
+        List<RequirementResponse> responses = service.getAllByCourseId(1L);
 
         Assertions.assertAll(
                 () -> Assertions.assertNotNull(responses),
@@ -112,9 +110,7 @@ public class CoursePublicRequirementServiceImplTest extends AbstractRepositoryTe
     @Test
     @DisplayName("getAllByCourseId should return empty list when course hasn't no one")
     void getAllByCourseId_shouldReturnEmptyList_whenCourseHasNoRequirements() {
-        List<RequirementResponse> responses = service.getAllByCourseId(
-                1L
-        );
+        List<RequirementResponse> responses = service.getAllByCourseId(1L);
 
         Assertions.assertTrue(responses.isEmpty());
     }

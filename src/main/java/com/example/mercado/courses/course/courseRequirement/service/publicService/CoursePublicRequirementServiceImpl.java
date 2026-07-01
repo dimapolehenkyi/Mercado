@@ -16,13 +16,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CoursePublicRequirementServiceImpl implements CoursePublicRequirementService {
 
-
     private final CourseRequirementRepository repository;
     private final CourseRequirementMapper mapper;
 
     private final EntityFinder finder;
-
-
 
     @Override
     @Transactional(readOnly = true)

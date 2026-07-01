@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,10 +49,10 @@ public class CourseAdminRequirementController {
         service.deleteCourseRequirement(requirementId, courseId);
     }
 
-    @PatchMapping("/{requirementId}/position")
+    @PutMapping("/{requirementId}/position")
     public RequirementResponse updatePosition(
-            @PathVariable Long requirementId,
-            @PathVariable Long courseId,
+            @PathVariable @Positive Long requirementId,
+            @PathVariable @Positive Long courseId,
             @RequestBody @Valid ReorderRequirementRequest request
     ) {
         return service.updatePosition(requirementId, courseId, request);
