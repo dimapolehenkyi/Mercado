@@ -21,17 +21,26 @@ public interface ModuleService {
     ModuleResponse publishModule(Long courseId, Long moduleId);
     ModuleResponse archiveModule(Long courseId, Long moduleId);
 
-    void moveModuleUp(Long courseId, Long moduleId);
-    void moveModuleDown(Long courseId, Long moduleId);
+//    void moveModuleUp(Long courseId, Long moduleId);
+//    void moveModuleDown(Long courseId, Long moduleId);
 
-    boolean existsById(Long moduleId);
-    boolean existsByNameInCourse(Long courseId, String name);
+//    //delete
+//    boolean existsById(Long moduleId);
+//
+//    //delete
+//    boolean existsByNameInCourse(Long courseId, String name);
 
+    //delete
     long countModulesByCourse(Long courseId);
 
+    //delete
     void deleteModulesByCourse(Long courseId);
+
+    //delete
     void updateStatusAllModules(Long courseId, ModuleStatus status);
 
     Page<ModuleShortResponse> getCourseModules(Long courseId, Pageable pageable);
-    List<ModuleShortResponse> getAllCourseModules(Long courseId);
+
+//    //delete
+//    List<ModuleShortResponse> getAllCourseModules(Long courseId);
 }
