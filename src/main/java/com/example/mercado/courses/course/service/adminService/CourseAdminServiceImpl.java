@@ -7,7 +7,7 @@ import com.example.mercado.courses.course.entity.Course;
 import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
-import com.example.mercado.courses.course.utils.EntityFinder;
+import com.example.mercado.courses.utils.EntityFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

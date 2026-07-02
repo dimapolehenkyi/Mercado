@@ -8,7 +8,7 @@ import com.example.mercado.courses.course.courseRequirement.entity.CourseRequire
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapper;
 import com.example.mercado.courses.course.courseRequirement.repository.CourseRequirementRepository;
 import com.example.mercado.courses.course.courseRequirement.service.publicService.CoursePublicRequirementServiceImpl;
-import com.example.mercado.courses.course.utils.EntityFinder;
+import com.example.mercado.courses.utils.EntityFinder;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -3,7 +3,6 @@ package com.example.mercado.courses.course.service.publicService;
 import com.example.mercado.courses.course.dto.CourseDetailsResponse;
 import com.example.mercado.courses.course.dto.CourseSearchFilter;
 import com.example.mercado.courses.course.dto.CourseShortResponse;
-import com.example.mercado.courses.course.enums.CourseStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -11,7 +11,7 @@ import com.example.mercado.courses.course.enums.CourseStatus;
 import com.example.mercado.courses.course.mapper.CourseMapper;
 import com.example.mercado.courses.course.repository.CourseRepository;
 import com.example.mercado.courses.course.service.adminService.CourseAdminServiceImpl;
-import com.example.mercado.courses.course.utils.EntityFinder;
+import com.example.mercado.courses.utils.EntityFinder;
 import com.example.mercado.testUtils.courses.course.CourseTestData;
 import com.example.mercado.testUtils.courses.course.CourseTestFactory;
 import org.junit.jupiter.api.Assertions;

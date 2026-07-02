@@ -11,7 +11,7 @@ import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearn
 import com.example.mercado.courses.course.courseLearningPoint.mapper.CourseLearningPointMapper;
 import com.example.mercado.courses.course.courseLearningPoint.repository.CourseLearningPointRepository;
 import com.example.mercado.courses.course.courseLearningPoint.service.adminService.CourseAdminLearningPointServiceImpl;
-import com.example.mercado.courses.course.utils.EntityFinder;
+import com.example.mercado.courses.utils.EntityFinder;
 import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestData;
 import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
 import org.junit.jupiter.api.Assertions;
