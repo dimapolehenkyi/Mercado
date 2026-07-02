@@ -17,14 +17,14 @@ public class ModuleMapper {
                 .name(request.name())
                 .description(request.description())
                 .status(request.moduleStatus())
-                .moduleType(request.moduleType())
+                .moduleAccessType(request.moduleAccessType())
                 .build();
     }
 
     public void updateEntity(@NonNull Module module, @NonNull UpdateModuleRequest request) {
         module.setName(request.name());
         module.setDescription(request.description());
-        module.setModuleType(request.moduleType());
+        module.setModuleAccessType(request.moduleAccessType());
         module.setStatus(request.status());
     }
 
@@ -35,7 +35,7 @@ public class ModuleMapper {
                 module.getName(),
                 module.getDescription(),
                 module.getStatus(),
-                module.getModuleType(),
+                module.getModuleAccessType(),
                 module.getCreatedAt(),
                 module.getUpdatedAt()
         );

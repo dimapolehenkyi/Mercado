@@ -1,10 +1,9 @@
 package com.example.mercado.courses.module.dto;
 
 import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleType;
+import com.example.mercado.courses.module.enums.ModuleAccessType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.jspecify.annotations.NonNull;
 
 public record CreateModuleRequest(
 
@@ -16,7 +15,7 @@ public record CreateModuleRequest(
 
         ModuleStatus moduleStatus,
 
-        ModuleType moduleType
+        ModuleAccessType moduleAccessType
 
 ) {
 }

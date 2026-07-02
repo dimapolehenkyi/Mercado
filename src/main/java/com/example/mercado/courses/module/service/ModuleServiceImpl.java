@@ -28,10 +28,9 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class ModuleServiceImpl implements ModuleService {
 
-
     private final ModuleRepository moduleRepository;
-    private final ModuleMapper moduleMapper;
 
+    private final ModuleMapper moduleMapper;
 
     @Override
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -56,7 +55,7 @@ public class ModuleServiceImpl implements ModuleService {
 
         updateIfChanged(request.name(), module.getName(), module::setName);
         updateIfChanged(request.description(), module.getDescription(), module::setDescription);
-        updateIfChanged(request.moduleType(), module.getModuleType(), module::setModuleType);
+        updateIfChanged(request.moduleAccessType(), module.getModuleAccessType(), module::setModuleAccessType);
         updateIfChanged(request.status(), module.getStatus(), module::setStatus);
 
         return moduleMapper.toResponse(module);
@@ -101,52 +100,52 @@ public class ModuleServiceImpl implements ModuleService {
         return moduleMapper.toResponse(module);
     }
 
-    @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void moveModuleUp(Long courseId, Long moduleId) {
-        Module module = getModuleOrThrow(moduleId, courseId);
+//    @Override
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public void moveModuleUp(Long courseId, Long moduleId) {
+//        Module module = getModuleOrThrow(moduleId, courseId);
+//
+//        if (module.getPosition() == 0) {
+//            throw new AppException(ErrorCode.MODULE_POSITION_INVALID);
+//        }
+//
+//        int currentPosition = module.getPosition();
+//
+//        Module previous = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() - 1)
+//                .orElseThrow(() -> new AppException(
+//                        ErrorCode.MODULE_NOT_FOUND,
+//                        moduleId
+//                ));
+//
+//        previous.setPosition(currentPosition);
+//        module.setPosition(currentPosition - 1);
+//    }
+//
+//    @Override
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public void moveModuleDown(Long courseId, Long moduleId) {
+//        Module module = getModuleOrThrow(moduleId, courseId);
+//
+//        int currentPosition = module.getPosition();
+//
+//        Module next = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() + 1)
+//                .orElseThrow(() -> new AppException(ErrorCode.MODULE_POSITION_INVALID));
+//
+//        next.setPosition(currentPosition);
+//        module.setPosition(currentPosition + 1);
+//    }
 
-        if (module.getPosition() == 0) {
-            throw new AppException(ErrorCode.MODULE_POSITION_INVALID);
-        }
-
-        int currentPosition = module.getPosition();
-
-        Module previous = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() - 1)
-                .orElseThrow(() -> new AppException(
-                        ErrorCode.MODULE_NOT_FOUND,
-                        moduleId
-                ));
-
-        previous.setPosition(currentPosition);
-        module.setPosition(currentPosition - 1);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void moveModuleDown(Long courseId, Long moduleId) {
-        Module module = getModuleOrThrow(moduleId, courseId);
-
-        int currentPosition = module.getPosition();
-
-        Module next = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() + 1)
-                .orElseThrow(() -> new AppException(ErrorCode.MODULE_POSITION_INVALID));
-
-        next.setPosition(currentPosition);
-        module.setPosition(currentPosition + 1);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsById(Long moduleId) {
-        return moduleRepository.existsById(moduleId);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsByNameInCourse(Long courseId, String name) {
-        return moduleRepository.existsByNameAndCourseId(name, courseId);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public boolean existsById(Long moduleId) {
+//        return moduleRepository.existsById(moduleId);
+//    }
+//
+//    @Override
+//    @Transactional(readOnly = true)
+//    public boolean existsByNameInCourse(Long courseId, String name) {
+//        return moduleRepository.existsByNameAndCourseId(name, courseId);
+//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -172,15 +171,15 @@ public class ModuleServiceImpl implements ModuleService {
         return modules.map(moduleMapper::toShortResponse);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<ModuleShortResponse> getAllCourseModules(Long courseId) {
-        List<Module> modules = moduleRepository
-                .findAllByCourseIdAndDeletedFalseOrderByPositionAsc(courseId);
-        return modules.stream()
-                .map(moduleMapper::toShortResponse)
-                .toList();
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<ModuleShortResponse> getAllCourseModules(Long courseId) {
+//        List<Module> modules = moduleRepository
+//                .findAllByCourseIdAndDeletedFalseOrderByPositionAsc(courseId);
+//        return modules.stream()
+//                .map(moduleMapper::toShortResponse)
+//                .toList();
+//    }
 
 
 

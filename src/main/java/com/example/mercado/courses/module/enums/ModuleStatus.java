@@ -5,6 +5,6 @@ public enum ModuleStatus {
     DRAFT,
     PUBLISHED,
     ARCHIVED,
-    IN_PROGRESS
+    CLOSED
 
 }

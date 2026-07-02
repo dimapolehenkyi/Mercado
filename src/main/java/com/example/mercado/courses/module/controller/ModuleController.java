@@ -70,21 +70,21 @@ public class ModuleController {
         return moduleService.archiveModule(courseId, moduleId);
     }
 
-    @PatchMapping("/{moduleId}/move-up")
-    public void moveModuleUp (
-            @PathVariable Long courseId,
-            @PathVariable Long moduleId
-    ) {
-        moduleService.moveModuleUp(courseId, moduleId);
-    }
+//    @PatchMapping("/{moduleId}/move-up")
+//    public void moveModuleUp (
+//            @PathVariable Long courseId,
+//            @PathVariable Long moduleId
+//    ) {
+//        moduleService.moveModuleUp(courseId, moduleId);
+//    }
 
-    @PatchMapping("/{moduleId}/move-down")
-    public void moveModuleDown(
-            @PathVariable Long courseId,
-            @PathVariable Long moduleId
-    ) {
-        moduleService.moveModuleDown(courseId, moduleId);
-    }
+//    @PatchMapping("/{moduleId}/move-down")
+//    public void moveModuleDown(
+//            @PathVariable Long courseId,
+//            @PathVariable Long moduleId
+//    ) {
+//        moduleService.moveModuleDown(courseId, moduleId);
+//    }
 
     @GetMapping
     public Page<ModuleShortResponse> getCourseModules(

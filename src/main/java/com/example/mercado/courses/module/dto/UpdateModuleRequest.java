@@ -1,7 +1,7 @@
 package com.example.mercado.courses.module.dto;
 
 import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleType;
+import com.example.mercado.courses.module.enums.ModuleAccessType;
 
 public record UpdateModuleRequest(
 
@@ -11,7 +11,7 @@ public record UpdateModuleRequest(
 
         ModuleStatus status,
 
-        ModuleType moduleType
+        ModuleAccessType moduleAccessType
 
 ) {
 }
