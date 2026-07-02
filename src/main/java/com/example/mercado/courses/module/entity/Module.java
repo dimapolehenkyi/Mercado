@@ -3,6 +3,7 @@ package com.example.mercado.courses.module.entity;
 import com.example.mercado.common.entity.BaseEntity;
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
+import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -61,7 +62,9 @@ public class Module extends BaseEntity {
     @Setter
     private Integer position;
 
-    public void setName(String name) {
+    public void setName(
+            String name
+    ) {
         if (name == null || name.isBlank()) {
             throw new AppException(
                     ErrorCode.MODULE_NAME_INVALID
@@ -69,6 +72,14 @@ public class Module extends BaseEntity {
         }
 
         this.name = name;
+    }
+
+    public void update(
+            UpdateModuleRequest request
+    ) {
+        setName(request.name());
+
+        if (request.description() != null) description = request.description();
     }
 
 }

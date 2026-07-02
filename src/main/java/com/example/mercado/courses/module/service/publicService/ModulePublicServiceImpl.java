@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ModulePublicServiceImpl implements ModulePublicService {
 
@@ -25,6 +24,7 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     private final EntityFinder finder;
 
     @Override
+    @Transactional(readOnly = true)
     public ModuleResponse getModuleById(
             Long moduleId,
             Long courseId
@@ -38,6 +38,7 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<ModuleShortResponse> getAllModulesByCourseId(
             Pageable pageable
     ) {
@@ -47,6 +48,7 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public long countAllModules(
             Long courseId
     ) {

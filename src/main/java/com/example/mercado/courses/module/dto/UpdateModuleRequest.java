@@ -7,11 +7,7 @@ public record UpdateModuleRequest(
 
         String name,
 
-        String description,
-
-        ModuleStatus status,
-
-        ModuleAccessType moduleAccessType
+        String description
 
 ) {
 }

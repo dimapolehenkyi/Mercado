@@ -7,9 +7,9 @@ import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 public interface ModuleAdminService {
 
     ModuleResponse createModule(Long courseId, CreateModuleRequest request);
-    ModuleResponse updateModule(Long courseId, Long moduleId, UpdateModuleRequest request);
+    ModuleResponse updateModule(Long moduleId, Long courseId, UpdateModuleRequest request);
 
-    void deleteModule(Long courseId, Long moduleId);
+    void deleteModule( Long moduleId, Long courseId);
     void deleteAllModulesByCourseId(Long courseId);
 
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -40,6 +41,18 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
         WHERE m.courseId = :courseId
     """)
     void softDeleteAllByCourseId(
+            @Param("courseId") Long courseId
+    );
+
+    @Modifying
+    @Query("""
+        UPDATE Module module
+        SET module.deleted = true
+        WHERE module.id = :id
+        AND module.courseId = :courseId
+    """)
+    void softDeleteByIdAndCourseId(
+            @Param("id") Long id,
             @Param("courseId") Long courseId
     );
 

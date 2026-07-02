@@ -194,14 +194,14 @@ public class Course extends BaseEntity {
         this.isFree = false;
     }
 
-    public void update(UpdateCourseRequest r) {
-        setName(r.name());
-        setLevel(r.level());
-        applyPricing(r.type(), r.price());
+    public void update(UpdateCourseRequest request) {
+        setName(request.name());
+        setLevel(request.level());
+        applyPricing(request.type(), request.price());
 
-        if (r.description() != null) description = r.description();
-        if (r.shortDescription() != null) shortDescription = r.shortDescription();
-        if (r.previewVideoUrl() != null) previewVideoUrl = r.previewVideoUrl();
-        if (r.thumbnailUrl() != null) thumbnailUrl = r.thumbnailUrl();
+        if (request.description() != null) description = request.description();
+        if (request.shortDescription() != null) shortDescription = request.shortDescription();
+        if (request.previewVideoUrl() != null) previewVideoUrl = request.previewVideoUrl();
+        if (request.thumbnailUrl() != null) thumbnailUrl = request.thumbnailUrl();
     }
 }
