@@ -1,7 +1,6 @@
 package com.example.mercado.courses.module.repository;
 
 import com.example.mercado.courses.module.entity.Module;
-import com.example.mercado.courses.module.enums.ModuleStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -42,17 +41,6 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
     """)
     void softDeleteAllByCourseId(
             @Param("courseId") Long courseId
-    );
-
-    @Modifying
-    @Query("""
-       UPDATE Module m
-       SET m.status = :status
-       WHERE m.courseId = :courseId
-    """)
-    void updateStatusByCourseId(
-            @Param("courseId") Long courseId,
-            @Param("status") ModuleStatus status
     );
 
     @Query("""

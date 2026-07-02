@@ -7,7 +7,6 @@ import com.example.mercado.courses.module.dto.ModuleResponse;
 import com.example.mercado.courses.module.dto.ModuleShortResponse;
 import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import com.example.mercado.courses.module.entity.Module;
-import com.example.mercado.courses.module.enums.ModuleStatus;
 import com.example.mercado.courses.module.mapper.ModuleMapper;
 import com.example.mercado.courses.module.repository.ModuleRepository;
 import com.example.mercado.courses.module.service.interfaces.ModuleService;
@@ -19,7 +18,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -55,8 +53,6 @@ public class ModuleServiceImpl implements ModuleService {
 
         updateIfChanged(request.name(), module.getName(), module::setName);
         updateIfChanged(request.description(), module.getDescription(), module::setDescription);
-        updateIfChanged(request.moduleAccessType(), module.getModuleAccessType(), module::setModuleAccessType);
-        updateIfChanged(request.status(), module.getStatus(), module::setStatus);
 
         return moduleMapper.toResponse(module);
     }
@@ -83,71 +79,6 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ModuleResponse publishModule(Long courseId, Long moduleId) {
-        Module module = getModuleOrThrow(moduleId, courseId);
-        ensureStatusNot(module, ModuleStatus.PUBLISHED, new AppException(ErrorCode.MODULE_ALREADY_PUBLISHED, moduleId));
-        module.setStatus(ModuleStatus.PUBLISHED);
-        return moduleMapper.toResponse(module);
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public ModuleResponse archiveModule(Long courseId, Long moduleId) {
-        Module module = getModuleOrThrow(moduleId, courseId);
-        ensureStatusNot(module, ModuleStatus.ARCHIVED, new AppException(ErrorCode.MODULE_ALREADY_ARCHIVED, moduleId));
-        module.setStatus(ModuleStatus.ARCHIVED);
-        return moduleMapper.toResponse(module);
-    }
-
-//    @Override
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public void moveModuleUp(Long courseId, Long moduleId) {
-//        Module module = getModuleOrThrow(moduleId, courseId);
-//
-//        if (module.getPosition() == 0) {
-//            throw new AppException(ErrorCode.MODULE_POSITION_INVALID);
-//        }
-//
-//        int currentPosition = module.getPosition();
-//
-//        Module previous = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() - 1)
-//                .orElseThrow(() -> new AppException(
-//                        ErrorCode.MODULE_NOT_FOUND,
-//                        moduleId
-//                ));
-//
-//        previous.setPosition(currentPosition);
-//        module.setPosition(currentPosition - 1);
-//    }
-//
-//    @Override
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public void moveModuleDown(Long courseId, Long moduleId) {
-//        Module module = getModuleOrThrow(moduleId, courseId);
-//
-//        int currentPosition = module.getPosition();
-//
-//        Module next = moduleRepository.findByCourseIdAndPosition(module.getCourseId(), module.getPosition() + 1)
-//                .orElseThrow(() -> new AppException(ErrorCode.MODULE_POSITION_INVALID));
-//
-//        next.setPosition(currentPosition);
-//        module.setPosition(currentPosition + 1);
-//    }
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public boolean existsById(Long moduleId) {
-//        return moduleRepository.existsById(moduleId);
-//    }
-//
-//    @Override
-//    @Transactional(readOnly = true)
-//    public boolean existsByNameInCourse(Long courseId, String name) {
-//        return moduleRepository.existsByNameAndCourseId(name, courseId);
-//    }
-
-    @Override
     @Transactional(readOnly = true)
     public long countModulesByCourse(Long courseId) {
         return moduleRepository.countByCourseIdAndDeletedFalse(courseId);
@@ -159,31 +90,12 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
-    public void updateStatusAllModules(Long courseId, ModuleStatus status) {
-        moduleRepository.updateStatusByCourseId(courseId, status);
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public Page<ModuleShortResponse> getCourseModules(Long courseId, Pageable pageable) {
         Page<Module> modules = moduleRepository
                 .findAllByCourseIdAndDeletedFalseOrderByPositionAsc(courseId, pageable);
         return modules.map(moduleMapper::toShortResponse);
     }
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<ModuleShortResponse> getAllCourseModules(Long courseId) {
-//        List<Module> modules = moduleRepository
-//                .findAllByCourseIdAndDeletedFalseOrderByPositionAsc(courseId);
-//        return modules.stream()
-//                .map(moduleMapper::toShortResponse)
-//                .toList();
-//    }
-
-
-
-
 
     /*#######################            HELPERS METHODS              #######################*/
 
@@ -199,11 +111,5 @@ public class ModuleServiceImpl implements ModuleService {
                         ErrorCode.MODULE_NOT_FOUND,
                         moduleId
                 ));
-    }
-
-    private void ensureStatusNot(Module module, ModuleStatus status, RuntimeException ex) {
-        if (module.getStatus() == status) {
-            throw ex;
-        }
     }
 }

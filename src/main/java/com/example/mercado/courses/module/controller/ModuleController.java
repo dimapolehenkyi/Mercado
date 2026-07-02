@@ -54,21 +54,21 @@ public class ModuleController {
         moduleService.deleteModule(courseId, moduleId);
     }
 
-    @PatchMapping("/{moduleId}/publish")
-    public ModuleResponse publishModule(
-            @PathVariable Long courseId,
-            @PathVariable Long moduleId
-    ) {
-        return moduleService.publishModule(courseId, moduleId);
-    }
-
-    @PatchMapping("/{moduleId}/archive")
-    public ModuleResponse archiveModule(
-            @PathVariable Long courseId,
-            @PathVariable Long moduleId
-    ) {
-        return moduleService.archiveModule(courseId, moduleId);
-    }
+//    @PatchMapping("/{moduleId}/publish")
+//    public ModuleResponse publishModule(
+//            @PathVariable Long courseId,
+//            @PathVariable Long moduleId
+//    ) {
+//        return moduleService.publishModule(courseId, moduleId);
+//    }
+//
+//    @PatchMapping("/{moduleId}/archive")
+//    public ModuleResponse archiveModule(
+//            @PathVariable Long courseId,
+//            @PathVariable Long moduleId
+//    ) {
+//        return moduleService.archiveModule(courseId, moduleId);
+//    }
 
 //    @PatchMapping("/{moduleId}/move-up")
 //    public void moveModuleUp (

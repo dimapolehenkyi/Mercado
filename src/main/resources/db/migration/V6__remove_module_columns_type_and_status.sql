@@ -1,0 +1,6 @@
+ALTER TABLE modules
+DROP COLUMN IF EXISTS status;
+
+ALTER TABLE modules
+DROP COLUMN IF EXISTS type;
+
