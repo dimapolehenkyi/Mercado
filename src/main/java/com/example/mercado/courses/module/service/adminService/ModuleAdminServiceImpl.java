@@ -4,6 +4,7 @@ import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.module.dto.CreateModuleRequest;
 import com.example.mercado.courses.module.dto.ModuleResponse;
+import com.example.mercado.courses.module.dto.ReorderModuleRequest;
 import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import com.example.mercado.courses.module.entity.Module;
 import com.example.mercado.courses.module.mapper.ModuleMapper;
@@ -45,8 +46,8 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
     @Override
     @Transactional
     public ModuleResponse updateModule(
-            Long moduleId,
             Long courseId,
+            Long moduleId,
             UpdateModuleRequest request
     ) {
         Module module = finder.findEntityOrThrow(
@@ -72,8 +73,8 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
     @Override
     @Transactional
     public void deleteModule(
-            Long moduleId,
-            Long courseId
+            Long courseId,
+            Long moduleId
     ) {
         Module module = finder.findEntityOrThrow(
                 () -> repository.findByIdAndCourseId(moduleId, courseId),
@@ -90,5 +91,55 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
             Long courseId
     ) {
         repository.softDeleteAllByCourseId(courseId);
+    }
+
+    @Override
+    @Transactional
+    public ModuleResponse updatePosition(
+            Long courseId,
+            Long moduleId,
+            ReorderModuleRequest request
+    ) {
+        Module current = finder.findEntityOrThrow(
+                () -> repository.findByIdAndCourseId(moduleId, courseId),
+                ErrorCode.MODULE_NOT_FOUND,
+                moduleId
+        );
+
+        int oldPos = current.getPosition();
+        int newPos = request.position();
+
+        int maxPos = repository.findMaxPositionByCourseId(courseId);
+
+        if (newPos < 0 || newPos > maxPos) {
+            throw new AppException(
+                    ErrorCode.MODULE_POSITION_INVALID
+            );
+        }
+
+        if (oldPos == newPos) {
+            return mapper.toResponse(current);
+        }
+
+        if (newPos < oldPos) {
+            repository.incrementPositionRange(
+                    courseId,
+                    newPos,
+                    oldPos - 1
+            );
+        } else {
+            repository.decrementPositionRange(
+                    courseId,
+                    oldPos + 1,
+                    newPos
+            );
+        }
+
+        repository.updatePosition(
+                moduleId,
+                newPos
+        );
+
+        return mapper.toResponse(current);
     }
 }

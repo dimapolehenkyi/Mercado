@@ -1,6 +1,5 @@
 package com.example.mercado.courses.module.service.publicService;
 
-
 import com.example.mercado.common.exception.ErrorCode;
 import com.example.mercado.courses.module.dto.ModuleResponse;
 import com.example.mercado.courses.module.dto.ModuleShortResponse;
@@ -26,8 +25,8 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     @Override
     @Transactional(readOnly = true)
     public ModuleResponse getModuleById(
-            Long moduleId,
-            Long courseId
+            Long courseId,
+            Long moduleId
     ) {
         Module module = finder.findEntityOrThrow(
                 () -> repository.findByIdAndCourseId(moduleId, courseId),
@@ -40,11 +39,12 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     @Override
     @Transactional(readOnly = true)
     public Page<ModuleShortResponse> getAllModulesByCourseId(
+            Long courseId,
             Pageable pageable
     ) {
         return repository
-                .findAll(pageable)
-                .map((Module t) -> mapper.toShortResponse(t));
+                .findAllByCourseIdAndDeletedFalse(courseId, pageable)
+                .map(mapper::toShortResponse);
     }
 
     @Override

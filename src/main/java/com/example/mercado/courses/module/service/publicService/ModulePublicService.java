@@ -7,9 +7,9 @@ import org.springframework.data.domain.Pageable;
 
 public interface ModulePublicService {
 
-    ModuleResponse getModuleById(Long moduleId, Long courseId);
+    ModuleResponse getModuleById(Long courseId, Long moduleId);
 
-    Page<ModuleShortResponse> getAllModulesByCourseId(Pageable pageable);
+    Page<ModuleShortResponse> getAllModulesByCourseId(Long courseId, Pageable pageable);
 
     long countAllModules(Long courseId);
 
