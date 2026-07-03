@@ -39,8 +39,6 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
 
         Module module = mapper.toEntity(request, courseId);
 
-        //Add correctly setting Name for module by public-method in domain-model after change /Mapper/
-
         return mapper.toResponse(module);
     }
 

@@ -44,7 +44,7 @@ public class ModulePublicServiceImpl implements ModulePublicService {
     ) {
         return repository
                 .findAll(pageable)
-                .map(mapper::toShortResponse);
+                .map((Module t) -> mapper.toShortResponse(t));
     }
 
     @Override

@@ -94,7 +94,7 @@ public class ModuleServiceImpl implements ModuleService {
     public Page<ModuleShortResponse> getCourseModules(Long courseId, Pageable pageable) {
         Page<Module> modules = moduleRepository
                 .findAllByCourseIdAndDeletedFalseOrderByPositionAsc(courseId, pageable);
-        return modules.map(moduleMapper::toShortResponse);
+        return modules.map((Module t) -> moduleMapper.toShortResponse(t));
     }
 
     /*#######################            HELPERS METHODS              #######################*/
