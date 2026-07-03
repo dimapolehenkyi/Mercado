@@ -1,9 +1,20 @@
 package com.example.mercado.courses.module.dto;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public record UpdateModuleRequest(
 
+        @Pattern(
+                regexp = "^[a-zA-Z0-9\\s]*$",
+                message = "Invalid keyword"
+        )
         String name,
 
+        @Size(
+                max = 2000,
+                message = "Description too long"
+        )
         String description
 
 ) {

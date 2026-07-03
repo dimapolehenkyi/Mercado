@@ -24,7 +24,7 @@ public class ModuleAdminController {
     @ResponseStatus(HttpStatus.CREATED)
     public ModuleResponse createModule(
             @PathVariable @Positive Long courseId,
-            @Valid @RequestBody CreateModuleRequest request
+            @RequestBody @Valid CreateModuleRequest request
     ) {
         return service.createModule(courseId, request);
     }
@@ -33,7 +33,7 @@ public class ModuleAdminController {
     public ModuleResponse updateModule(
             @PathVariable @Positive Long courseId,
             @PathVariable @Positive Long moduleId,
-            @RequestBody UpdateModuleRequest request
+            @RequestBody @Valid UpdateModuleRequest request
     ) {
         return service.updateModule(courseId, moduleId, request);
     }
@@ -59,7 +59,7 @@ public class ModuleAdminController {
     public ModuleResponse updatePosition(
             @PathVariable @Positive Long courseId,
             @PathVariable @Positive Long moduleId,
-            @RequestBody ReorderModuleRequest request
+            @RequestBody @Valid ReorderModuleRequest request
     ) {
         return service.updatePosition(courseId, moduleId, request);
     }
