@@ -1,16 +1,11 @@
 package com.example.mercado.unit.courses.courseRequirement.mapper;
 
-import com.example.mercado.courses.course.courseLearningPoint.dto.AddLearningPointRequest;
-import com.example.mercado.courses.course.courseLearningPoint.dto.LearningPointResponse;
-import com.example.mercado.courses.course.courseLearningPoint.dto.UpdateLearningPointRequest;
-import com.example.mercado.courses.course.courseLearningPoint.entity.CourseLearningPoint;
 import com.example.mercado.courses.course.courseRequirement.dto.AddRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.dto.RequirementResponse;
 import com.example.mercado.courses.course.courseRequirement.dto.UpdateRequirementRequest;
 import com.example.mercado.courses.course.courseRequirement.entity.CourseRequirement;
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapper;
 import com.example.mercado.courses.course.courseRequirement.mapper.CourseRequirementMapperImpl;
-import com.example.mercado.testUtils.courses.courseLearningPoint.CourseLPTestFactory;
 import com.example.mercado.testUtils.courses.courseRequirement.CourseRequirementTestFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
