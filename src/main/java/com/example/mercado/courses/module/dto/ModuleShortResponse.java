@@ -1,14 +1,14 @@
 package com.example.mercado.courses.module.dto;
 
-import com.example.mercado.courses.module.enums.ModuleStatus;
-
 public record ModuleShortResponse(
 
-        Long moduleId,
+        Long id,
+
+        Long courseId,
 
         String name,
 
-        ModuleStatus status
+        Integer position
 
 ) {
 }

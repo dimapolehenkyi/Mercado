@@ -1,21 +1,25 @@
 package com.example.mercado.courses.module.dto;
 
-import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleAccessType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record CreateModuleRequest(
 
-        @NotBlank
+        @NotBlank(
+                message = "Name can't be blank"
+        )
+        @Pattern(
+                regexp = "^[a-zA-Z0-9\\s]*$",
+                message = "Invalid keyword"
+        )
         String name,
 
-        @Size(min = 1, max = 1000)
-        String description,
-
-        ModuleStatus moduleStatus,
-
-        ModuleAccessType moduleAccessType
+        @Size(
+                max = 2000,
+                message = "Description too long"
+        )
+        String description
 
 ) {
 }

@@ -1,4 +1,4 @@
-package com.example.mercado.courses.course.utils;
+package com.example.mercado.courses.utils;
 
 import com.example.mercado.common.exception.AppException;
 import com.example.mercado.common.exception.ErrorCode;

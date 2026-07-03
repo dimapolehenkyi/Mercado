@@ -1,7 +1,6 @@
 package com.example.mercado.courses.module.repository;
 
 import com.example.mercado.courses.module.entity.Module;
-import com.example.mercado.courses.module.enums.ModuleStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,7 +24,7 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
             Long courseId
     );
 
-    Page<Module> findAllByCourseIdAndDeletedFalseOrderByPositionAsc(
+    Page<Module> findAllByCourseIdAndDeletedFalse(
             Long courseId,
             Pageable pageable
     );
@@ -46,13 +45,14 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
 
     @Modifying
     @Query("""
-       UPDATE Module m
-       SET m.status = :status
-       WHERE m.courseId = :courseId
+        UPDATE Module module
+        SET module.deleted = true
+        WHERE module.id = :id
+        AND module.courseId = :courseId
     """)
-    void updateStatusByCourseId(
-            @Param("courseId") Long courseId,
-            @Param("status") ModuleStatus status
+    void softDeleteByIdAndCourseId(
+            @Param("id") Long id,
+            @Param("courseId") Long courseId
     );
 
     @Query("""

@@ -1,8 +1,5 @@
 package com.example.mercado.courses.module.dto;
 
-import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleAccessType;
-
 import java.time.LocalDateTime;
 
 public record ModuleResponse(
@@ -15,9 +12,9 @@ public record ModuleResponse(
 
         String description,
 
-        ModuleStatus status,
+        boolean deleted,
 
-        ModuleAccessType type,
+        Integer position,
 
         LocalDateTime createdAt,
 

@@ -23,9 +23,6 @@ public interface CourseMapper {
     @Mapping(target = "level", source = "request.level")
     Course toEntity(CreateCourseRequest request);
 
-//    @BeanMapping(ignoreByDefault = true, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    void updateEntity(@MappingTarget Course course, UpdateCourseRequest request);
-
     @Mapping(
             target = "studentCount",
             source = "studentCount",

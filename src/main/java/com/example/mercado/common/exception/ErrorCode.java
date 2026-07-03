@@ -38,13 +38,10 @@ public enum ErrorCode {
 
     //MODULE
     MODULE_NAME_INVALID("module.name.invalid", HttpStatus.BAD_REQUEST),
-    MODULE_ALREADY_ARCHIVED("module.already.archived", HttpStatus.CONFLICT),
-    MODULE_ALREADY_PUBLISHED("module.already.published", HttpStatus.BAD_REQUEST),
     MODULE_NOT_FOUND("module.not.found", HttpStatus.NOT_FOUND),
     MODULE_POSITION_INVALID("module.position.invalid", HttpStatus.BAD_REQUEST),
     MODULE_ALREADY_DELETED("module.already.deleted", HttpStatus.CONFLICT),
     MODULE_ALREADY_EXISTS("module.already.exists", HttpStatus.CONFLICT),
-    MODULE_STATUS_INVALID("module.status.invalid", HttpStatus.BAD_REQUEST),
 
     //MODULE CONTENT
     MODULE_CONTENT_ALREADY_EXISTS("module.content.already.exists", HttpStatus.CONFLICT),

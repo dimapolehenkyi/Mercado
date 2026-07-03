@@ -1,17 +1,21 @@
 package com.example.mercado.courses.module.dto;
 
-import com.example.mercado.courses.module.enums.ModuleStatus;
-import com.example.mercado.courses.module.enums.ModuleAccessType;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record UpdateModuleRequest(
 
+        @Pattern(
+                regexp = "^[a-zA-Z0-9\\s]*$",
+                message = "Invalid keyword"
+        )
         String name,
 
-        String description,
-
-        ModuleStatus status,
-
-        ModuleAccessType moduleAccessType
+        @Size(
+                max = 2000,
+                message = "Description too long"
+        )
+        String description
 
 ) {
 }
