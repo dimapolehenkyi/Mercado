@@ -18,14 +18,16 @@ public class ModuleTestFactory {
      * @return Module
      */
     public static Module createModule(
-            Consumer<Module.ModuleBuilder> consumer
+            Consumer<Module> consumer
     ) {
-        Module.ModuleBuilder builder = Module.builder()
-                .name("Test module")
-                .courseId(1L)
-                .description("Test description");
-        consumer.accept(builder);
-        return builder.build();
+        Module module = new Module();
+
+        module.setName("Test module");
+        module.setDescription("Test description");
+        module.setCourseId(1L);
+
+        consumer.accept(module);
+        return module;
     }
 
     /**
