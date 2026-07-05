@@ -50,6 +50,10 @@ public class ModuleAdminServiceImplTest {
         );
     }
 
+
+    // =========================
+    // createModule
+    // =========================
     @Nested
     class CreateModule {
 
@@ -174,6 +178,9 @@ public class ModuleAdminServiceImplTest {
 
     }
 
+    // =========================
+    // updateModule
+    // =========================
     @Nested
     class UpdateModule {
 
@@ -268,6 +275,9 @@ public class ModuleAdminServiceImplTest {
 
     }
 
+    // =========================
+    // deleteModule
+    // =========================
     @Nested
     class DeleteModule {
 
@@ -317,6 +327,9 @@ public class ModuleAdminServiceImplTest {
 
     }
 
+    // =========================
+    // deleteAllModulesByCourseId
+    // =========================
     @Nested
     class DeleteAllModulesByCourseId {
 
@@ -332,6 +345,9 @@ public class ModuleAdminServiceImplTest {
 
     }
 
+    // =========================
+    // updatePosition
+    // =========================
     @Nested
     class UpdatePosition {
 
