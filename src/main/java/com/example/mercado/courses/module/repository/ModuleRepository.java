@@ -60,7 +60,7 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
         FROM Module module
         WHERE module.courseId = :courseId
     """)
-    int findMaxPositionByCourseId(
+    Integer findMaxPositionByCourseId(
             @Param("courseId") Long courseId
     );
 

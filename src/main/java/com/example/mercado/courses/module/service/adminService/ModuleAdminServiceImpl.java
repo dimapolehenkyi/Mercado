@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequiredArgsConstructor
@@ -31,14 +33,18 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
             Long courseId,
             CreateModuleRequest request
     ) {
-        if (repository.existsByNameAndCourseId(request.name(),  courseId)) {
+        if (repository.existsByNameAndCourseId(request.name(), courseId)) {
             throw new AppException(
                     ErrorCode.MODULE_ALREADY_EXISTS,
                     request.name()
             );
         }
 
+        Integer maxPos = repository.findMaxPositionByCourseId(courseId);
+        Integer nextPos = (maxPos == null) ? 0 : maxPos + 1;
+
         Module module = mapper.toEntity(request, courseId);
+        module.setPosition(nextPos);
 
         return mapper.toResponse(module);
     }
@@ -82,7 +88,20 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
                 moduleId
         );
 
+        Integer deletedPos = module.getPosition();
+        Integer maxPos = repository.findMaxPositionByCourseId(courseId);
+
         repository.softDeleteByIdAndCourseId(moduleId, courseId);
+
+        if (deletedPos < maxPos) {
+            repository.decrementPositionRange(
+                    courseId,
+                    deletedPos + 1,
+                    maxPos
+            );
+        }
+
+        module.setPosition(maxPos + 1);
     }
 
     @Override
@@ -106,18 +125,17 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
                 moduleId
         );
 
-        int oldPos = current.getPosition();
-        int newPos = request.position();
+        Integer oldPos = current.getPosition();
+        Integer newPos = request.position();
+        Integer maxPos = repository.findMaxPositionByCourseId(courseId);
 
-        int maxPos = repository.findMaxPositionByCourseId(courseId);
-
-        if (newPos < 0 || newPos > maxPos) {
+        if (newPos == null || newPos < 0 || newPos > maxPos) {
             throw new AppException(
                     ErrorCode.MODULE_POSITION_INVALID
             );
         }
 
-        if (oldPos == newPos) {
+        if (Objects.equals(oldPos, newPos)) {
             return mapper.toResponse(current);
         }
 
