@@ -6,6 +6,7 @@ import com.example.mercado.courses.module.dto.ReorderModuleRequest;
 import com.example.mercado.courses.module.dto.UpdateModuleRequest;
 import com.example.mercado.courses.module.service.adminService.ModuleAdminService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

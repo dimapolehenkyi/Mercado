@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 public record UpdateModuleRequest(
 
         @Pattern(
-                regexp = "^[a-zA-Z0-9\\s]*$",
+                regexp = "^[a-zA-Z0-9]+(\\s[a-zA-Z0-9]+)*$",
                 message = "Invalid keyword"
         )
         String name,
