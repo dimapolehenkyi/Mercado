@@ -78,6 +78,8 @@ public class ModuleAdminServiceImplTest {
                         Module m = i.getArgument(0);
                         return ModuleTestData.mapToResponse(m);
                     });
+            when(repository.save(any(Module.class)))
+                    .thenAnswer(i -> i.getArgument(0));
 
             ModuleResponse result = service.createModule(courseId, request);
 
@@ -110,6 +112,8 @@ public class ModuleAdminServiceImplTest {
                         Module m = i.getArgument(0);
                         return ModuleTestData.mapToResponse(m);
                     });
+            when(repository.save(any(Module.class)))
+                    .thenAnswer(i -> i.getArgument(0));
 
             ModuleResponse result = service.createModule(courseId, request);
 
@@ -141,6 +145,8 @@ public class ModuleAdminServiceImplTest {
                         Module m = i.getArgument(0);
                         return ModuleTestData.mapToResponse(m);
                     });
+            when(repository.save(any(Module.class)))
+                    .thenAnswer(i -> i.getArgument(0));
 
             ModuleResponse result = service.createModule(courseId, request);
 

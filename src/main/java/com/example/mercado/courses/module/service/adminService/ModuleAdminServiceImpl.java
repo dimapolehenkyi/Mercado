@@ -46,6 +46,8 @@ public class ModuleAdminServiceImpl implements ModuleAdminService {
         Module module = mapper.toEntity(request, courseId);
         module.setPosition(nextPos);
 
+        module = repository.save(module);
+
         return mapper.toResponse(module);
     }
 

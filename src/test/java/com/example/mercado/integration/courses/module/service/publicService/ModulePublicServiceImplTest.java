@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@DisplayName("CoursePublicRequirementService Integration Test")
+@DisplayName("Module-Public Service Integration Test")
 public class ModulePublicServiceImplTest extends AbstractRepositoryTest {
 
     @Autowired
