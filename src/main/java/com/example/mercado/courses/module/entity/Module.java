@@ -11,7 +11,6 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @ToString
 @Table(
         name = "modules",
@@ -55,7 +54,6 @@ public class Module extends BaseEntity {
 
     @Column(name = "deleted", nullable = false)
     @Setter
-    @Builder.Default
     private boolean deleted = false;
 
     @Column(name = "position")

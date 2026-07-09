@@ -33,7 +33,7 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
             Long courseId
     );
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
         UPDATE Module m
         SET m.deleted = true
@@ -43,7 +43,7 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
             @Param("courseId") Long courseId
     );
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
         UPDATE Module module
         SET module.deleted = true
@@ -60,11 +60,11 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
         FROM Module module
         WHERE module.courseId = :courseId
     """)
-    int findMaxPositionByCourseId(
+    Integer findMaxPositionByCourseId(
             @Param("courseId") Long courseId
     );
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""
         UPDATE Module module
         SET module.position = :position

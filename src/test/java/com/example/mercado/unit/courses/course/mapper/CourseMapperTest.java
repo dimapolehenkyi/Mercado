@@ -19,7 +19,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 
-
 @DisplayName("CourseMapper Test")
 @ExtendWith(SpringExtension.class)
 @Import(CourseMapperImpl.class)
@@ -27,7 +26,6 @@ public class CourseMapperTest {
 
     @Mock
     private final CourseMapper mapper = Mappers.getMapper(CourseMapper.class);
-
 
     @Test
     @DisplayName("toResponse should apply default values for null numeric fields")
